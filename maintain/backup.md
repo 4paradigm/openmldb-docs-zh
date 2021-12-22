@@ -133,15 +133,15 @@ showtable如果都变成yes表示已经恢复成功。如果某些分片恢复�
 
 ### 一键恢复
 如果集群是同时下线后重启的，autofailover无法自动恢复数据，需要执行一键恢复脚本。
-####执行步骤：
-1、修改openmldb包中tools目录中的env.sh。
+#### 执行步骤：
+1、修改openmldb包中tools目录里的env.sh。
 配置文件里面有3个参数
 
 * openmldb_bin_path 指定openmldb bin路径
 * zk_cluster 指定zk cluster的地址
 * zk_root_path 指定zk root path的地址  
   
-2、执行./recoverdata.sh。
+2、执行./recoverdata.sh  
 3、登陆ns_client，showopstatus查看相关op的执行进度。
 
 ### 手动数据恢复
@@ -149,7 +149,10 @@ showtable如果都变成yes表示已经恢复成功。如果某些分片恢复�
 适用场景: 一张表分片所有副本所在的节点都挂了
 #### 1 启动各节点的进程
 #### 2 关闭autofailover
-在ns client执行confset命令 confset auto_failover false
+在ns client执行confset命令
+```
+confset auto_failover false
+```
 #### 3 恢复数据
 1. 用ns client执行showtable 表名
 2. 修改表分片alive状态为no，用nsclient执行. updatetablealive table_name pid endppoint is_alive

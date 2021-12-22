@@ -106,8 +106,8 @@ sh bin/start.sh start nameserver
 ```
 wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
 tar -zxvf openmldb-0.3.2-linux.tar.gz
-mv openmldb-0.3.2-linux openmldb-tablet-2.2.0
-cd openmldb-tablet-2.2.0
+mv openmldb-0.3.2-linux openmldb-tablet-0.3.2
+cd openmldb-tablet-0.3.2
 ```
 #### 2 修改配置文件conf/tablet.flags
 * 修改endpoint
@@ -120,7 +120,6 @@ cd openmldb-tablet-2.2.0
 # if tablet run as cluster mode zk_cluster and zk_root_path should be set
 --zk_cluster=172.27.128.33:7181,172.27.128.32:7181,172.27.128.31:7181
 --zk_root_path=/openmldb_cluster
---enable_distsql=true
 ```
 **注意：**
 * endpoint不能用0.0.0.0和127.0.0.1 
@@ -154,7 +153,7 @@ cd openmldb-apiserver-0.3.2
 * 修改zk_cluster为需要转发到的OpenMLDB的zk集群地址
 
 ```
-./bin/openmldb --endpoint=172.27.128.33:8080
+--endpoint=172.27.128.33:8080
 --role=apiserver
 --zk_cluster=172.27.128.33:7181,172.27.128.32:7181,172.27.128.31:7181
 --zk_root_path=/openmldb_cluster
