@@ -1,4 +1,60 @@
 # 安装部署详细说明
+## 配置环境(Linux)
+### 关闭操作系统swap
+
+查看当前系统swap是否关闭
+
+```bash
+$ free
+              total        used        free      shared  buff/cache   available
+Mem:      264011292    67445840     2230676     3269180   194334776   191204160
+Swap:             0           0           0
+```
+
+如果swap一项全部为0表示已经关闭，否则运行下面命令关闭swap
+
+```
+$ swapoff -a
+```
+
+### 关闭THP(Transparent Huge Pages)
+
+查看THP是否关闭
+
+```
+$ cat /sys/kernel/mm/transparent_hugepage/enabled
+always [madvise] never
+$ cat /sys/kernel/mm/transparent_hugepage/defrag
+[always] madvise never
+```
+
+如果上面两个配置中"never"没有被方括号圈住就需要设置一下
+
+```bash
+$ echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
+$ echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag
+```
+
+查看是否设置成功，如果"never"被方括号圈住表明已经设置成功，如下所示：
+
+```bash
+$ cat /sys/kernel/mm/transparent_hugepage/enabled
+always madvise [never]
+$ cat /sys/kernel/mm/transparent_hugepage/defrag
+always madvise [never]
+```
+
+### 时间和时区设置
+
+OpenMLDB数据过期删除机制依赖于系统时钟, 如果系统时钟不正确会导致过期数据没有删掉或者删掉了没有过期的数据
+
+```bash
+$ date
+Wed Aug 22 16:33:50 CST 2018
+```
+请确保时间是正确的
+
+## 部署服务
 
 ### 部署zookeeper
 建议部署3.4.14版本  
