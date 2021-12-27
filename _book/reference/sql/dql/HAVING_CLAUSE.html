@@ -1,0 +1,1220 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>HAVING 子句 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="WINDOW_CLAUSE.html" />
+    
+    
+    <link rel="prev" href="GROUP_BY_CLAUSE.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    OpenMLDB 简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    关于 OpenMLDB
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../../../about/about.html">
+            
+                <a href="../../../about/about.html">
+            
+                    
+                    关于 OpenMLDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../../../about/community.html">
+            
+                <a href="../../../about/community.html">
+            
+                    
+                    社区
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../../../about/release_notes.html">
+            
+                <a href="../../../about/release_notes.html">
+            
+                    
+                    v0.4 Release Notes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    快速上手
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../../quickstart/demo.html">
+            
+                <a href="../../../quickstart/demo.html">
+            
+                    
+                    Demo 使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../../../quickstart/develop_app.html">
+            
+                <a href="../../../quickstart/develop_app.html">
+            
+                    
+                    快速构建全生命周期 AI 应用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../../../quickstart/standalone.html">
+            
+                <a href="../../../quickstart/standalone.html">
+            
+                    
+                    单机模式使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" >
+            
+                <span>
+            
+                    
+                    Spark 特征工程优化版
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../../../quickstart/java_sdk.html">
+            
+                <a href="../../../quickstart/java_sdk.html">
+            
+                    
+                    Java SDK 快速上手
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    安装部署
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../../../deploy/requirement.html">
+            
+                <a href="../../../deploy/requirement.html">
+            
+                    
+                    软硬件需求
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../../../deploy/install_deploy.html">
+            
+                <a href="../../../deploy/install_deploy.html">
+            
+                    
+                    安装部署详细说明
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    运维
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../../../maintain/upgrade.html">
+            
+                <a href="../../../maintain/upgrade.html">
+            
+                    
+                    升级
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../../../maintain/backup.mc">
+            
+                <span>
+            
+                    
+                    备份
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../../../maintain/scale.html">
+            
+                <a href="../../../maintain/scale.html">
+            
+                    
+                    扩缩容
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    参考
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../../arch.html">
+            
+                <a href="../../arch.html">
+            
+                    
+                    架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../../standalone.html">
+            
+                <a href="../../standalone.html">
+            
+                    
+                    单机模式
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../reference.html">
+            
+                <a href="../reference.html">
+            
+                    
+                    SQL
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.3.1" data-path="../language_structure/reference.html">
+            
+                <a href="../language_structure/reference.html">
+            
+                    
+                    语言结构
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.3.1.1" data-path="../language_structure/keywords.html">
+            
+                <a href="../language_structure/keywords.html">
+            
+                    
+                    关键字
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.1.2" data-path="../language_structure/object_names_identifiers.html">
+            
+                <a href="../language_structure/object_names_identifiers.html">
+            
+                    
+                    对象名和标识符
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.1.3" data-path="../language_structure/literals_value.html">
+            
+                <a href="../language_structure/literals_value.html">
+            
+                    
+                    字面量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.1.4" data-path="../language_structure/case_sensitive.html">
+            
+                <a href="../language_structure/case_sensitive.html">
+            
+                    
+                    大小写敏感
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.1.5" data-path="../language_structure/comment.html">
+            
+                <a href="../language_structure/comment.html">
+            
+                    
+                    注释
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.2" data-path="../data_types/reference.html">
+            
+                <a href="../data_types/reference.html">
+            
+                    
+                    数据类型
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.3.2.1" data-path="../data_types/numeric_types.html">
+            
+                <a href="../data_types/numeric_types.html">
+            
+                    
+                    数值类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.2.2" data-path="../data_types/string_types.html">
+            
+                <a href="../data_types/string_types.html">
+            
+                    
+                    字符串类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.2.3" data-path="../data_types/date_and_time_types.html">
+            
+                <a href="../data_types/date_and_time_types.html">
+            
+                    
+                    日期和时间类型
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.3" data-path="../functions_and_operators/reference.html">
+            
+                <a href="../functions_and_operators/reference.html">
+            
+                    
+                    表达式，函数和运算
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.3.3.1" data-path="../functions_and_operators/operators.html">
+            
+                <a href="../functions_and_operators/operators.html">
+            
+                    
+                    表达式运算
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.3.2" data-path="../functions_and_operators/Files/udfs_8h.html">
+            
+                <a href="../functions_and_operators/Files/udfs_8h.html">
+            
+                    
+                    内置函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.4" data-path="reference.html">
+            
+                <a href="reference.html">
+            
+                    
+                    数据查询语句(DQL)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.3.4.1" data-path="SELECT_STATEMENT.html">
+            
+                <a href="SELECT_STATEMENT.html">
+            
+                    
+                    SELECT查询语句概况
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.4.2" data-path="JOIN_CLAUSE.html">
+            
+                <a href="JOIN_CLAUSE.html">
+            
+                    
+                    JOIN子句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.4.3" data-path="WHERE_CLAUSE.html">
+            
+                <a href="WHERE_CLAUSE.html">
+            
+                    
+                    WHERE子句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.4.4" data-path="GROUP_BY_CLAUSE.html">
+            
+                <a href="GROUP_BY_CLAUSE.html">
+            
+                    
+                    GROUP BY子句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.6.3.4.5" data-path="HAVING_CLAUSE.html">
+            
+                <a href="HAVING_CLAUSE.html">
+            
+                    
+                    HAVING 子句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.4.6" data-path="WINDOW_CLAUSE.html">
+            
+                <a href="WINDOW_CLAUSE.html">
+            
+                    
+                    WINDOW 子句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.4.7" data-path="LIMIT_CLAUSE.html">
+            
+                <a href="LIMIT_CLAUSE.html">
+            
+                    
+                    LIMIT子句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.4.8" data-path="NO_TABLE_SELECT_CLAUSE.html">
+            
+                <a href="NO_TABLE_SELECT_CLAUSE.html">
+            
+                    
+                    无表SELECT查询语句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.4.9" data-path="SELECT_INTO_STATEMENT.html">
+            
+                <a href="SELECT_INTO_STATEMENT.html">
+            
+                    
+                    SELECT INTO语句
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.5" data-path="../dml/reference.html">
+            
+                <a href="../dml/reference.html">
+            
+                    
+                    数据操作语句(DML)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.3.5.1" data-path="../dml/INSERT_STATEMENT.html">
+            
+                <a href="../dml/INSERT_STATEMENT.html">
+            
+                    
+                    插入语句
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.5.2" data-path="../dml/LOAD_DATA_STATEMENT.html">
+            
+                <a href="../dml/LOAD_DATA_STATEMENT.html">
+            
+                    
+                    LOAD DATA语句
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.6" data-path="../ddl/reference.html">
+            
+                <a href="../ddl/reference.html">
+            
+                    
+                    数据定义语句(DDL)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.3.6.1" data-path="../ddl/CREATE_DATABASE_STATEMENT.html">
+            
+                <a href="../ddl/CREATE_DATABASE_STATEMENT.html">
+            
+                    
+                    创建数据库(CREATE DATABASE)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.6.2" data-path="../ddl/SHOW_DATABASES_STATEMENT.html">
+            
+                <a href="../ddl/SHOW_DATABASES_STATEMENT.html">
+            
+                    
+                    查看数据库列表(SHOW DATABASES)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.6.3" data-path="../ddl/USE_DATABASE_STATEMENT.html">
+            
+                <a href="../ddl/USE_DATABASE_STATEMENT.html">
+            
+                    
+                    USE数据库
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.6.4" data-path="../ddl/DROP_DATABASE_STATEMENT.html">
+            
+                <a href="../ddl/DROP_DATABASE_STATEMENT.html">
+            
+                    
+                    删除数据库(DROP DATABASE)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.6.5" data-path="../ddl/DESC_STATEMENT.html">
+            
+                <a href="../ddl/DESC_STATEMENT.html">
+            
+                    
+                    查看表详情(DESC)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.6.6" data-path="../ddl/CREATE_TABLE_STATEMENT.html">
+            
+                <a href="../ddl/CREATE_TABLE_STATEMENT.html">
+            
+                    
+                    创建表(CREATE TABLE)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.6.7" data-path="../ddl/DROP_TABLE_STATEMENT.html">
+            
+                <a href="../ddl/DROP_TABLE_STATEMENT.html">
+            
+                    
+                    删除表(DROP TABLE)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.6.8" data-path="../ddl/SHOW_TABLES_STATEMENT.html">
+            
+                <a href="../ddl/SHOW_TABLES_STATEMENT.html">
+            
+                    
+                    查看表列表(SHOW TABLES)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.7" data-path="../deployment_manage/reference.html">
+            
+                <a href="../deployment_manage/reference.html">
+            
+                    
+                    DEPLOYMENT 管理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.3.7.1" data-path="../deployment_manage/DEPLOY_STATEMENT.html">
+            
+                <a href="../deployment_manage/DEPLOY_STATEMENT.html">
+            
+                    
+                    创建DEPLOYMENT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.7.2" data-path="../deployment_manage/DROP_DEPLOYMENT_STATEMENT.html">
+            
+                <a href="../deployment_manage/DROP_DEPLOYMENT_STATEMENT.html">
+            
+                    
+                    删除DEPLOYMENT(DROP DEPLOYMENT)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.7.3" data-path="../deployment_manage/SHOW_DEPLOYMENTS.html">
+            
+                <a href="../deployment_manage/SHOW_DEPLOYMENTS.html">
+            
+                    
+                    查看DEPLOYMENTS列表(SHOW DEPLOYMENTS)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.7.4" data-path="../deployment_manage/SHOW_DEPLOYMENT.html">
+            
+                <a href="../deployment_manage/SHOW_DEPLOYMENT.html">
+            
+                    
+                    查看DEPLOYMENT详情(SHOW DEPLOYMENT)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.7.5" data-path="../deployment_manage/ONLINE_SERVING_REQUIREMENTS.html">
+            
+                <a href="../deployment_manage/ONLINE_SERVING_REQUIREMENTS.html">
+            
+                    
+                    OpenMLDB SQL上线规范和要求
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.8" data-path="../task_manage/reference.html">
+            
+                <a href="../task_manage/reference.html">
+            
+                    
+                    离线任务管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../../cli.html">
+            
+                <a href="../../cli.html">
+            
+                    
+                    CLI
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.5" data-path="../../java_sdk.html">
+            
+                <a href="../../java_sdk.html">
+            
+                    
+                    Java SDK
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.6" data-path="../../python_sdk.html">
+            
+                <a href="../../python_sdk.html">
+            
+                    
+                    Python SDK
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.7" data-path="../../rest_api.html">
+            
+                <a href="../../rest_api.html">
+            
+                    
+                    REST APIs
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >HAVING 子句</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="having-clause">Having Clause</h1>
+<p>Having &#x5B50;&#x53E5;&#x4E0E; Where &#x5B50;&#x53E5;&#x4F5C;&#x7528;&#x7C7B;&#x4F3C;&#xFF0C;Having &#x5B50;&#x53E5;&#x53EF;&#x4EE5;&#x8BA9;&#x8FC7;&#x6EE4; GroupBy &#x540E;&#x7684;&#x5404;&#x79CD;&#x6570;&#x636E;&#xFF0C;Where &#x5B50;&#x53E5;&#x7528;&#x4E8E;&#x5728;&#x805A;&#x5408;&#x524D;&#x8FC7;&#x6EE4;&#x8BB0;&#x5F55;&#x3002;</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>HavingClause
+         ::= &apos;HAVING&apos; Expression
+</code></pre><h2 id="sql&#x8BED;&#x53E5;&#x6A21;&#x7248;">SQL&#x8BED;&#x53E5;&#x6A21;&#x7248;</h2>
+<pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> select_expr [,select_expr...] <span class="hljs-keyword">FROM</span> ... <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> ... <span class="hljs-keyword">HAVING</span> having_condition
+</code></pre>
+<h2 id="&#x8FB9;&#x754C;&#x8BF4;&#x660E;">&#x8FB9;&#x754C;&#x8BF4;&#x660E;</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">SELECT&#x8BED;&#x53E5;&#x5143;&#x7D20;</th>
+<th>&#x72B6;&#x6001;</th>
+<th style="text-align:left">&#x8BF4;&#x660E;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">HAVING Clause</td>
+<td>Online &#x4E0D;&#x652F;&#x6301;</td>
+<td style="text-align:left">Having &#x5B50;&#x53E5;&#x4E0E; Where &#x5B50;&#x53E5;&#x4F5C;&#x7528;&#x7C7B;&#x4F3C;&#xFF0C;Having &#x5B50;&#x53E5;&#x53EF;&#x4EE5;&#x8BA9;&#x8FC7;&#x6EE4; GroupBy &#x540E;&#x7684;&#x5404;&#x79CD;&#x6570;&#x636E;&#xFF0C;Where &#x5B50;&#x53E5;&#x7528;&#x4E8E;&#x5728;&#x805A;&#x5408;&#x524D;&#x8FC7;&#x6EE4;&#x8BB0;&#x5F55;&#x3002;</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example">Example</h2>
+<h3 id="1-&#x5206;&#x7EC4;&#x540E;&#x6309;&#x805A;&#x5408;&#x7ED3;&#x679C;&#x8FC7;&#x6EE4;">1. &#x5206;&#x7EC4;&#x540E;&#x6309;&#x805A;&#x5408;&#x7ED3;&#x679C;&#x8FC7;&#x6EE4;</h3>
+<pre><code class="lang-SQL"><span class="hljs-comment">-- desc: &#x5206;&#x7EC4;&#x540E;&#x805A;&#x5408;&#x8FC7;&#x6EE4;</span>
+<span class="hljs-keyword">SELECT</span> COL1, <span class="hljs-keyword">SUM</span>(COL2), <span class="hljs-keyword">AVG</span>(COL2) <span class="hljs-keyword">FROM</span> t1 <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> COL1 <span class="hljs-keyword">HAVING</span> <span class="hljs-keyword">SUM</span>(COL2) &gt; <span class="hljs-number">1000</span>;
+</code></pre>
+<h3 id="2-&#x4E24;&#x5217;&#x5206;&#x7EC4;&#x540E;&#x6309;&#x805A;&#x5408;&#x7ED3;&#x679C;&#x8FC7;&#x6EE4;">2. &#x4E24;&#x5217;&#x5206;&#x7EC4;&#x540E;&#x6309;&#x805A;&#x5408;&#x7ED3;&#x679C;&#x8FC7;&#x6EE4;</h3>
+<pre><code class="lang-sql"><span class="hljs-comment">-- desc: &#x5206;&#x7EC4;&#x540E;&#x805A;&#x5408;&#x8FC7;&#x6EE4;</span>
+<span class="hljs-keyword">SELECT</span> COL1, <span class="hljs-keyword">SUM</span>(COL2), <span class="hljs-keyword">AVG</span>(COL2) <span class="hljs-keyword">FROM</span> t1 <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> COL1, COL0 <span class="hljs-keyword">HAVING</span> <span class="hljs-keyword">SUM</span>(COL2) &gt; <span class="hljs-number">1000</span>;
+</code></pre>
+<h3 id="3-&#x5206;&#x7EC4;&#x540E;&#x6309;&#x5206;&#x7EC4;&#x5217;&#x8FC7;&#x6EE4;">3. &#x5206;&#x7EC4;&#x540E;&#x6309;&#x5206;&#x7EC4;&#x5217;&#x8FC7;&#x6EE4;</h3>
+<pre><code class="lang-sql"><span class="hljs-comment">-- desc: &#x5206;&#x7EC4;&#x540E;&#x805A;&#x5408;&#x8FC7;&#x6EE4;</span>
+<span class="hljs-keyword">SELECT</span> COL1, <span class="hljs-keyword">SUM</span>(COL2), <span class="hljs-keyword">AVG</span>(COL2) <span class="hljs-keyword">FROM</span> t1 <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> COL1 <span class="hljs-keyword">HAVING</span> COL2 &gt; <span class="hljs-number">1000</span>;
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="GROUP_BY_CLAUSE.html" class="navigation navigation-prev " aria-label="Previous page: GROUP BY子句">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="WINDOW_CLAUSE.html" class="navigation navigation-next " aria-label="Next page: WINDOW 子句">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"HAVING 子句","level":"1.6.3.4.5","depth":4,"next":{"title":"WINDOW 子句","level":"1.6.3.4.6","depth":4,"path":"reference/sql/dql/WINDOW_CLAUSE.md","ref":"reference/sql/dql/WINDOW_CLAUSE.md","articles":[]},"previous":{"title":"GROUP BY子句","level":"1.6.3.4.4","depth":4,"path":"reference/sql/dql/GROUP_BY_CLAUSE.md","ref":"reference/sql/dql/GROUP_BY_CLAUSE.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"reference/sql/dql/HAVING_CLAUSE.md","mtime":"2021-12-27T22:27:56.128Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-12-27T22:41:59.804Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
