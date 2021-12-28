@@ -16,7 +16,7 @@
   - [安装部署详细说明](deploy/install_deploy.md)
 - 运维
   - [升级](maintain/upgrade.md)
-  - [备份](maintain/backup.mc)
+  - [备份](maintain/backup.md)
   - [扩缩容](maintain/scale.md)
 - 参考
   - [架构](reference/arch.md)
