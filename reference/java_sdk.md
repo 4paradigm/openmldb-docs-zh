@@ -48,19 +48,29 @@ public class Demo {
     public static void main(String[] args) {
         Demo demo = new Demo();
         try {
+            // 初始化构造SqlExecutor
             demo.init();
             demo.createDataBase();
             demo.createTable();
-
+            // 通过insert语句插入
             demo.insertWithoutPlaceholder();
+            // 通过placeholder的方式插入。placeholder方式不会重复编译sql, 在性能上会比直接insert好很多
             demo.insertWithPlaceholder();
+            // 执行select语句
             demo.select();
+            // 在request模式下执行sql
             demo.requestSelect();
+            // 批量执行request
             demo.batchRequestSelect();
+            // 创建存储过程
             demo.createProcedure();
+            // 同步方式执行存储过程/deployment
             demo.callProcedureSync();
+            // 异步方式执行存储过程/deployment
             demo.callProcedureAsync();
+            // 批量执行存储过程
             demo.batchCallProcedureSync();
+            // 异步批量执行存储过程
             demo.batchCallProcedureAsync();
 
             demo.dropProcedure();
@@ -77,6 +87,7 @@ public class Demo {
         option.setZkPath("/rtidb_wb");
         option.setSessionTimeout(10000);
         option.setRequestTimeout(60000);
+        // sqlExecutor执行sql操作是多线程安全的，在实际环境中只创建一个即可
         sqlExecutor = new SqlClusterExecutor(option);
     }
 
@@ -173,6 +184,7 @@ public class Demo {
         } finally {
             if (pstmt != null) {
                 try {
+                    // PrepareStatement用完之后必须close
                     pstmt.close();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -206,6 +218,7 @@ public class Demo {
     private void select() {
         String selectSql = "select * from trans;";
         com._4paradigm.openmldb.ResultSet result = sqlExecutor.executeSQL(db, selectSql);
+        // result数据解析参考下面requestSelect方法
         Assert.assertEquals(result.Size(), 2);
     }
 
@@ -217,7 +230,9 @@ public class Demo {
         try {
             pstmt = sqlExecutor.getRequestPreparedStmt(db, selectSql);
             ResultSetMetaData metaData = pstmt.getMetaData();
+            // 执行request模式需要在RequestPreparedStatement设置一行请求数据
             setData(pstmt, metaData);
+            // 调用executeQuery会执行这个select sql, 然后将结果放在了resultSet中
             resultSet = pstmt.executeQuery();
 
             Assert.assertTrue(resultSet.next());
@@ -232,6 +247,7 @@ public class Demo {
         } finally {
             try {
                 if (resultSet != null) {
+                    // result用完之后需要close
                     resultSet.close();
                 }
                 if (pstmt != null) {
@@ -254,6 +270,7 @@ public class Demo {
             idx_list.add(1);
             pstmt = sqlExecutor.getBatchRequestPreparedStmt(db, selectSql, idx_list);
             ResultSetMetaData metaData = pstmt.getMetaData();
+            // batchRequest就是批量执行request。给BatchRequestPrepareStatement每set一条数据就需要调用一次addBatch
             setData(pstmt, metaData);
             pstmt.addBatch();
             setData(pstmt, metaData);
