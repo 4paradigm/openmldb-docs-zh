@@ -86,7 +86,7 @@ mv openmldb-0.3.2-linux openmldb-ns-0.3.2
 cd openmldb-ns-0.3.2
 ````
 #### 2 修改配置文件conf/nameserver.flags
-* 修改endpoint
+* 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
 * 修改zk_cluster为已经启动的zk集群地址. ip为zk所在机器的ip, port为zk配置文件中clientPort配置的端口号. 如果zk是集群模式用逗号分割, 格式为ip1:port1,ip2:port2,ip3:port3
 * 如果和其他OpenMLDB共用zk需要修改zk_root_path
 ```
@@ -110,7 +110,7 @@ mv openmldb-0.3.2-linux openmldb-tablet-0.3.2
 cd openmldb-tablet-0.3.2
 ```
 #### 2 修改配置文件conf/tablet.flags
-* 修改endpoint
+* 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
 * 修改zk_cluster为已经启动的zk集群地址
 * 如果和其他OpenMLDB共用zk需要修改zk_root_path
 ```
@@ -149,7 +149,7 @@ cd openmldb-apiserver-0.3.2
 
 #### 2 修改配置文件conf/apiserver.flags
 
-* 修改endpoint
+* 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
 * 修改zk_cluster为需要转发到的OpenMLDB的zk集群地址
 
 ```
@@ -170,3 +170,5 @@ cd openmldb-apiserver-0.3.2
 ```
 sh bin/start.sh start apiserver
 ```
+
+**注**: 如果在linux平台通过发布包启动nameserver/tablet/apiserver时core掉，很可能时指令集不兼容问题，需要通过源码编译openmldb。源码编译参考[这里](./compile.md), 需要采用方式三完整源代码编译。

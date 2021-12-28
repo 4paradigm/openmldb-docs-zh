@@ -4,7 +4,7 @@
 * [tablet client](#tablet-client)
 
 ### NS Client
-连接到ns client 需要指定zk\_cluster、zk\_root\_path和role。其中zk\_cluster是zk地址，zk\_root\_path是集群在zk的根路径
+连接到ns client 需要指定zk\_cluster、zk\_root\_path和role。其中zk\_cluster是zk地址，zk\_root\_path是集群在zk的根路径，role是启动的角色需指定为ns_client
 
 ```bash
 $ ./bin/openmldb --zk_cluster=172.27.2.52:12200 --zk_root_path=/onebox --role=ns_client
@@ -371,7 +371,7 @@ bye
 
 ### Tablet Client
 
-连接到tablet client需要指定endpoint和role
+连接到tablet client需要指定endpoint和role. 其中endpoint是需要连接tablet的endpoint，role是启动的角色需指定为client
 
 ```bash
 $ ./openmldb --endpoint=172.27.2.52:9520 --role=client

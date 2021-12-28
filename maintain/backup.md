@@ -154,6 +154,7 @@ showtable如果都变成yes表示已经恢复成功。如果某些分片恢复�
 confset auto_failover false
 ```
 #### 3 恢复数据
+手动恢复数据时需要一个分片一个分片的恢复，恢复步骤如下:
 1. 用ns client执行showtable 表名
 2. 修改表分片alive状态为no，用nsclient执行. updatetablealive table_name pid endppoint is_alive
    ```

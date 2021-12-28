@@ -23,7 +23,7 @@ $ ./bin/openmldb --zk_cluster=172.27.128.31:8090,172.27.128.32:8090,172.27.128.3
 
 副本迁移用到的命令是migrate。命令格式: migrate src\_endpoint table\_name partition des\_endpoint  
 
-**迁移的时候只能迁移从分片, 不能迁移主分片**
+**一旦表创建好了，不能新增和减少分片，只能迁移分片。迁移的时候只能迁移从分片, 不能迁移主分片**
 
 ```bash
 $ ./bin/openmldb --zk_cluster=172.27.128.31:8090,172.27.128.32:8090,172.27.128.33:8090 --zk_root_path=/openmldb_cluster --role=ns_client
@@ -52,6 +52,7 @@ $ ./bin/openmldb --zk_cluster=172.27.128.31:8090,172.27.128.32:8090,172.27.128.3
   flow    4   1    172.27.128.31:8541  follower  0min       yes       kNoCompress    0        0           0.000
   flow    4   1    172.27.128.32:8541  follower  0min       yes       kNoCompress    0        0           0.000
 ```
+**说明**: 迁移副本还可以用删除副本然后新增副本的方式来操作。
 
 ## 缩容
 
