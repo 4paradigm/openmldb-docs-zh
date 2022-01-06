@@ -217,9 +217,26 @@ public class Demo {
 
     private void select() {
         String selectSql = "select * from trans;";
-        com._4paradigm.openmldb.ResultSet result = sqlExecutor.executeSQL(db, selectSql);
+        java.sql.ResultSet result = sqlExecutor.executeSQL(db,selectSql);
+        int num = 0;
+        try {
+            while (result.next()) {
+                num++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (result != null) {
+                    result.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
         // result数据解析参考下面requestSelect方法
-        Assert.assertEquals(result.Size(), 2);
+        Assert.assertEquals(num, 2);
     }
 
     private void requestSelect() {
