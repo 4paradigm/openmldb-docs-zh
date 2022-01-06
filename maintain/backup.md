@@ -30,7 +30,7 @@ set auto_failover ok
   auto_failover       false
 ```
 
-**auto_failover开启的话如果一个节点下线了, showtable的is\_alive状态就会变成no**
+**auto_failover开启的话如果一个节点下线了, showtable的is\_alive状态就会变成no，如果节点包含某个分片的leader，分片内会重新选主**
 
 ```
 $ ./bin/openmldb --zk_cluster=172.27.128.31:8090,172.27.128.32:8090,172.27.128.33:8090 --zk_root_path=/openmldb_cluster --role=ns_client
@@ -45,17 +45,25 @@ $ ./bin/openmldb --zk_cluster=172.27.128.31:8090,172.27.128.32:8090,172.27.128.3
   flow    4   1    172.27.128.32:8541  follower  0min       no        kNoCompress    0        0           0.000
 ```
 
-在手动模式下节点下线和恢复时需要手动操作下。有两个命令offlineendpoint和recoverendpoint
+auto_failover关闭时，节点下线和恢复时需要手动操作下。有两个命令offlineendpoint和recoverendpoint
+
+如果节点发生故障，需要执行offlineendpoint下线节点
 
 命令格式: offlineendpoint endpoint
 
-endpoint是发生故障节点的endpoint。该命令会对该节点下所有分片执行如下操作:
+endpoint是发生故障节点的endpoint。该命令会下线节点，对该节点下所有分片执行如下操作:
 
 * 如果是主, 执行重新选主
 * 如果是从, 找到主节点然后从主节点中删除当前endpoint副本
 
 ```bash
 $ ./bin/openmldb --zk_cluster=172.27.128.31:8090,172.27.128.32:8090,172.27.128.33:8090 --zk_root_path=/openmldb_cluster --role=ns_client
+> showtablet
+  endpoint            state           age
+-------------------------------------------
+  172.27.128.31:8541  kTabletHealthy  3h
+  172.27.128.32:8541  kTabletOffline  7m
+  172.27.128.33:8541  kTabletHealthy  3h
 > offlineendpoint 172.27.128.32:8541
 offline endpoint ok
 >showtable
