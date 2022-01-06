@@ -39,7 +39,7 @@ $ ./bin/openmldb --zk_cluster=172.27.128.31:8090,172.27.128.32:8090,172.27.128.3
 ----------------------------------------------------------------------------------------------------------------------
   flow    4   0    172.27.128.32:8541  leader    0min       no        kNoCompress    0        0           0.000
   flow    4   0    172.27.128.33:8541  follower  0min       yes       kNoCompress    0        0           0.000
-  flow    4   0    172.27.128.31:8541  follower  0min       yes       kNoCompress    0        0           0.000
+  flow    4   0    172.27.128.31:8541  leader    0min       yes       kNoCompress    0        0           0.000
   flow    4   1    172.27.128.33:8541  leader    0min       yes       kNoCompress    0        0           0.000
   flow    4   1    172.27.128.31:8541  follower  0min       yes       kNoCompress    0        0           0.000
   flow    4   1    172.27.128.32:8541  follower  0min       no        kNoCompress    0        0           0.000
@@ -182,5 +182,5 @@ confset auto_failover false
 #### 4 恢复autofailover
 在ns client执行confset命令
 ```
-confset autofailover true
+confset auto_failover true
 ```
