@@ -95,9 +95,11 @@ cd node_exporter-1.3.1-*/
 ## 部署 Prometheus & Grafana
 
 如何安装部署 prometheus, grafana 详见官方文档 [promtheus get started](https://prometheus.io/docs/prometheus/latest/getting_started/) 和 [grafana get started](https://grafana.com/docs/grafana/latest/getting-started/getting-started-prometheus/) 。
-OpenMLDB 不提供 prometheus 和 grafana 的部署方案, 但保留了 prometheus 和 grafana 配置文件以作参考:
+OpenMLDB 提供了 prometheus 和 grafana 配置文件以作参考:
 
 - `conf/prometheus_example.yml`: prometheus 配置示例, 注意修改 ’node' 和 'openmldb_exporter' job 中的 target 地址
-- `conf/openmldb_dashboard.json`: OpenMLDB metrics 的 grafana dashboard 配置, 在 dashboard 浏览页面下，点击新建导入一个 dashboard, 上传该 json 配置文件
+- `conf/openmldb_dashboard.json`: OpenMLDB metrics 的 grafana dashboard 配置, 分为两步:
+   1. 在 grafana data source 页面下，添加启动的 prometheus server 地址作为数据源
+   2. 在 dashboard 浏览页面下，点击新建导入一个 dashboard, 上传该 json 配置文件
 
 
