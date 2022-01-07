@@ -57,7 +57,7 @@ Wed Aug 22 16:33:50 CST 2018
 ## 部署服务
 完整的openmldb需要部署zookeeper、nameserver、tablet等模块。其中zookeeper用于服务发现和保存元数据信息。nameserver用于管理tablet，实现高可用和failover。tablet用于存储数据和主从同步数据
 ### 部署zookeeper
-zookeeper支持单机、集群等布置方式，后续示例中zk以集群方式部署。版本建议部署3.4.14版本。如果已有可用zookeeper集群可略过此步骤
+zookeeper支持单机和集群部署，后续示例中zk以集群方式部署。版本建议部署3.4.14版本。如果已有可用zookeeper集群可略过此步骤
 
 部署zookeeper集群[参考这里](https://zookeeper.apache.org/doc/r3.4.14/zookeeperStarted.html)
 
@@ -151,19 +151,7 @@ $ ./bin/openmldb --zk_cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.3
   172.27.128.33:9527  kTabletHealthy  0m
 ```
 
-重复以上步骤部署多个nameserver和tablet(示例中为3台tablet)，部署完后进行建表：
-```bash
-$ ./bin/openmldb --zk_cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.33:7181 --zk_root_path=/openmldb_cluster --role=sql_client
-> create database dbtest;
-> use dbtest;
-> create table flow(col1 int) OPTIONS(PARTITIONNUM=2,REPLICANUM=3);
-```
-其中PARTITIONNUM配置表分区数，REPLICANUM配置表副本数，查看表：
-```bash
-$ ./bin/openmldb --zk_cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.33:7181 --zk_root_path=/openmldb_cluster --role=ns_client
-> use dbtest
-> showtable
-```
+重复以上步骤部署多个nameserver和tablet
 
 ### 部署apiserver
 
