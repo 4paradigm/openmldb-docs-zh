@@ -392,7 +392,7 @@ $ ./openmldb --endpoint=172.27.2.52:9520 --role=client
 ```
 > loadtable table1 1 0 144000 8
 ```
-已有表如果在内存中则loadtable会失败，需要重启相关节点
+已有表如果在内存中则loadtable会失败
 #### changerole
 
 改变表的leader角色
