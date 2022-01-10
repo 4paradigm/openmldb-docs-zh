@@ -242,7 +242,7 @@ recover endpoint ok
 
 * table\_name 表名
 * pid 分片id
-* candidate\_leader 候选leader. 该参数是可选的, 如果设置成auto即使其他节点alive状态是yes也能切换
+* candidate\_leader 候选leader. 该参数是可选的。如果不加该参数则要求分片中不存在alive是yes的leader，如果设置成auto即使其他节点alive状态是yes也能切换
 
 ```
 > changeleader flow 0
@@ -379,7 +379,7 @@ $ ./openmldb --endpoint=172.27.2.52:9520 --role=client
 
 #### loadtable
 
-1、创建表并加载数据
+1、加载已有表
 
 命令格式: loadtable table\_name tid pid ttl segment\_cnt
 
@@ -392,7 +392,7 @@ $ ./openmldb --endpoint=172.27.2.52:9520 --role=client
 ```
 > loadtable table1 1 0 144000 8
 ```
-
+已有表如果在内存中则loadtable会失败
 #### changerole
 
 改变表的leader角色
