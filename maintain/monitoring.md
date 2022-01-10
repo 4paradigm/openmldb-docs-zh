@@ -26,19 +26,25 @@ OpenMLDB 的监控方案如图：
 
 ### 准备
 
-1. 编译 OpenMLDB 
+1. 获取 OpenMLDB
 
-   监控 OpenMLDB 需要开启额外编译选项: `-DTCMALLOC_ENABLE=ON`, 目前仅支持从源码编译:
+   你可以从 [OpenMLDB release](https://github.com/4paradigm/OpenMLDB/releases) 页面下载预编译的安装包，或者从源码编译。
+
+   注意编译时确认开启编译选项: `-DTCMALLOC_ENABLE=ON`, 默认为 `ON`:
    ```sh
    git clone https://github.com/4paradigm/OpenMLDB
    cd OpenMLDB
-   make install TCMALLOC_ENABLE=ON
+   make install
    ```
    详见 [compile.md](../deploy/compile.md), OpenMLDB exporter 将安装到 `${project_root}/openmldb/bin/openmldb_exporter.py`
 
 2. 启动 OpenMLDB 组件
 
-   参见 [install_deploy](../deploy/install_deploy.md) 如何启动 OpenMLDB 组件。OpenMLDB exporter 要求 OpenMLDB 启动时开启 `server status`, 即启动时添加启动参数 `--enable_status_service=true`, 或者在 `conf/(tablet|nameserver).flags` 中增加一行 `--enable_status_service=true`
+   参见 [install_deploy](../deploy/install_deploy.md) 如何启动 OpenMLDB 组件。
+
+   OpenMLDB exporter 要求 OpenMLDB 启动时开启 server status 功能, 即启动时添加启动参数 `--enable_status_service=true`, 请确认安装目录下的 `conf/(tablet|nameserver).flags` 中有 `--enable_status_service=true`。
+
+   默认启动脚本 `bin/start.sh` 开启了 server status, 不需要额外配置。
 
 3. 安装 python 依赖
 ```sh
