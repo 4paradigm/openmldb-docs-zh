@@ -1,20 +1,23 @@
 # Summary
 
-- [OpenMLDB 简介](README.md)
-- 关于 OpenMLDB
-  - [关于 OpenMLDB](about/about.md)
-  - [社区](about/community.md)
+- [OpenMLDB 文档](README.md)
+- [关于 OpenMLDB](about/content.md)
+  - [OpenMLDB 简介](about/intro.md)
+  - [发展历程](about/milestones.md)
   - [v0.4 Release Notes](about/release_notes.md)
-- 快速上手
+- [快速上手](quickstart/content.md)
   - [Demo 使用](quickstart/demo.md)
   - [快速构建全生命周期 AI 应用](quickstart/develop_app.md)
   - [单机模式使用](quickstart/standalone.md)
   - Spark 特征工程优化版
   - [Java SDK 快速上手](quickstart/java_sdk.md)
-- 安装部署
-  - [软硬件需求](deploy/requirement.md)
+- [使用案例](use_case/content.md)
+  - [案例一](use_case/case1.md)
+- [安装部署](deploy/content.md)
+  - [编译OpenMLDB](deploy/compile.md)
   - [安装部署详细说明](deploy/install_deploy.md)
-- 运维
+  - [配置文件说明](deploy/conf.md)
+- [运维](maintain/content.md)
   - [升级](maintain/upgrade.md)
   - [备份](maintain/backup.md)
   - [扩缩容](maintain/scale.md)
