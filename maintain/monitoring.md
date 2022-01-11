@@ -34,6 +34,7 @@ OpenMLDB 的监控方案如图：
    ```sh
    git clone https://github.com/4paradigm/OpenMLDB
    cd OpenMLDB
+   make
    make install
    ```
    详见 [compile.md](../deploy/compile.md), OpenMLDB exporter 将安装到 `${project_root}/openmldb/bin/openmldb_exporter.py`
