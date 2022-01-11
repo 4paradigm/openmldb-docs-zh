@@ -1,2 +1,0 @@
-# OpenMLDB 架构
-
