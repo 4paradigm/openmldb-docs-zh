@@ -1,4 +1,4 @@
-# CLI （命令行）
+# OpenMLDB运维CLI
 
 * [ns client](#ns-client)
 * [tablet client](#tablet-client)

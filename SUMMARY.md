@@ -6,11 +6,12 @@
   - [发展历程](about/milestones.md)
   - [v0.4 Release Notes](about/release_notes.md)
 - [快速上手](quickstart/content.md)
-  - [Demo 使用](quickstart/demo.md)
-  - [快速构建全生命周期 AI 应用](quickstart/develop_app.md)
-  - [单机模式使用](quickstart/standalone.md)
+  - [OpenMLDB 快速上手指南](quickstart/openmldb_quickstart.md)
   - Spark 特征工程优化版
+  - [数据导入工具使用](./quickstart/data_import.md)
   - [Java SDK 快速上手](quickstart/java_sdk.md)
+  - [Python SDK快速上手](./quickstart/python_sdk.md)
+- 教程
 - [使用案例](use_case/content.md)
   - [案例一](use_case/case1.md)
 - [安装部署](deploy/content.md)
@@ -21,9 +22,13 @@
   - [升级](maintain/upgrade.md)
   - [备份](maintain/backup.md)
   - [扩缩容](maintain/scale.md)
+  - [监控](maintain/monitoring.md)
+- 开发者文档
+  - Contibution
+  - [OpenMLDB SQL 内置函数开发指南](developer/built_in_function_develop_guide.md)
 - 参考
-  - [架构](reference/arch.md)
-  - [单机模式](reference/standalone.md)
+  - [OpenMLDB运维CLI](reference/cli.md)
+  - [REST APIs](reference/rest_api.md)
   - [SQL](reference/sql/reference.md)
     - [语言结构](reference/sql/language_structure/reference.md)
       - [关键字](reference/sql/language_structure/keywords.md)
@@ -67,7 +72,3 @@
       - [查看DEPLOYMENT详情(SHOW DEPLOYMENT)](reference/sql/deployment_manage/SHOW_DEPLOYMENT.md)
       - [OpenMLDB SQL上线规范和要求](reference/sql/deployment_manage/ONLINE_SERVING_REQUIREMENTS.md)
     - [离线任务管理](reference/sql/task_manage/reference.md)
-  - [CLI](reference/cli.md)
-  - [Java SDK](reference/java_sdk.md)
-  - [Python SDK](reference/python_sdk.md)
-  - [REST APIs](reference/rest_api.md)
