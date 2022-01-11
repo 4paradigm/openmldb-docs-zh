@@ -6,7 +6,7 @@
   - [发展历程](about/milestones.md)
   - [v0.4 Release Notes](about/release_notes.md)
 - [快速上手](quickstart/content.md)
-  - [OpenMLDB 快速上手指南](quickstart/standalone.md)
+  - [OpenMLDB 快速上手指南](quickstart/openmldb_quickstart.md)
   - Spark 特征工程优化版
   - [数据导入工具使用](./quickstart/data_import.md)
   - [Java SDK 快速上手](quickstart/java_sdk.md)
