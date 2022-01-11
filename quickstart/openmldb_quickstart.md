@@ -1,45 +1,80 @@
 # OpenMLDB 快速上手指南
 
-本教程提供OpenMLDB快速上手指南。通过建立数据库、导入数据、离线特征计算、SQL 方案上线、在线实时特征计算，演示了分布式OpenMLDB和单机OpenMLDB的基本使用流程。通过本指南，用户可以快速熟悉OpenMLDB的基本工作流。
+本教程提供OpenMLDB快速上手指南。通过建立数据库、导入数据、离线特征计算、SQL 方案上线、在线实时特征计算，演示了分布式版OpenMLDB和单机版OpenMLDB的基本使用流程。
 
-## 1. 分布式部署版OpenMLDB 快速上手
+## 1. 分布式版OpenMLDB 快速上手
 
-### 1.1 准备工作
+本教程均基于 OpenMLDB CLI 进行开发和部署，因此首先需要下载样例数据并且启动 OpenMLDB CLI。
 
-> :warning: docker engine版本需求 >= 18.03
+### 1.1 环境和样例数据
 
-本教程均基于 OpenMLDB CLI 进行开发和部署，因此首先需要下载样例数据并且启动 OpenMLDB CLI。我们推荐使用准备好的 docker 镜像来快速体验使用：
+#### 1.1.1 样例数据
 
-1. 拉取镜像（镜像下载大小大约 500 MB，解压后约 1.3 GB）和启动 docker 容器 **@邓龙，镜像地址更新**
+```bash
+> mkdir data
+> curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/standalone/data/data.csv --output ./data/data.csv
+```
 
-   ```bash
-   docker run -it 4pdosc/openmldb:0.3.2 bash
-   ```
+#### 1.1.2 下载和启动Zookeeper
 
-   :bulb: **成功启动容器以后，以下命令均在容器内执行。**
+- 下载zookeeper安装包
 
-2. 下载样例数据
+```
+> wget https://archive.apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz
+> tar -xzvf zookeeper-3.4.14.tar.gz
+> cd zookeeper-3.4.14
+```
 
-   ```bash
-   curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/standalone/data/data.csv --output ./data/data.csv
-   ```
+- 配置Zookpeer端口号
 
-3. 启动分布式部署版OpenMLDB并启动控制台客户端：
+```
+> vi conf/zoo.cof
+# The number of milliseconds of each tick
+tickTime=2000
+# The number of ticks that the initial
+# synchronization phase can take
+initLimit=10
+# The number of ticks that can pass between
+# sending a request and getting an acknowledgement
+syncLimit=5
+# the directory where the snapshot is stored.
+# do not use /tmp for storage, /tmp here is just
+# example sakes.
+dataDir=/tmp/rambuild/ut_zookeeper
+# the port at which the clients will connect
+clientPort=2181
+```
 
-   ```bash
-   # 1. initialize the environment for cluster deployed OpenMLDB
-   ./init.sh
-   # 2. Start the OpenMLDB CLI for the cluster deployed OpenMLDB
-   ../openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
-   ```
+- 启动Zookeeper
 
-以下截图显示了以上 docker 内命令正确执行以及 OpenMLDB CLI 正确启动以后的画面
+```
+./bin/zkServer.sh start
+```
 
-![image-20220110153059789](./images/cli_cluster.png)
+#### 1.1.3 下载和启动分布式OpenMLDB服务
+
+```bash
+> wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
+> tar -zxvf openmldb-0.3.2-linux.tar.gz
+> mv openmldb-0.3.2-linux openmldb
+> cd openmldb
+> ./bin/start-all.sh
+```
+
+#### 1.1.4 启动分布式OpenMLDB CLI客户端
+
+```bash
+# Start the OpenMLDB CLI for the cluster deployed OpenMLDB
+> bin/openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
+```
+
+以下截图显示正确启动分布式OpenMLDB CLI 以后的画面
+
+![image-20220111141358808](/Users/chenjing/work/chenjing/openmldb-docs-zh/quickstart/images/cli_cluster.png)
 
 ### 1.2 使用指南
 
-:bulb: 以下演示的命令如无特别说明，默认均在Cluster OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
+分布式OpenMLDB的工作流程一般包含：建立数据库和表、离线数据准备、离线特征计算、SQL 方案上线、在线数据准备、在线实时特征计算几个阶段。与单机版OpenMLDB不同，分布式版OpenMLDB需要分别管理离线数据和在线数据。:bulb: 以下演示的命令如无特别说明，默认均在分布式部署OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
 
 #### 1.2.1 创建数据库和表
 
@@ -67,13 +102,15 @@
  --- -------------------- ------ ---- ------ ---------------
   #   name                 keys   ts   ttl    ttl_type
  --- -------------------- ------ ---- ------ ---------------
-  1   INDEX_0_1641857521   c1     c6   0min   kAbsoluteTime
+  1   INDEX_0_1641939290   c1     -    0min   kAbsoluteTime
  --- -------------------- ------ ---- ------ ---------------
 ```
 
 #### 1.2.2 离线数据准备数据
 
-首先，请切换到离线执行模式。在该模式下，只会处理离线数据导入/插入以及查询操作。接着在离线模式下，导入之前下载的样例数据（在 [1.1 准备工作](#1.1-准备工作) 中已经下载）作为离线数据，用于离线特征计算。
+首先，请切换到离线执行模式。在该模式下，只会处理离线数据导入/插入以及查询操作。
+
+接着，导入之前下载的样例数据（在 [1.1.1 样例数据](#1.1.1#样例数据) 中已经下载）作为离线数据，用于离线特征计算。
 
 ```sql
 > USE demo_db;
@@ -87,6 +124,7 @@
 > USE demo_db;
 > SET @@execute_mode='offline';
 > SELECT * FROM demo_table1 LIMIT 10;
+> SHOW JOBS;
  ----- ---- ---- ---------- ----------- --------------- ------------
   c1    c2   c3   c4         c5          c6              c7
  ----- ---- ---- ---------- ----------- --------------- ------------
@@ -135,7 +173,7 @@
 
 #### 1.2.5 在线数据准备
 
-首先，请切换到**在线**执行模式。在该模式下，只会处理在线数据导入/插入以及查询操作。接着在在线模式下，导入之前下载的样例数据（在 [1.1 准备工作](#1.1-准备工作) 中已经下载）作为在线数据，用于在线特征计算。
+首先，请切换到**在线**执行模式。在该模式下，只会处理在线数据导入/插入以及查询操作。接着在在线模式下，导入之前下载的样例数据（在 [1.1 样例数据准备](#1.1 样例数据准备) 中已经下载）作为在线数据，用于在线特征计算。
 
 ```sql
 > USE demo_db;
@@ -206,40 +244,41 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 ## 2. 单机部署版OpenMLDB 快速上手
 
-### 2.1 准备工作
+本教程均基于 OpenMLDB CLI 进行开发和部署，因此首先需要下载样例数据并且启动 OpenMLDB CLI。
 
-本教程均基于 OpenMLDB CLI 进行开发和部署，因此首先需要下载样例数据并且启动 OpenMLDB CLI。我们推荐使用准备好的 docker 镜像来快速体验使用：
+### 2.1环境和数据准备
 
-1. 拉取镜像（镜像下载大小大约 500 MB，解压后约 1.3 GB）和启动 docker 容器
+#### 2.1.1 样例数据
 
-   ```bash
-   docker run -it 4pdosc/openmldb:0.3.2 bash
-   ```
+```bash
+> mkdir data
+> curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/standalone/data/data.csv --output ./data/data.csv
+```
 
-   :bulb: **成功启动容器以后，以下命令均在容器内执行。**
+#### 2.1.2 下载和启动单机版OpenMLDB服务
 
-2. 下载样例数据
+```bash
+> wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
+> tar -zxvf openmldb-0.3.2-linux.tar.gz
+> mv openmldb-0.3.2-linux openmldb
+> cd openmldb
+> ./bin/start-standalone.sh
+```
 
-   ```bash
-   curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/standalone/data/data.csv --output ./data/data.csv
-   ```
+#### 2.1.3 启动单机版OpenMLDB CLI客户端
 
-3. 启动 OpenMLDB 服务和 CLI
-
-   ```bash
-   # 1. initialize the environment
-   ./init.sh standalone
-   # 2. Start the OpenMLDB CLI for the standalone mode
-   ../openmldb/bin/openmldb --host 127.0.0.1 --port 6527
-   ```
+```bash
+# Start the OpenMLDB CLI for the cluster deployed OpenMLDB
+> bin/openmldb --host 127.0.0.1 --port 6527
+```
 
 以下截图显示了以上 docker 内命令正确执行以及 OpenMLDB CLI 正确启动以后的画面
 
-![image-20211209133608276](./images/cli.png)
+![image-20220111142406534](./images/cli.png)
 
 ### 2.2 使用指南
 
-:bulb: 以下演示的命令如无特别说明，默认均在 OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
+单机版OpenMLDB的工作流程一般包含：建立数据库和表、数据准备、离线特征计算、SQL 方案上线、在线实时特征计算几个阶段。与分布式版OpenMLDB不同，单机版本只需要管理一份数据用于离线和在线特征计算。:bulb: 以下演示的命令如无特别说明，默认均在单机版OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
 
 #### 2.2.1 创建数据库和表
 
@@ -251,7 +290,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 #### 2.2.2 导入数据
 
- 导入之前下载的样例数据（在 [1. 准备工作](#1-准备工作) 中已经下载）作为训练数据，用于离线和在线特征计算。
+ 导入之前下载的样例数据（在 [2.1.1 样例数据](#2.1.1-样例数据) 中已经下载）作为训练数据，用于离线和在线特征计算。
 
 ```sql
 > LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;
@@ -338,13 +377,3 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 {"code":0,"msg":"ok","data":{"data":[["aaa",11,22]],"common_cols_data":[]}}
 ```
 
-
-
-## FQA： 
-
-1. 分布式和单机可以同时部署在一个服务器上吗？
-2. API SERVER的访问怎么区分分布式和单机版本？
-3. 分布式部署和单机部署版本的OpenMLDB在使用过程中最大的区别是什么？
-   1. 单机部署和分布式部署下的OpenMLDB启动方式不同。
-   2. 单机部署的OpenMLDB离线和上线使用同一套数据。
-   3. 分布式部署的OpenMLDB需要分别管理离线数据和在线数据。具体来说，首先要在离线执行模式下，准备离线数据。完成特征调研和训练后，上线SQL特征方案。接着，需要切换到在线执行模式，准备在线数据。

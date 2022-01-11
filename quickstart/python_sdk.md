@@ -51,7 +51,7 @@ except Exception as e:
 
 ### 2.4 插入数据到表中
 
-使用`connection.execute()`接口执行SQL的插入语句，可以向表中插入数据：
+使用`connection.execute(ddl)`接口执行SQL的插入语句，可以向表中插入数据：
 
 ```python
 try:
@@ -60,7 +60,7 @@ except Exception as e:
     print(e)
 ```
 
-使用placeholder的方式执行SQL插入语句：
+使用`connection.execute(ddl, data)`接口执行带planceholder的SQL的插入语句，可以动态指定插入数据：
 
 ```python
 try:
@@ -72,7 +72,7 @@ except Exception as e:
 
 ### 2.5 执行SQL批式查询
 
-使用`connection.execute()`接口执行SQL批式查询语句:
+使用`connection.execute(sql)`接口执行SQL批式查询语句:
 
 ```python
 try:
@@ -86,7 +86,7 @@ except Exception as e:
 
 ### 2.6 执行SQL请求式查询
 
-请求式查询，可以把输入数据放到execute的第二个参数中
+使用`connection.execute(sql, request)`接口执行SQL批式查询语句:请求式查询，可以把输入数据放到execute的第二个参数中
 
 ```python
 try:
@@ -96,7 +96,7 @@ except Exception as e:
 ```
 ### 2.7 删除表
 
-使用`connection.execute()`接口删除一张表：
+使用`connection.execute(ddl)`接口删除一张表：
 
 ```python
 try:
@@ -107,7 +107,7 @@ except Exception as e:
 
 ### 2.8 删除数据库
 
-使用`connection.execute()`接口删除数据库：
+使用`connection.execute(ddl)`接口删除数据库：
 
 ```python
 try:

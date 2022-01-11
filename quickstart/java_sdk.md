@@ -4,7 +4,7 @@
 
 配置maven pom
 
-```
+```xml
 <dependency>
     <groupId>com.4paradigm.openmldb</groupId>
     <artifactId>openmldb-jdbc</artifactId>
