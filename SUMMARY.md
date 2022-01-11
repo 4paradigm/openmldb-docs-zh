@@ -7,7 +7,7 @@
   - [v0.4 Release Notes](about/release_notes.md)
 - [快速上手](quickstart/content.md)
   - [OpenMLDB 快速上手指南](quickstart/openmldb_quickstart.md)
-  - Spark 特征工程优化版
+  - [使用SparkFE发行版](quickstart/sparkfe_distribution.md)
   - [数据导入工具使用](./quickstart/data_import.md)
   - [Java SDK 快速上手](quickstart/java_sdk.md)
   - [Python SDK快速上手](./quickstart/python_sdk.md)
@@ -24,7 +24,7 @@
   - [扩缩容](maintain/scale.md)
   - [监控](maintain/monitoring.md)
 - 开发者文档
-  - Contibution
+  - [Contributing](./developer/contributing.md)
   - [OpenMLDB SQL 内置函数开发指南](developer/built_in_function_develop_guide.md)
 - 参考
   - [OpenMLDB运维CLI](reference/cli.md)
