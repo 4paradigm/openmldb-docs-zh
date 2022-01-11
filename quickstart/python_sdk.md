@@ -49,8 +49,6 @@ except Exception as e:
     print(e)
 ```
 
-
-
 ### 2.4 插入数据到表中
 
 使用`connection.execute()`接口执行SQL的插入语句，可以向表中插入数据：
@@ -71,8 +69,6 @@ try:
 except Exception as e:
     print(e)
 ```
-
-
 
 ### 2.5 执行SQL批式查询
 

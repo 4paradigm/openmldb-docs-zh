@@ -1,20 +1,8 @@
 # Java SDK
 
-### java sdk 支持的java.sql.Types共有9种
+## 1. Java SDK包安装
 
-- BOOLEAN
-- SMALLINT
-- INTEGER
-- BIGINT
-- FLOAT
-- DOUBLE
-- TIMESTAMP
-- DATE
-- VARCHAR
-
-## 配置maven pom
-
-添加如下依赖配置, 其中version配置java sdk版本
+配置maven pom
 
 ```
 <dependency>
@@ -24,7 +12,228 @@
 </dependency>
 ```
 
-## java使用demo
+## 2. Java SDK快速上手
+
+### 2.1 创建SqlClusterExecutor
+
+首先，进行OpenMLDB连接参数配置
+
+```java
+SdkOption option = new SdkOption();
+option.setZkCluster("127.0.0.1:2181");
+option.setZkPath("/openmldb");
+option.setSessionTimeout(10000);
+option.setRequestTimeout(60000);
+
+```
+
+接着，使用SdkOption创建Executor。SqlClusterExecutor执行sql操作是多线程安全的，在实际环境中只创建一个`SqlClusterExecutor`即可:
+
+```java
+sqlExecutor = new SqlClusterExecutor(option);
+```
+
+### 2.2 创建数据库
+
+使用`SqlClusterExecutor::createDB()`接口创建数据库：
+
+```java
+sqlExecutor.createDB("db_test");
+```
+
+### 2.3 创建表
+
+使用`SqlClusterExecutor::executeDDL(db, createTableSql)`接口创建一张表：
+
+```java
+String createTableSql = "create table trans(c1 string,\n" +
+                "                   c3 int,\n" +
+                "                   c4 bigint,\n" +
+                "                   c5 float,\n" +
+                "                   c6 double,\n" +
+                "                   c7 timestamp,\n" +
+                "                   c8 date,\n" +
+                "                   index(key=c1, ts=c7));";
+sqlExecutor.executeDDL("", createTableSql);
+```
+
+### 2.4 插入数据到表中
+
+#### 2.4.1 直接执行插入数据
+
+第一步，使用`SqlClusterExecutor::getInsertPreparedStmt(db, insertSql)`接口获取InsertPrepareStatement。
+
+第二步，使用`Statement::execute()`接口执行insert语句。
+
+```java
+String insertSql = "insert into trans values(\"aa\",23,33,1.4,2.4,1590738993000,\"2020-05-04\");";
+PreparedStatement pstmt = null;
+try {
+  pstmt = sqlExecutor.getInsertPreparedStmt(db, insertSql);
+  Assert.assertTrue(pstmt.execute());
+} catch (SQLException e) {
+  e.printStackTrace();
+  Assert.fail();
+} finally {
+  if (pstmt != null) {
+    try {
+      // PrepareStatement用完之后必须close
+      pstmt.close();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+  }
+}
+```
+
+#### 2.4.2 使用placeholder的方式执行插入语句
+
+第一步，使用`SqlClusterExecutor::getInsertPreparedStmt(db, insertSqlWithPlaceHolder)`接口获取InsertPrepareStatement。
+
+第二步，调用`PreparedStatement::setType(index, value)`接口，填充数据到InsertPrepareStatement中。
+
+第三步，使用`Statement::execute()`接口执行insert语句。
+
+```java
+String insertSqlWithPlaceHolder = "insert into trans values(\"aa\", ?, 33, ?, 2.4, 1590738993000, \"2020-05-04\");";
+PreparedStatement pstmt = null;
+try {
+  pstmt = sqlExecutor.getInsertPreparedStmt(db, insertSqlWithPlaceHolder);
+  pstmt.setInt(1, 24);
+  pstmt.setInt(2, 1.5f);
+  pstmt.execute();
+} catch (SQLException e) {
+  e.printStackTrace();
+  Assert.fail();
+} finally {
+  if (pstmt != null) {
+    try {
+      // PrepareStatement用完之后必须close
+      pstmt.close();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+  }
+}
+```
+
+### 2.5 执行SQL批式查询
+
+使用`connection.execute()`接口执行SQL批式查询语句:
+
+```java
+String selectSql = "select * from trans;";
+java.sql.ResultSet result = sqlExecutor.executeSQL(db, selectSql);
+```
+
+访问查询结果:
+
+```java
+// 访问结果集ResultSet，并输出前三列数据
+try {
+  while (result.next()) {
+    System.out.println(resultSet.getString(1) + "," + resultSet.getInt(2) "," + resultSet.getLong(3));
+  }
+} catch (SQLException e) {
+  e.printStackTrace();
+} finally {
+  try {
+    if (result != null) {
+      result.close();
+    }
+  } catch (SQLException throwables) {
+    throwables.printStackTrace();
+  }
+
+}
+```
+
+### 2.6 执行SQL请求式查询
+
+第一步，使用`SqlClusterExecutor::getRequestPreparedStmt(db, selectSql)`接口获取RequestPrepareStatement。
+
+第二步，调用`PreparedStatement::setType(index, value)`接口设置请求数据。请根据数据表中每一列对应的数据类型调用setType接口以及配置合法的值。
+
+第三步，调用`Statement::executeQuery()`接口执行请求式查询语句。
+
+```java
+String selectSql = "SELECT c1, c3, sum(c4) OVER w1 as w1_c4_sum FROM trans WINDOW w1 AS " +
+                "(PARTITION BY trans.c1 ORDER BY trans.c7 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW);";
+PreparedStatement pstmt = null;
+ResultSet resultSet = null;
+/*
+c1 string,\n" +
+                "                   c3 int,\n" +
+                "                   c4 bigint,\n" +
+                "                   c5 float,\n" +
+                "                   c6 double,\n" +
+                "                   c7 timestamp,\n" +
+                "                   c8 date,\n" +
+*/
+try {
+  // 第一步，获取RequestPrepareStatement
+  pstmt = sqlExecutor.getRequestPreparedStmt(db, selectSql);
+  
+  // 第二步，执行request模式需要在RequestPreparedStatement设置一行请求数据
+  pstmt.setString(1, "bb");
+  pstmt.setInt(2, 24);
+  pstmt.setLong(3, 34l);
+  pstmt.setFloat(4, 1.5f);
+  pstmt.setDouble(5, 2.5);
+  pstmt.setTimestamp(6, new Timestamp(1590738994000l));
+  pstmt.setDate(7, Date.valueOf("2020-05-05"));
+  
+  // 调用executeQuery会执行这个select sql, 然后将结果放在了resultSet中
+  resultSet = pstmt.executeQuery();
+  
+  // 访问resultSet
+  Assert.assertEquals(resultSet.getMetaData().getColumnCount(), 3);
+  Assert.assertTrue(resultSet.next());
+  Assert.assertEquals(resultSet.getString(1), "bb");
+  Assert.assertEquals(resultSet.getInt(2), 24);
+  Assert.assertEquals(resultSet.getLong(3), 34);
+  
+  // 普通请求式查询的返回结果集只包含一行结果，因此，第二次调用resultSet.next()结果为false
+  Assert.assertFalse(resultSet.next());
+  
+} catch (SQLException e) {
+  e.printStackTrace();
+  Assert.fail();
+} finally {
+  try {
+    if (resultSet != null) {
+      // result用完之后需要close
+      resultSet.close();
+    }
+    if (pstmt != null) {
+      pstmt.close();
+    }
+  } catch (SQLException throwables) {
+    throwables.printStackTrace();
+  }
+}
+```
+
+### 2.7 删除表
+
+使用`SqlClusterExecutor::executeDDL(db, dropTableSql)`接口删除一张表：
+
+```java
+String dropTableSql = "drop table trans;";
+sqlExecutor.executeDDL(db, dropTableSql);
+```
+
+### 2.8 删除数据库
+
+使用`SqlClusterExecutor::dropDB(db)`接口删除指定数据库：
+
+```java
+sqlExecutor.dropDB(db);
+```
+
+
+
+## 3. 完整的Java SDK使用范例
 
 
 ```java
@@ -60,21 +269,9 @@ public class Demo {
             demo.select();
             // 在request模式下执行sql
             demo.requestSelect();
-            // 批量执行request
-            demo.batchRequestSelect();
-            // 创建存储过程
-            demo.createProcedure();
-            // 同步方式执行存储过程/deployment
-            demo.callProcedureSync();
-            // 异步方式执行存储过程/deployment
-            demo.callProcedureAsync();
-            // 批量执行存储过程
-            demo.batchCallProcedureSync();
-            // 异步批量执行存储过程
-            demo.batchCallProcedureAsync();
-
-            demo.dropProcedure();
+            // 删除表
             demo.dropTable();
+          	// 删除数据库
             demo.dropDataBase();
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,48 +325,6 @@ public class Demo {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
-
-    private void showProcedure(String spSql) {
-        try {
-            ProcedureInfo procedureInfo = sqlExecutor.showProcedure(db, sp);
-            Assert.assertEquals(procedureInfo.getDbName(), db);
-            Assert.assertEquals(procedureInfo.getProName(), sp);
-            Assert.assertEquals(procedureInfo.getSql(), spSql);
-            Assert.assertEquals(procedureInfo.getMainTable(), table);
-            Assert.assertEquals(procedureInfo.getInputTables().size(), 1);
-            Assert.assertEquals(procedureInfo.getInputTables().get(0), table);
-            Assert.assertEquals(procedureInfo.getInputSchema().getColumnList().size(), 7);
-            Assert.assertEquals(procedureInfo.getOutputSchema().getColumnList().size(), 3);
-            Column column = procedureInfo.getInputSchema().getColumnList().get(0);
-            Assert.assertEquals(column.getColumnName(), "c1");
-            Assert.assertEquals(column.getSqlType(), Types.VARCHAR);
-            Assert.assertEquals(column.isConstant(), true);
-            Assert.assertEquals(column.isNotNull(), false);
-            Column column1 = procedureInfo.getOutputSchema().getColumnList().get(0);
-            Assert.assertEquals(column1.getColumnName(), "c1");
-            Assert.assertEquals(column1.getSqlType(), Types.VARCHAR);
-            Assert.assertEquals(column1.isConstant(), false);
-            Assert.assertEquals(column1.isNotNull(), false);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    private void createProcedure() {
-        String selectSql = "SELECT c1, c3, sum(c4) OVER w1 as w1_c4_sum FROM trans WINDOW w1 AS " +
-                "(PARTITION BY trans.c1 ORDER BY trans.c7 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW);";
-        getInputSchema(selectSql);
-        String createProcedureSql = "create procedure " + sp +
-                "(const c1 string, const c3 int, c4 bigint, c5 float, c6 double, c7 timestamp, c8 date)" +
-                " begin " + selectSql + " end;";
-        Assert.assertTrue(sqlExecutor.executeDDL(db, createProcedureSql));
-        showProcedure(createProcedureSql);
-    }
-
-    private void dropProcedure() {
-        String dropSpSql = "drop procedure sp;";
-        Assert.assertTrue(sqlExecutor.executeDDL(db, dropSpSql));
     }
 
     private void insertWithoutPlaceholder() {
@@ -276,197 +431,6 @@ public class Demo {
         }
     }
 
-    private void batchRequestSelect() {
-        String selectSql = "SELECT c1, c3, sum(c4) OVER w1 as w1_c4_sum FROM trans WINDOW w1 AS " +
-                "(PARTITION BY trans.c1 ORDER BY trans.c7 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW);";
-        PreparedStatement pstmt = null;
-        ResultSet resultSet = null;
-        try {
-            List<Integer> idx_list = new ArrayList<>();
-            idx_list.add(0);
-            idx_list.add(1);
-            pstmt = sqlExecutor.getBatchRequestPreparedStmt(db, selectSql, idx_list);
-            ResultSetMetaData metaData = pstmt.getMetaData();
-            // batchRequest就是批量执行request。给BatchRequestPrepareStatement每set一条数据就需要调用一次addBatch
-            setData(pstmt, metaData);
-            pstmt.addBatch();
-            setData(pstmt, metaData);
-            pstmt.addBatch();
-            resultSet = pstmt.executeQuery();
-
-            Assert.assertTrue(resultSet.next());
-            Assert.assertEquals(resultSet.getMetaData().getColumnCount(), 3);
-            Assert.assertEquals(resultSet.getString(1), "bb");
-            Assert.assertEquals(resultSet.getInt(2), 24);
-            Assert.assertEquals(resultSet.getLong(3), 34);
-            Assert.assertTrue(resultSet.next());
-            Assert.assertEquals(resultSet.getString(1), "bb");
-            Assert.assertEquals(resultSet.getInt(2), 24);
-            Assert.assertEquals(resultSet.getLong(3), 34);
-            Assert.assertFalse(resultSet.next());
-            Assert.assertFalse(resultSet.next());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Assert.fail();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-    }
-
-    private void callProcedureSync() {
-        CallablePreparedStatement pstmt = null;
-        ResultSet resultSet = null;
-        try {
-            pstmt = sqlExecutor.getCallablePreparedStmt(db, sp);
-            ResultSetMetaData metaData = pstmt.getMetaData();
-            setData(pstmt, metaData);
-            resultSet = pstmt.executeQuery();
-
-            Assert.assertTrue(resultSet.next());
-            Assert.assertEquals(resultSet.getMetaData().getColumnCount(), 3);
-            Assert.assertEquals(resultSet.getString(1), "bb");
-            Assert.assertEquals(resultSet.getInt(2), 24);
-            Assert.assertEquals(resultSet.getLong(3), 34);
-            Assert.assertFalse(resultSet.next());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Assert.fail();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-    }
-
-    private void callProcedureAsync() {
-        CallablePreparedStatement pstmt = null;
-        ResultSet resultSet = null;
-        try {
-            pstmt = sqlExecutor.getCallablePreparedStmt(db, sp);
-            ResultSetMetaData metaData = pstmt.getMetaData();
-            setData(pstmt, metaData);
-            QueryFuture future = pstmt.executeQueryAsync(1000, TimeUnit.MILLISECONDS);
-            resultSet = future.get();
-            Assert.assertTrue(future.isDone());
-
-            Assert.assertTrue(resultSet.next());
-            Assert.assertEquals(resultSet.getMetaData().getColumnCount(), 3);
-            Assert.assertEquals(resultSet.getString(1), "bb");
-            Assert.assertEquals(resultSet.getInt(2), 24);
-            Assert.assertEquals(resultSet.getLong(3), 34);
-            Assert.assertFalse(resultSet.next());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-    }
-
-    private void batchCallProcedureSync() {
-        CallablePreparedStatement pstmt = null;
-        ResultSet resultSet = null;
-        try {
-            pstmt = sqlExecutor.getCallablePreparedStmtBatch(db, sp);
-            ResultSetMetaData metaData = pstmt.getMetaData();
-            setData(pstmt, metaData);
-            pstmt.addBatch();
-            setData(pstmt, metaData);
-            pstmt.addBatch();
-            resultSet = pstmt.executeQuery();
-
-            Assert.assertTrue(resultSet.next());
-            Assert.assertEquals(resultSet.getMetaData().getColumnCount(), 3);
-            Assert.assertEquals(resultSet.getString(1), "bb");
-            Assert.assertEquals(resultSet.getInt(2), 24);
-            Assert.assertEquals(resultSet.getLong(3), 34);
-            Assert.assertTrue(resultSet.next());
-            Assert.assertEquals(resultSet.getString(1), "bb");
-            Assert.assertEquals(resultSet.getInt(2), 24);
-            Assert.assertEquals(resultSet.getLong(3), 34);
-            Assert.assertFalse(resultSet.next());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Assert.fail();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-    }
-
-    private void batchCallProcedureAsync() {
-        CallablePreparedStatement pstmt = null;
-        ResultSet resultSet = null;
-        try {
-            pstmt = sqlExecutor.getCallablePreparedStmtBatch(db, sp);
-            ResultSetMetaData metaData = pstmt.getMetaData();
-            setData(pstmt, metaData);
-            pstmt.addBatch();
-            setData(pstmt, metaData);
-            pstmt.addBatch();
-            QueryFuture future = pstmt.executeQueryAsync(1000, TimeUnit.MILLISECONDS);
-            resultSet = future.get();
-            Assert.assertTrue(future.isDone());
-
-            Assert.assertTrue(resultSet.next());
-            Assert.assertEquals(resultSet.getMetaData().getColumnCount(), 3);
-            Assert.assertEquals(resultSet.getString(1), "bb");
-            Assert.assertEquals(resultSet.getInt(2), 24);
-            Assert.assertEquals(resultSet.getLong(3), 34);
-            Assert.assertTrue(resultSet.next());
-            Assert.assertEquals(resultSet.getString(1), "bb");
-            Assert.assertEquals(resultSet.getInt(2), 24);
-            Assert.assertEquals(resultSet.getLong(3), 34);
-            Assert.assertFalse(resultSet.next());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Assert.fail();
-        } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-    }
 
 
     private void setData(PreparedStatement pstmt, ResultSetMetaData metaData) throws SQLException {
