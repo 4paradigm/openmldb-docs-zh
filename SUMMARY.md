@@ -14,7 +14,7 @@
   - [OpenMLDB数据导入工具使用](./tutorial/data_import.md)
   - [面向特征工程优化的OpenMLDB Spark发行版](tutorial/openmldbspark_distribution.md)
 - [使用案例](use_case/content.md)
-  - [案例一](use_case/case1.md)
+  - [案例1：出租车行车时间预测](use_case/taxi_tour_duration_prediction.md)
 - [安装部署](deploy/content.md)
   - [编译OpenMLDB](deploy/compile.md)
   - [安装部署详细说明](deploy/install_deploy.md)
