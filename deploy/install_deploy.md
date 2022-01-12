@@ -1,8 +1,4 @@
 # 安装部署详细说明
-## 机器配置要求
-* 操作系统: CentOS 7, Ubuntu 20.04, Debian 11, macOS >= 10.15。其中linux glibc版本 >= 2.17。其他操作系统版本没有做完整的测试
-* 内存: 视数据量而定。推荐在8G及以上
-* cpu: 推荐不少于4核。如果linux环境下cpu不支持avx2等指令集，需要从源码重新编译包
 
 ## 配置环境(Linux)
 ### 关闭操作系统swap
@@ -65,10 +61,10 @@ OpenMLDB单机版需要部署一个nameserver和一个tablet. nameserver用于�
 ### 部署tablet
 #### 1 下载OpenMLDB部署包
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
-tar -zxvf openmldb-0.3.2-linux.tar.gz
-mv openmldb-0.3.2-linux openmldb-tablet-0.3.2
-cd openmldb-tablet-0.3.2
+wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+tar -zxvf openmldb-0.4.0-linux.tar.gz
+mv openmldb-0.4.0-linux openmldb-tablet-0.4.0
+cd openmldb-tablet-0.4.0
 ```
 #### 2 修改配置文件conf/tablet.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
@@ -90,10 +86,10 @@ sh bin/start.sh start tablet
 ### 部署nameserver
 #### 1 下载OpenMLDB部署包
 ````
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
-tar -zxvf openmldb-0.3.2-linux.tar.gz
-mv openmldb-0.3.2-linux openmldb-ns-0.3.2
-cd openmldb-ns-0.3.2
+wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+tar -zxvf openmldb-0.4.0-linux.tar.gz
+mv openmldb-0.4.0-linux openmldb-ns-0.4.0
+cd openmldb-ns-0.4.0
 ````
 #### 2 修改配置文件conf/nameserver.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
@@ -125,10 +121,10 @@ APIServer负责接收http请求，转发给OpenMLDB并返回结果。它是无�
 #### 1 下载OpenMLDB部署包
 
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
-tar -zxvf openmldb-0.3.2-linux.tar.gz
-mv openmldb-0.3.2-linux openmldb-apiserver-0.3.2
-cd openmldb-apiserver-0.3.2
+wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+tar -zxvf openmldb-0.4.0-linux.tar.gz
+mv openmldb-0.4.0-linux openmldb-apiserver-0.4.0
+cd openmldb-apiserver-0.4.0
 ```
 
 #### 2 修改配置文件conf/apiserver.flags
@@ -158,22 +154,34 @@ OpenMLDB集群版需要部署zookeeper、nameserver、tablet等模块。其中zo
 ### 部署zookeeper
 建议部署3.4.14版本。如果已有可用zookeeper集群可略过此步骤
 
-#### 下载zookeeper安装包
+#### 1. 下载zookeeper安装包
 ```
 wget https://archive.apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz
+cd zookeeper-3.4.14
+cp conf/zoo_sample.cfg conf/zoo.cfg
 ```
-#### 部署zookeeper集群
 
-[参考这里](https://zookeeper.apache.org/doc/r3.4.14/zookeeperStarted.html#sc_RunningReplicatedZooKeeper)
+#### 2. 修改配置文件
+打开文件`conf/zoo.cfg`修改`dataDir`和`clientPort`
+```
+dataDir=./data
+clientPort=6181
+```
+
+#### 3. 启动Zookeeper
+```
+sh bin/zkServer.sh start
+```
+部署zookeeper集群[参考这里](https://zookeeper.apache.org/doc/r3.4.14/zookeeperStarted.html#sc_RunningReplicatedZooKeeper)
 
 
 ### 部署nameserver
 #### 1 下载OpenMLDB部署包
 ````
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
-tar -zxvf openmldb-0.3.2-linux.tar.gz
-mv openmldb-0.3.2-linux openmldb-ns-0.3.2
-cd openmldb-ns-0.3.2
+wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+tar -zxvf openmldb-0.4.0-linux.tar.gz
+mv openmldb-0.4.0-linux openmldb-ns-0.4.0
+cd openmldb-ns-0.4.0
 ````
 #### 2 修改配置文件conf/nameserver.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
@@ -202,10 +210,10 @@ $ ./bin/openmldb --zk_cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.3
 ### 部署tablet
 #### 1 下载OpenMLDB部署包
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
-tar -zxvf openmldb-0.3.2-linux.tar.gz
-mv openmldb-0.3.2-linux openmldb-tablet-0.3.2
-cd openmldb-tablet-0.3.2
+wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+tar -zxvf openmldb-0.4.0-linux.tar.gz
+mv openmldb-0.4.0-linux openmldb-tablet-0.4.0
+cd openmldb-tablet-0.4.0
 ```
 #### 2 修改配置文件conf/tablet.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
@@ -248,10 +256,10 @@ APIServer负责接收http请求，转发给OpenMLDB并返回结果。它是无�
 #### 1 下载OpenMLDB部署包
 
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
-tar -zxvf openmldb-0.3.2-linux.tar.gz
-mv openmldb-0.3.2-linux openmldb-apiserver-0.3.2
-cd openmldb-apiserver-0.3.2
+wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+tar -zxvf openmldb-0.4.0-linux.tar.gz
+mv openmldb-0.4.0-linux openmldb-apiserver-0.4.0
+cd openmldb-apiserver-0.4.0
 ```
 
 #### 2 修改配置文件conf/apiserver.flags
