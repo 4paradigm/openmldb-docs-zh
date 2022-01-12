@@ -165,7 +165,7 @@ cp conf/zoo_sample.cfg conf/zoo.cfg
 打开文件`conf/zoo.cfg`修改`dataDir`和`clientPort`
 ```
 dataDir=./data
-clientPort=6181
+clientPort=7181
 ```
 
 #### 3. 启动Zookeeper
@@ -311,7 +311,7 @@ cd openmldb-ns-0.3.2
 ```
 server.host=0.0.0.0
 server.port=9902
-zookeeper.cluster=0.0.0.0:2181
+zookeeper.cluster=0.0.0.0:7181
 zookeeper.root_path=/openmldb
 batchjob.jar.path=../lib/openmldb-batchjob-0.4.0-SNAPSHOT.jar
 offline.data.prefix=file:///tmp/openmldb_offline_storage/

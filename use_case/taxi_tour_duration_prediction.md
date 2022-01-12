@@ -153,7 +153,7 @@ w2 AS (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 
 ```
 :bulb: 注意：
 
-- 单机部署版的OpenMLDB不同，集群版的OpenMLDB需要分别维护离线和在线数据。
+- 集群版的OpenMLDB需要分别维护离线和在线数据。并且离线和在线数据需要一致。
 - 一般而言，用户需要成功完成SQL上线部署后，才能准备上线数据。否则可能会上线失败。
 
 ### 3.7 在线数据准备
