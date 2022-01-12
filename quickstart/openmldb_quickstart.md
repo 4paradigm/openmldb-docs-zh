@@ -70,7 +70,7 @@ clientPort=2181
 
 以下截图显示正确启动分布式OpenMLDB CLI 以后的画面
 
-![image-20220111141358808](/Users/chenjing/work/chenjing/openmldb-docs-zh/quickstart/images/cli_cluster.png)
+![image-20220111141358808](./images/cli_cluster.png)
 
 ### 1.2 基本使用流程
 
