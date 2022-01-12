@@ -1,26 +1,31 @@
-# 数据导入工具使用
-数据导入工具位于/java/openmldb-import。预计支持两种导入方式，insert和bulk load。insert模式，适用于所有场景的数据导入，目前还在优化中；bulk load模式只适合在空表并且导入期间没有读写的场景，有更高的导入效率，可以投入使用，但目前只支持本地多csv文件的导入。
+# OpenMLDB数据导入工具使用
+数据导入工具位于[java/openmldb-import](https://github.com/4paradigm/OpenMLDB/tree/main/java/openmldb-import)。支持两种导入方式，insert和bulk load。
 
-## Bulk Load
+- insert方式：适用于所有场景的数据导入，目前还在优化中；
+- bulk load方式：适用于空表并且导入期间没有读写的场景，有更高的导入效率，可以投入使用，但目前只支持本地多csv文件的导入。
 
-针对大规模的数据导入，我们支持bulk load的导入方式，可以快速进行导入操作。但请注意，导入前，**表数据必须为空**，导入期间**不可以**有任何对该表的读写。
 
-### Bulk Load流程
 
-bulk load可以抽象为两个组件的协同工作，一个是importer端，即import工具自身；一个是loader端，即openmldb的tablet server。
-
-通常的插入流程是importer只需将数据发送到loader端（仅限主副本），loader端解析并插入（包括“定位到segment”和“插入segment的两级跳表内“），然后写binlog（用于从副本的数据同步）。bulk load本质是将数据插入的过程提前，由importer端组织好数据结构（生成所有segment），然后直接发送给loader，让loader可以在线性时间内重建出所有segment，完成整个数据导入流程。
-
-我们将数据本身命名为data region（binlog暂定属于data region），将多个segment结构命名为index region。importer在扫描源数据时就会分批发送data region的part。当所有数据都被处理完毕时，就可以发送index region（由于loader端的rpc大小限制，同样可能分批发送）。最后一个index region part发送完成后，整个导入流程就成功了。
-
-### Bulk Load使用
+## 1. 导数工具安装
 
 工具jar包生成：openmldb-import目录中可以使用mvn打包出opemmldb-import.jar。
 
-使用方法：
+```bash
+> cd java/openmldb-import
+> 
+```
+
+## 2. 导数工具使用
+
+### 2.1 命令参数
+
+--help可以展示出所有的配置项，星号表示必填项。
+
+```bash
+> java -jar openmldb-import.jar --help
+```
 
 ```
-> java -jar openmldb-import.jar --help
 Usage: Data Importer [-fhV] [--create_ddl=<createDDL>] --db=<dbName>
                      [--importer_mode=<mode>]
                      [--rpc_size_limit=<rpcDataSizeLimit>] --table=<tableName>
@@ -52,11 +57,26 @@ insert/bulk load data(csv) to openmldb
                             zookeeper root path of openmldb
 ```
 
---help可以展示出所有的配置项，星号表示必填项。
+### 2.2 重要参数配置说明
 
-导入必须配置openmldb地址，库名表名，以及导入源文件。目前源文件只支持csv格式的本地文件，并且csv文件必须有header，文件的列名和表的列名必须一致，顺序可以不一样。
+必须配置的项目：
+
+- `--db=<dbName>`: 库名
+- `--table=<tableName>`: 表名
+- `--files=<files>[,<files>...]`: 导入源文件。目前源文件只支持csv格式的本地文件，并且csv文件必须有header，文件的列名和表的列名必须一致，顺序可以不一样。
+- `--zk_root_path=<zkRootPath>`和`--zk_cluster=<zkCluster>`: 集群包OpenMLDB的ZK地址和路径
+
+@huangwei 这个和*库表必须配置好像矛盾了。
 
 库名表名可以是不存在的，importer可以帮助创建。但请注意，如果导入到已存在的表，需要表内数据为空，否则将会极大影响导入效率。
+
+`--importer_mode=<mode>`: 导入模式，支持insert和bulkload两种方式。默认为@huang wei
+
+## 3. 大规模的数据导入
+
+针对大规模的数据导入，我们建议使用bulk load的导入方式，可以快速进行导入操作。``--importer_mode=bulkload`
+
+但请注意:warning:，导入前，**表数据必须为空**，导入期间**不可以**有任何对该表的读写。本文主要介绍OpenMLDB数据导入工具在bulk load方式下的使用方法。
 
 #### 配置调整
 

@@ -1,8 +1,8 @@
-# 支持特征工程优化的OpenMLDB Spark发行版
+# 面向特征工程优化的OpenMLDB Spark发行版
 
 ## 简介
 
-OpenMLDB Spark发行版支持特征工程优化的基于LLVM优化的高性能原生Spark版本。OpenMLDB Spark和标准Spark发行版一样提供Scala、Java、Python和R编程接口，用户使用OpenMLDB Spark发行版方法与标准版一致。
+OpenMLDB Spark发行版是面向特征工程进行优化高性能原生Spark版本。OpenMLDB Spark和标准Spark发行版一样提供Scala、Java、Python和R编程接口，用户使用OpenMLDB Spark发行版方法与标准版一致。
 
 ## 下载OpenMLDB Spark发行版
 
