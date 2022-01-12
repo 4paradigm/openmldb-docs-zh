@@ -11,7 +11,7 @@
   - [Python SDK快速上手](./quickstart/python_sdk.md)
 - [教程](tutorial/content.md)
   - [支持特征工程优化的OpenMLDB Spark发行版](tutorial/openmldbspark_distribution.md)
-  - [数据导入工具使用](./quickstart/data_import.md)
+  - [数据导入工具使用](./tutorial/data_import.md)
   - [OpenMLDB集群版和单机版区别](tutorial/standalone_vs_cluster.md)
 - [使用案例](use_case/content.md)
   - [案例一](use_case/case1.md)
