@@ -12,7 +12,7 @@
 
 ```bash
 > cd java/openmldb-import
-> 
+> mvn package 
 ```
 
 ## 2. 导数工具使用
@@ -59,22 +59,20 @@ insert/bulk load data(csv) to openmldb
 
 ### 2.2 重要参数配置说明
 
-必须配置的项目：
+重要配置的项目说明：
 
 - `--db=<dbName>`: 库名
 - `--table=<tableName>`: 表名
 - `--files=<files>[,<files>...]`: 导入源文件。目前源文件只支持csv格式的本地文件，并且csv文件必须有header，文件的列名和表的列名必须一致，顺序可以不一样。
 - `--zk_root_path=<zkRootPath>`和`--zk_cluster=<zkCluster>`: 集群包OpenMLDB的ZK地址和路径
 
-@huangwei 这个和*库表必须配置好像矛盾了。
-
 库名表名可以是不存在的，importer可以帮助创建。但请注意，如果导入到已存在的表，需要表内数据为空，否则将会极大影响导入效率。
 
-`--importer_mode=<mode>`: 导入模式，支持insert和bulkload两种方式。默认为@huang wei
+- `--importer_mode=<mode>`: 导入模式，支持insert和bulkload两种方式。
 
 ## 3. 大规模的数据导入
 
-针对大规模的数据导入，我们建议使用bulk load的导入方式，可以快速进行导入操作。``--importer_mode=bulkload`
+针对大规模的数据导入，我们建议使用bulk load的导入方式，可以快速进行导入操作。`--importer_mode=bulkload`
 
 但请注意:warning:，导入前，**表数据必须为空**，导入期间**不可以**有任何对该表的读写。本文主要介绍OpenMLDB数据导入工具在bulk load方式下的使用方法。
 

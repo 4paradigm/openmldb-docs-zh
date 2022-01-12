@@ -8,12 +8,12 @@
 
 ### 1.1 Demo Docker
 
-- 拉取penmldb docker：
+- 拉取4pdosc/openmldb docker：
 
 ```
 docker run -it 4pdosc/openmldb:0.4.0 bash
 ```
-我们提供了openmldb docker，预装了OpenMLDB，并预置了本案例所需要的所有脚本、三方库、开源工具以及训练数据。
+我们提供了4pdosc/openmldb docker，预装了OpenMLDB，并预置了本案例所需要的所有脚本、三方库、开源工具以及训练数据。
 
 ### 1.2 初始化环境
 
@@ -56,7 +56,7 @@ docker run -it 4pdosc/openmldb:0.4.0 bash
 # You can see job status by the below command
 > show jobs;
 ```
-### 3.3 特征设计
+### 2.3 特征设计
 
 通常在设计特征前，用户需要根据机器学习的目标对数据进行分析，然后根据分析设计和调研特征。机器学习的数据分析和特征研究不是本文讨论的范畴，我们将不作展开。本文假定用户具备机器学习的基本理论知识，有解决机器学习问题的能力，能够理解SQL语法，并能够使用SQL语法构建特征。
 
@@ -98,7 +98,7 @@ w2 as (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 
 
 请注意:warning:，在实际的机器学习特征调研过程中，科学家对特征进行反复试验，寻求模型效果最好的特征集。所以会不断的重复多次[特征设计](#3.3-特征设计)->[离线特征抽取](#3.4-离线特征抽取)->[模型训练](#3.5-模型训练)过程，并不断调整特征以达到预期效果。
 
-### 3.4 离线特征抽取
+### 2.4 离线特征抽取
 
 用户在离线模式下，进行特征抽取，并将特征结果输出到`/tmp/feature_data`目录下保存，以供后续的模型训练。
 
@@ -121,14 +121,14 @@ FROM t1
 WINDOW w AS (PARTITION BY vendor_id ORDER BY pickup_datetime ROWS_RANGE BETWEEN 1d PRECEDING AND CURRENT ROW),
 w2 AS (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 1d PRECEDING AND CURRENT ROW) INTO OUTFILE '/tmp/feature_data';
 ```
-### 3.5 模型训练
+### 2.5 模型训练
 
 执行train.py，使用开源训练工具`lightgbm`基于上一步生成的离线特征表进行模型训练，训练结果存放在`/tmp/model.txt`中。
 
 ```bash
 python3 train.py /tmp/feature_data /tmp/model.txt
 ```
-### 3.6 特征抽取SQL脚本上线
+### 2.6 特征抽取SQL脚本上线
 
 假定[3.3节中所设计的特征](#3.3-特征设计)所训练的模型符合预期，那么下一步就是将该特征抽取SQL脚本部署到线上去，以提供在线的特征抽取。
 
@@ -156,7 +156,7 @@ w2 AS (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 
 - 集群版的OpenMLDB需要分别维护离线和在线数据。并且离线和在线数据需要一致。
 - 一般而言，用户需要成功完成SQL上线部署后，才能准备上线数据。否则可能会上线失败。
 
-### 3.7 在线数据准备
+### 2.7 在线数据准备
 
 首先，请切换到**在线**执行模式。接着在在线模式下，导入样例数据`/work/taxi-trip/data/taxi_tour_table_train_simple.csv`作为在线数据，用于在线特征计算。
 
@@ -168,12 +168,12 @@ w2 AS (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 
 # You can see job status by the below command
 > show jobs;
 ```
-### 3.8 启动预估服务
+### 2.8 启动预估服务
 
 ```bash
 ./start_predict_server.sh 127.0.0.1:9080 /tmp/model.txt
 ```
-### 3.9 发送预估请求
+### 2.9 发送预估请求
 
 执行内置的`predict.py`脚本。该脚本发送一行请求数据到预估服务，接收返回的预估结果，并打印出来。
 
