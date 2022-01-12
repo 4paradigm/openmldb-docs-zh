@@ -1,8 +1,8 @@
-# OpenMLDB 快速上手指南
+# OpenMLDB 快速上手
 
-本教程提供OpenMLDB快速上手指南。通过建立数据库、导入数据、离线特征计算、SQL 方案上线、在线实时特征计算，演示了分布式版OpenMLDB和单机版OpenMLDB的基本使用流程。
+本教程提供OpenMLDB快速上手指南。通过建立数据库、导入数据、离线特征计算、SQL 方案上线、在线实时特征计算，演示了集群版OpenMLDB和单机版OpenMLDB的基本使用流程。
 
-## 1. 分布式版OpenMLDB 快速上手
+## 1. 集群版OpenMLDB 快速上手
 
 本教程均基于 OpenMLDB CLI 进行开发和部署，因此首先需要下载样例数据并且启动 OpenMLDB CLI。
 
@@ -25,7 +25,7 @@
 > cd zookeeper-3.4.14
 ```
 
-- 配置Zookpeer端口号
+- 配置Zookpeer端口号：默认配置zookeeper端口2181，若与你的系统冲突，请选择其他端口。
 
 ```
 > vi conf/zoo.cof
@@ -51,7 +51,7 @@ clientPort=2181
 ./bin/zkServer.sh start
 ```
 
-#### 1.1.3 下载和启动分布式OpenMLDB服务
+#### 1.1.3 下载和启动集群版OpenMLDB服务
 
 ```bash
 > wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
@@ -61,24 +61,26 @@ clientPort=2181
 > ./bin/start-all.sh
 ```
 
-#### 1.1.4 启动分布式OpenMLDB CLI客户端
+请注意:warning:：我们使用默认的nameserver, tablet以及apiserver配置，如果配置的端口和你当前系统的端口有冲突，请修改相关配置。具体配置文件和修改方式请参考[集群版OpenMLDB部署与配置](../deploy/install_deploy.md#部署集群版)
+
+#### 1.1.4 启动集群版OpenMLDB CLI客户端
 
 ```bash
 # Start the OpenMLDB CLI for the cluster deployed OpenMLDB
 > bin/openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
 ```
 
-以下截图显示正确启动分布式OpenMLDB CLI 以后的画面
+以下截图显示正确启动集群版OpenMLDB CLI 以后的画面
 
 ![image-20220111141358808](./images/cli_cluster.png)
 
 ### 1.2 基本使用流程
 
-分布式OpenMLDB的工作流程一般包含：建立数据库和表、离线数据准备、离线特征计算、SQL 方案上线、在线数据准备、在线实时特征计算几个阶段。
+集群版OpenMLDB的工作流程一般包含：建立数据库和表、离线数据准备、离线特征计算、SQL 方案上线、在线数据准备、在线实时特征计算几个阶段。
 
-⚠️与单机版OpenMLDB不同，分布式版OpenMLDB需要分别管理离线数据和在线数据。具体来说，先准备离线数据，完成SQL上线后，再准备上线数据。
+⚠️与单机版OpenMLDB不同，集群版OpenMLDB需要分别管理离线数据和在线数据。具体来说，先准备离线数据，完成SQL上线后，再准备上线数据。
 
-:bulb: 以下演示的命令如无特别说明，默认均在分布式部署OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
+:bulb: 以下演示的命令如无特别说明，默认均集群版部署OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
 
 #### 1.2.1 创建数据库和表
 
@@ -210,7 +212,7 @@ clientPort=2181
 
 :bulb: 注意：
 
-- 单机部署版的OpenMLDB不同，分布式部署版的OpenMLDB需要分别维护离线和在线数据。
+- 单机部署版的OpenMLDB不同，集群版的OpenMLDB需要分别维护离线和在线数据。
 - 一般而言，用户需要成功完成SQL上线部署后，才能准备上线数据。否则可能会上线失败。
 
 #### 1.2.6 退出 CLI
@@ -219,14 +221,16 @@ clientPort=2181
 > quit;
 ```
 
-至此我们已经完成了全部基于分布式部署版OpenMLDB CLI 的开发部署工作，并且已经回到了操作系统命令行下。
+至此我们已经完成了全部基于集群版OpenMLDB CLI 的开发部署工作，并且已经回到了操作系统命令行下。
 
 #### 1.2.6 实时特征计算
+
+注意:warning:: 按照默认的部署配置，apiserver部署的http端口为9080。
 
 实时线上服务可以通过如下 Web API 提供服务：
 
 ```
-http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service
+http://127.0.0.1:9080/dbs/demo_db/deployments/demo_data_service
         \___________/      \____/              \_____________/
               |               |                        |
         APIServer地址     Database名字            Deployment名字
@@ -235,7 +239,7 @@ http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service
 实时请求的输入数据接受 `json` 格式，我们把一行数据放到请求的 `input` 域中。如下示例:
 
 ```bash
-curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'{"input": [["aaa", 11, 22, 1.2, 1.3, 1635247427000, "2021-05-20"]]}'
+curl http://127.0.0.1:9080/dbs/demo_db/deployments/demo_data_service -X POST -d'{"input": [["aaa", 11, 22, 1.2, 1.3, 1635247427000, "2021-05-20"]]}'
 ```
 
 如下为该查询预期的返回结果（计算得到的特征被存放在 `data` 域）：
@@ -261,6 +265,8 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 #### 2.1.2 下载和启动单机版OpenMLDB服务
 
+@chen jing docker
+
 ```bash
 > wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
 > tar -zxvf openmldb-0.3.2-linux.tar.gz
@@ -268,6 +274,8 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 > cd openmldb
 > ./bin/start-standalone.sh
 ```
+
+请注意:warning:：我们使用默认的nameserver, tablet以及apiserver配置，如果配置的端口和你当前系统的端口有冲突，请修改相关配置。具体配置文件和修改方式请参考[单机版OpenMLDB部署与配置](../deploy/install_deploy.md#部署单机版)
 
 #### 2.1.3 启动单机版OpenMLDB CLI客户端
 
@@ -284,7 +292,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 单机版OpenMLDB的工作流程一般包含：建立数据库和表、数据准备、离线特征计算、SQL 方案上线、在线实时特征计算几个阶段。
 
-⚠️与分布式版OpenMLDB不同，单机版本只需要管理一份数据用于离线和在线特征计算。
+⚠️与集群版OpenMLDB不同，单机版本只需要管理一份数据用于离线和在线特征计算。
 
 :bulb: 以下演示的命令如无特别说明，默认均在单机版OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
 
@@ -298,7 +306,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 #### 2.2.2 数据准备
 
-导入之前下载的样例数据（在 [2.1.1 样例数据](#2.1.1-样例数据) 中已经下载）作为训练数据，用于离线和在线特征计算。⚠️与分布式版OpenMLDB不同，单机版本只需要管理一份数据用于离线和在线特征计算。
+导入之前下载的样例数据（在 [2.1.1 样例数据](#2.1.1-样例数据) 中已经下载）作为训练数据，用于离线和在线特征计算。⚠️与集群版OpenMLDB不同，单机版本只需要管理一份数据用于离线和在线特征计算。
 
 ```sql
 > LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;

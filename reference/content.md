@@ -1,6 +1,8 @@
-# 目录
+# 参考
 
-- [案例一](case1.md)
+- [OpenMLDB运维CLI](cli.md)
+- [REST APIs](rest_api.md)
+- [SQL](sql/reference.md)
 
 ## License
 

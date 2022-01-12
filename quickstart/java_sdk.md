@@ -119,7 +119,7 @@ try {
 
 ### 2.5 执行SQL批式查询
 
-使用`connection.execute()`接口执行SQL批式查询语句:
+使用`SqlClusterExecutor::executeSQL(selectSql)`接口执行SQL批式查询语句:
 
 ```java
 String selectSql = "select * from trans;";
