@@ -291,7 +291,7 @@ tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-taskmanager-0.4.0
 cd openmldb-taskmanager-0.4.0
 ````
-#### 2 修改配置文件taskmanager/conf/taskmanager.properties
+#### 2 修改配置文件conf/taskmanager.properties
 
 * 修改server.host。host是部署机器的ip/域名。
 * 修改server.port。port是部署机器的端口号。
@@ -312,7 +312,6 @@ offline.data.prefix=file:///tmp/openmldb_offline_storage/
 spark.master=local
 spark.home=
 ```
-**注: server.host不能用0.0.0.0和127.0.0.1**
 
 #### 3 启动服务
 ```
