@@ -4,6 +4,8 @@
 
 OpenMLDB Spark发行版是面向特征工程进行优化高性能原生Spark版本。OpenMLDB Spark和标准Spark发行版一样提供Scala、Java、Python和R编程接口，用户使用OpenMLDB Spark发行版方法与标准版一致。
 
+GitHub Repo: https://github.com/4paradigm/Spark/
+
 ## 下载OpenMLDB Spark发行版
 
 在Github的[Releases页面](https://github.com/4paradigm/Spark/releases)提供了OpenMLDB Spark发行版的下载地址，用户可以直接下载到本地使用。

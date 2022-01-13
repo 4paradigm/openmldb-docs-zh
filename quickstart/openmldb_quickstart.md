@@ -186,7 +186,7 @@ curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/
 
 :bulb: 注意：
 
-- 单机部署版的OpenMLDB不同，集群版的OpenMLDB需要分别维护离线和在线数据。
+- 与单机版的OpenMLDB不同，集群版的OpenMLDB需要分别维护离线和在线数据。
 - 一般而言，用户需要成功完成SQL上线部署后，才能准备上线数据。否则可能会上线失败。
 
 #### 2.2.6 退出 CLI
@@ -224,7 +224,7 @@ curl http://127.0.0.1:9080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 
 
-## 3. 单机部署版OpenMLDB 快速上手
+## 3. 单机版OpenMLDB 快速上手
 
 本教程均基于 OpenMLDB CLI 进行开发和部署，因此首先需要下载样例数据并且启动 OpenMLDB CLI。
 
