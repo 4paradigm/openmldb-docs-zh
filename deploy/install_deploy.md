@@ -289,9 +289,9 @@ sh bin/start.sh start apiserver
 wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
 tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-taskmanager-0.4.0
-cd openmldb-taskmanager-0.4.0/taskmanager
+cd openmldb-taskmanager-0.4.0
 ````
-#### 2 修改配置文件conf/taskmanager.properties
+#### 2 修改配置文件taskmanager/conf/taskmanager.properties
 
 * 修改server.host。host是部署机器的ip/域名。
 * 修改server.port。port是部署机器的端口号。
