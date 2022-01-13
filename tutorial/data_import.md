@@ -1,10 +1,8 @@
 # OpenMLDB数据导入工具使用
 数据导入工具位于[java/openmldb-import](https://github.com/4paradigm/OpenMLDB/tree/main/java/openmldb-import)。支持两种导入方式，insert和bulk load。
 
-- insert方式：适用于所有场景的数据导入，目前还在优化中；
-- bulk load方式：适用于空表并且导入期间没有读写的场景，有更高的导入效率，可以投入使用，但目前只支持本地多csv文件的导入。
-
-
+- insert方式：适用于所有场景的数据导入，目前还在优化中。
+- bulk load方式：适用于空表并且导入期间没有读写的场景。有更高的导入效率，但目前只支持本地多csv文件的导入。
 
 ## 1. 导数工具安装
 
@@ -61,14 +59,12 @@ insert/bulk load data(csv) to openmldb
 
 重要配置的项目说明：
 
-- `--db=<dbName>`: 库名
-- `--table=<tableName>`: 表名
+- `--db=<dbName>`: 库名。库名可以是不存在的，importer可以帮助创建。
+- `--table=<tableName>`: 表名。表名可以是不存在的，importer可以帮助创建。但请注意，如果导入到已存在的表，需要表内数据为空，否则将会极大影响导入效率。
 - `--files=<files>[,<files>...]`: 导入源文件。目前源文件只支持csv格式的本地文件，并且csv文件必须有header，文件的列名和表的列名必须一致，顺序可以不一样。
-- `--zk_root_path=<zkRootPath>`和`--zk_cluster=<zkCluster>`: 集群包OpenMLDB的ZK地址和路径
+- `--zk_root_path=<zkRootPath>`和`--zk_cluster=<zkCluster>`: 集群版OpenMLDB的ZK地址和路径
 
-库名表名可以是不存在的，importer可以帮助创建。但请注意，如果导入到已存在的表，需要表内数据为空，否则将会极大影响导入效率。
-
-- `--importer_mode=<mode>`: 导入模式，支持insert和bulkload两种方式。
+- `--importer_mode=<mode>`: 导入模式，支持insert和bulkload两种方式。默认配置为bulkload.
 
 ## 3. 大规模的数据导入
 
