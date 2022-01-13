@@ -68,11 +68,8 @@ cd openmldb-tablet-0.4.0
 ```
 #### 2 修改配置文件conf/tablet.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
-* 修改zk_cluster为已经启动的zk集群地址
-* 如果和其他OpenMLDB共用zk需要修改zk_root_path
 ```
 --endpoint=172.27.128.33:9527
---role=tablet
 ```
 **注意：**
 * endpoint不能用0.0.0.0和127.0.0.1 
@@ -96,7 +93,6 @@ cd openmldb-ns-0.4.0
 * tablet配置项需要配置上前面启动的tablet的地址
 ```
 --endpoint=172.27.128.33:6527
---role=nameserver
 --tablet=172.27.128.33:9527
 ```
 **注: endpoint不能用0.0.0.0和127.0.0.1**
@@ -141,7 +137,6 @@ cd openmldb-apiserver-0.4.0
 **注意：**
 
 * endpoint不能用0.0.0.0和127.0.0.1。也可以选择不设置`--endpoint`，而只配置端口号 `--port`。
-* 还可自行配置APIServer的线程数，`--thread_pool_size`，默认为16。
 
 #### 3 启动服务
 
@@ -189,7 +184,6 @@ cd openmldb-ns-0.4.0
 * 如果和其他OpenMLDB共用zk需要修改zk_root_path
 ```
 --endpoint=172.27.128.31:6527
---role=nameserver
 --zk_cluster=172.27.128.33:7181,172.27.128.32:7181,172.27.128.31:7181
 --zk_root_path=/openmldb_cluster
 --enable_distsql=true
@@ -292,10 +286,10 @@ sh bin/start.sh start apiserver
 
 #### 1 下载OpenMLDB部署包
 ````
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.3.2/openmldb-0.3.2-linux.tar.gz
-tar -zxvf openmldb-0.3.2-linux.tar.gz
-mv openmldb-0.3.2-linux openmldb-ns-0.3.2
-cd openmldb-ns-0.3.2
+wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+tar -zxvf openmldb-0.4.0-linux.tar.gz
+mv openmldb-0.4.0-linux openmldb-taskmanager-0.4.0
+cd openmldb-taskmanager-0.4.0
 ````
 #### 2 修改配置文件conf/taskmanager.properties
 
@@ -311,14 +305,13 @@ cd openmldb-ns-0.3.2
 ```
 server.host=0.0.0.0
 server.port=9902
-zookeeper.cluster=0.0.0.0:7181
-zookeeper.root_path=/openmldb
+zookeeper.cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.33:7181
+zookeeper.root_path=/openmldb_cluster
 batchjob.jar.path=../lib/openmldb-batchjob-0.4.0-SNAPSHOT.jar
 offline.data.prefix=file:///tmp/openmldb_offline_storage/
 spark.master=local
 spark.home=
 ```
-**注: server.host不能用0.0.0.0和127.0.0.1**
 
 #### 3 启动服务
 ```
@@ -326,9 +319,9 @@ bin/start.sh start taskmanager
 ```
 #### 4 检查服务是否启动
 ```bash
-$ ./bin/openmldb --zk_cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.33:7181 --zk_root_path=/openmldb_cluster --role=ns_client
-> showns
-  endpoint            role
------------------------------
-  172.27.128.31:6527  leader
+$ ./bin/openmldb --zk_cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.33:7181 --zk_root_path=/openmldb_cluster --role=sql_client
+> show jobs;
+---- ---------- ------- ------------ ---------- ----------- --------- ---------------- -------
+ id   job_type   state   start_time   end_time   parameter   cluster   application_id   error
+---- ---------- ------- ------------ ---------- ----------- --------- ---------------- -------
 ```
