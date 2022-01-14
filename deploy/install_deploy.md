@@ -106,7 +106,7 @@ sh bin/start.sh start  standalone_nameserver
 ```
 #### 4 检查服务是否启动
 ```bash
-$ ./bin/openmldb --host=172.27.128.33 --port=6527  --role=sql_client
+$ ./bin/openmldb --host=172.27.128.33 --port=6527
 > show databases;
  -----------
   Databases
