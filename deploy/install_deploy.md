@@ -1,6 +1,10 @@
 # 安装部署详细说明
 
+## 部署包准备
+本说明文档中使用了预编译好的 OpenMLDB 部署包（[Linux](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz), [macOS](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-darwin.tar.gz)），所支持的操作系统要求为：CentOS 7, Ubuntu 20.04, macOS >= 10.15。如果用户期望自己编译（如做源代码开发，操作系统不在支持列表内等原因），用户可以选择在 docker 容器内编译使用或者从源码编译，具体请参照我们的[编译文档](compile.md)。
+
 ## 配置环境(Linux)
+
 ### 关闭操作系统swap
 
 查看当前系统swap是否关闭
@@ -61,7 +65,7 @@ OpenMLDB单机版需要部署一个nameserver和一个tablet. nameserver用于�
 ### 部署tablet
 #### 1 下载OpenMLDB部署包
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
 tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-tablet-0.4.0
 cd openmldb-tablet-0.4.0
@@ -83,7 +87,7 @@ sh bin/start.sh start tablet
 ### 部署nameserver
 #### 1 下载OpenMLDB部署包
 ````
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
 tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-ns-0.4.0
 cd openmldb-ns-0.4.0
@@ -117,7 +121,7 @@ APIServer负责接收http请求，转发给OpenMLDB并返回结果。它是无�
 #### 1 下载OpenMLDB部署包
 
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
 tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-apiserver-0.4.0
 cd openmldb-apiserver-0.4.0
@@ -173,7 +177,7 @@ sh bin/zkServer.sh start
 ### 部署nameserver
 #### 1 下载OpenMLDB部署包
 ````
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
 tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-ns-0.4.0
 cd openmldb-ns-0.4.0
@@ -204,7 +208,7 @@ $ ./bin/openmldb --zk_cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.3
 ### 部署tablet
 #### 1 下载OpenMLDB部署包
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
 tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-tablet-0.4.0
 cd openmldb-tablet-0.4.0
@@ -250,7 +254,7 @@ APIServer负责接收http请求，转发给OpenMLDB并返回结果。它是无�
 #### 1 下载OpenMLDB部署包
 
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
 tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-apiserver-0.4.0
 cd openmldb-apiserver-0.4.0
@@ -286,7 +290,7 @@ sh bin/start.sh start apiserver
 
 #### 1 下载OpenMLDB部署包
 ````
-wget https://github.com/4paradigm/OpenMLDB/releases/download/0.4.0/openmldb-0.4.0-linux.tar.gz
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
 tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-taskmanager-0.4.0
 cd openmldb-taskmanager-0.4.0

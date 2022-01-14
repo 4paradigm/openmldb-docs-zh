@@ -46,7 +46,7 @@ OpenMLDB切换到在线执行模式。在该模式下，只会导入/插入以�
 
 离线任务管理是集群版特有的功能。
 
-单机版`LOAD INTO`数据，`SELECT INTO`命令是阻塞式的，集群版会提交一个任务，并提供`SHOW JOBS`, `SHOW JOB`命令查看离线任务。具体可以参见[离线任务管理](../reference/sql/task_manage/reference.md)。
+单机版`LOAD DATA`数据，`SELECT INTO`命令是阻塞式的，集群版会提交一个任务，并提供`SHOW JOBS`, `SHOW JOB`命令查看离线任务。具体可以参见[离线任务管理](../reference/sql/task_manage/reference.md)。
 
 ### 2.4 SQL边界
 

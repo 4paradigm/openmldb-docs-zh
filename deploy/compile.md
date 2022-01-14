@@ -1,7 +1,7 @@
 编译OpenMLDB
 =============
 
-# 快速开始
+# 快速开始 - 在 docker 容器内编译和使用
 
 [quick-start]: quick-start
 
@@ -33,7 +33,7 @@
     ```bash
     make install
     ```
-至此， 你已经完成了在 docker 容器内的编译工作，你现在可以在容器内开始使用 OpenMLDB 了。
+    至此， 你已经完成了在 docker 容器内的编译工作，你现在可以在容器内开始使用 OpenMLDB 了。
 
 # 编译详细说明
 
