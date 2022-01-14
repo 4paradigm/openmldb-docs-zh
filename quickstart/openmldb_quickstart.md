@@ -161,7 +161,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 集群版相对于单机版使用体验上的最大区别主要为以下两点
 
-- 集群版的部分命令是非阻塞任务，包括在线模式的 `LOAD DATA`，以及离线模式的 `LOAD DATA` 和 `SELECT INTO` 命令。提交任务以后可以使用相关的命令如 `SHOW JOBS`, `SHOW JOB` 来查看任务进度，详情参见[离线任务管理](../reference/sql/task_manage/reference.md)文档。
+- 集群版的部分命令是非阻塞任务，包括在线模式的 `LOAD DATA`，以及离线模式的 `LOAD DATA` ，`SELECT`，`SELECT INTO` 命令。提交任务以后可以使用相关的命令如 `SHOW JOBS`, `SHOW JOB` 来查看任务进度，详情参见[离线任务管理](../reference/sql/task_manage/reference.md)文档。
 - 集群版需要分别维护离线和在线数据，不能如单机版使用同一套数据。
 
 以上区别在下面的教程中都将会基于例子进行演示。
@@ -238,27 +238,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 注意，`LOAD DATA` 命令为非阻塞，可以通过 `SHOW JOBS` 等离线任务管理命令来查看任务进度。
 
-`LOAD DATA` 任务完成以后，预览离线数据
-
-```sql
-> USE demo_db;
-> SET @@execute_mode='offline';
-> SELECT * FROM demo_table1 LIMIT 10;
- ----- ---- ---- ---------- ----------- --------------- ------------
-  c1    c2   c3   c4         c5          c6              c7
- ----- ---- ---- ---------- ----------- --------------- ------------
-  aaa   12   22   2.200000   12.300000   1636097390000   2021-08-19
-  aaa   11   22   1.200000   11.300000   1636097290000   2021-07-20
-  dd    18   22   8.200000   18.300000   1636097990000   2021-06-20
-  aa    13   22   3.200000   13.300000   1636097490000   2021-05-20
-  cc    17   22   7.200000   17.300000   1636097890000   2021-05-26
-  ff    20   22   9.200000   19.300000   1636098000000   2021-01-10
-  bb    16   22   6.200000   16.300000   1636097790000   2021-05-20
-  bb    15   22   5.200000   15.300000   1636097690000   2021-03-21
-  bb    14   22   4.200000   14.300000   1636097590000   2021-09-23
-  ee    19   22   9.200000   19.300000   1636097000000   2021-01-10
- ----- ---- ---- ---------- ----------- --------------- ------------
-```
+如果希望预览数据，用户亦可以使用 `SELECT` 语句，但是离线模式下该命令亦为非阻塞命令，查询结果需要查看日志，在这里不再展开。
 
 #### 3.3.3 离线特征计算
 
@@ -270,7 +250,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 > SELECT c1, c2, sum(c3) OVER w1 AS w1_c3_sum FROM demo_table1 WINDOW w1 AS (PARTITION BY demo_table1.c1 ORDER BY demo_table1.c6 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) INTO OUTFILE '/tmp/feature.csv';
 ```
 
-注意，`SELECT INTO` 命令为非阻塞，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
+注意，离线模式`SELECT INTO` 命令为非阻塞，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
 
 #### 3.3.4 SQL 方案上线
 
@@ -302,7 +282,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 > LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;
 ```
 
-注意，`LOAD DATA` 为也是非阻塞命令，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
+注意，`LOAD DATA` 在线模式也是非阻塞命令，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
 
 等待任务完成以后，预览在线数据：
 
