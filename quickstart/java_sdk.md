@@ -17,6 +17,8 @@
 </dependency>
 ```
 
+注意: 由于 openmldb-native 中包含了 OpenMLDB 编译的 C++ 静态库, 默认是 linux 静态库, macOS 上需将上述 openmldb-native 的 version 改成 `0.4.0-macos`, openmldb-jdbc 的版本保持不变。
+
 ## 2. Java SDK快速上手
 
 ### 2.1 创建SqlClusterExecutor
