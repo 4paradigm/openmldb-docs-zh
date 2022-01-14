@@ -8,7 +8,7 @@
 <dependency>
     <groupId>com.4paradigm.openmldb</groupId>
     <artifactId>openmldb-jdbc</artifactId>
-    <version>0.4.2</version>
+    <version>0.4.0</version>
 </dependency>
 <dependency>
     <groupId>com.4paradigm.openmldb</groupId>
