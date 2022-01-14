@@ -46,9 +46,11 @@ SELECT t1.col1 as t1_col1, t2.col1 as t2_col2 from t1 LAST JOIN t2 ON t1.col1 = 
 
 ![Figure 8: last join without order result](../dql/images/last_join_without_order2.png)
 
+最后的拼表结果如上图所示。
+
 ### LAST JOIN with ORDER BY
 
-#### Example: **LAST JOIN排序拼接 **
+#### Example: LAST JOIN排序拼接 
 
 ```SQL
 -- desc: 简单拼表查询 with ORDER BY
@@ -61,5 +63,6 @@ SELECT t1.col1 as t1_col1, t2.col1 as t2_col2 from t1 LAST JOIN t2 ORDER BY ts.s
 
 以左表第二行为例，符合条件的右表有2条，按`std_ts`排序后，选择最后一条`3, b, 2020-05-20 10:11:13`
 
-最后的拼表结果如下：
 ![Figure 10: last join with order result](../dql/images/last_join_with_order2.png)
+
+最后的拼表结果如上图所示。
