@@ -157,9 +157,14 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 ## 3. 集群版OpenMLDB 快速上手
 
-### 3.1 集群版准备知识：关于离线任务管理
+### 3.1 集群版准备知识
 
-集群版相对于单机版使用体验上的最大区别，是集群版的离线任务部分命令是非阻塞的，包括 `LOAD DATA` 和 `SELECT INTO` 命令。提交任务以后可以使用相关的命令如 `SHOW JOBS`, `SHOW JOB` 来查看任务进度，详情参见[离线任务管理](../reference/sql/task_manage/reference.md)文档。
+集群版相对于单机版使用体验上的最大区别主要为以下两点
+
+- 集群版的部分命令是非阻塞任务，包括在线模式的 `LOAD DATA`，以及离线模式的 `LOAD DATA` 和 `SELECT INTO` 命令。提交任务以后可以使用相关的命令如 `SHOW JOBS`, `SHOW JOB` 来查看任务进度，详情参见[离线任务管理](../reference/sql/task_manage/reference.md)文档。
+- 集群版需要分别维护离线和在线数据，不能如单机版使用同一套数据。
+
+以上区别在下面的教程中都将会基于例子进行演示。
 
 ### 3.2 服务端和客户端
 
@@ -239,7 +244,6 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 > USE demo_db;
 > SET @@execute_mode='offline';
 > SELECT * FROM demo_table1 LIMIT 10;
-> SHOW JOBS;
  ----- ---- ---- ---------- ----------- --------------- ------------
   c1    c2   c3   c4         c5          c6              c7
  ----- ---- ---- ---------- ----------- --------------- ------------
@@ -296,10 +300,11 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 > USE demo_db;
 > SET @@execute_mode='online';
 > LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;
-
 ```
 
-预览在线数据：
+注意，`LOAD DATA` 为也是非阻塞命令，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
+
+等待任务完成以后，预览在线数据：
 
 ```sql
 > USE demo_db;
