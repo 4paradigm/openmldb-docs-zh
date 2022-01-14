@@ -70,7 +70,7 @@ tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-tablet-0.4.0
 cd openmldb-tablet-0.4.0
 ```
-#### 2 修改配置文件conf/tablet.flags
+#### 2 修改配置文件conf/standalone_tablet.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
 ```
 --endpoint=172.27.128.33:9527
@@ -80,9 +80,9 @@ cd openmldb-tablet-0.4.0
 * 如果此处使用的域名, 所有使用openmldb的client所在的机器都得配上对应的host. 不然会访问不到
 #### 3 启动服务
 ```
-sh bin/start.sh start tablet
+sh bin/start.sh start standalone_tablet
 ```
-**注: 服务启动后会在bin目录下产生tablet.pid文件, 里边保存启动时的进程号。如果该文件内的pid正在运行则会启动失败**
+**注: 服务启动后会在bin目录下产生standalone_tablet.pid文件, 里边保存启动时的进程号。如果该文件内的pid正在运行则会启动失败**
 
 ### 部署nameserver
 #### 1 下载OpenMLDB部署包
@@ -92,7 +92,7 @@ tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-ns-0.4.0
 cd openmldb-ns-0.4.0
 ````
-#### 2 修改配置文件conf/nameserver.flags
+#### 2 修改配置文件conf/standalone_nameserver.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
 * tablet配置项需要配置上前面启动的tablet的地址
 ```
@@ -102,15 +102,16 @@ cd openmldb-ns-0.4.0
 **注: endpoint不能用0.0.0.0和127.0.0.1**
 #### 3 启动服务
 ```
-sh bin/start.sh start nameserver
+sh bin/start.sh start  standalone_nameserver
 ```
 #### 4 检查服务是否启动
 ```bash
-$ ./bin/openmldb --host=172.27.128.33:6528 --port=6527  --role=ns_client
-> showns
-  endpoint            role
------------------------------
-  172.27.128.33:6527  leader
+$ ./bin/openmldb --host=172.27.128.33 --port=6527
+> show databases;
+ -----------
+  Databases
+ -----------
+0 row in set
 ```
 
 ### 部署apiserver
@@ -127,14 +128,13 @@ mv openmldb-0.4.0-linux openmldb-apiserver-0.4.0
 cd openmldb-apiserver-0.4.0
 ```
 
-#### 2 修改配置文件conf/apiserver.flags
+#### 2 修改配置文件conf/standalone_apiserver.flags
 
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
 * 修改nameserver为nameserver的地址
 
 ```
 --endpoint=172.27.128.33:8080
---role=apiserver
 --nameserver=172.27.128.33:6527
 ```
 
@@ -145,7 +145,7 @@ cd openmldb-apiserver-0.4.0
 #### 3 启动服务
 
 ```
-sh bin/start.sh start apiserver
+sh bin/start.sh start standalone_apiserver
 ```
 
 ## 部署集群版

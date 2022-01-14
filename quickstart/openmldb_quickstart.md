@@ -12,7 +12,7 @@
 
 ### 1.1 镜像准备
 
-拉取镜像（镜像下载大小大约 500 MB，解压后约 1.3 GB）和启动 docker 容器
+拉取镜像（镜像下载大小大约 1GB，解压后约 1.7 GB）和启动 docker 容器
 
 ```bash
 docker run -it 4pdosc/openmldb:0.4.0 bash
@@ -26,6 +26,7 @@ docker run -it 4pdosc/openmldb:0.4.0 bash
 
 ```bash
 curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/data/data.csv --output ./data/data.csv
+curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/data/data.parquet --output ./data/data.parquet
 ```
 
 ## 2. 单机版OpenMLDB 快速上手
@@ -43,7 +44,7 @@ curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/
 
 ```bash
 # Start the OpenMLDB CLI for the cluster deployed OpenMLDB
-> bin/openmldb --host 127.0.0.1 --port 6527
+> ../openmldb/bin/openmldb --host 127.0.0.1 --port 6527
 ```
 
 以下截图显示了以上 docker 内命令正确执行以及 OpenMLDB CLI 正确启动以后的画面
@@ -179,7 +180,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 ```bash
 # Start the OpenMLDB CLI for the cluster deployed OpenMLDB
-> bin/openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
+> ../openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
 ```
 
 以下截图显示正确启动集群版OpenMLDB CLI 以后的画面
@@ -233,7 +234,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ```sql
 > USE demo_db;
 > SET @@execute_mode='offline';
-> LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;
+> LOAD DATA INFILE 'file:///work/taxi-trip/data/data.parquet' INTO TABLE demo_table1 options(format='parquet', header=true, mode='append');
 ```
 
 注意，`LOAD DATA` 命令为非阻塞，可以通过 `SHOW JOBS` 等离线任务管理命令来查看任务进度。
@@ -247,7 +248,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ```sql
 > USE demo_db;
 > SET @@execute_mode='offline';
-> SELECT c1, c2, sum(c3) OVER w1 AS w1_c3_sum FROM demo_table1 WINDOW w1 AS (PARTITION BY demo_table1.c1 ORDER BY demo_table1.c6 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) INTO OUTFILE '/tmp/feature.csv';
+> SELECT c1, c2, sum(c3) OVER w1 AS w1_c3_sum FROM demo_table1 WINDOW w1 AS (PARTITION BY demo_table1.c1 ORDER BY demo_table1.c6 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) INTO OUTFILE '/tmp/feature_data';
 ```
 
 注意，离线模式`SELECT INTO` 命令为非阻塞，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
@@ -279,7 +280,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ```sql
 > USE demo_db;
 > SET @@execute_mode='online';
-> LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;
+> LOAD DATA INFILE 'file:///work/taxi-trip/data/data.parquet' INTO TABLE demo_table1 options(format='parquet', header=true, mode='append');
 ```
 
 注意，`LOAD DATA` 在线模式也是非阻塞命令，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
@@ -293,16 +294,16 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
  ----- ---- ---- ---------- ----------- --------------- ------------
   c1    c2   c3   c4         c5          c6              c7
  ----- ---- ---- ---------- ----------- --------------- ------------
-  aaa   12   22   2.200000   12.300000   1636097390000   2021-08-19
-  aaa   11   22   1.200000   11.300000   1636097290000   2021-07-20
-  dd    18   22   8.200000   18.300000   1636097990000   2021-06-20
-  aa    13   22   3.200000   13.300000   1636097490000   2021-05-20
-  cc    17   22   7.200000   17.300000   1636097890000   2021-05-26
-  ff    20   22   9.200000   19.300000   1636098000000   2021-01-10
-  bb    16   22   6.200000   16.300000   1636097790000   2021-05-20
-  bb    15   22   5.200000   15.300000   1636097690000   2021-03-21
-  bb    14   22   4.200000   14.300000   1636097590000   2021-09-23
-  ee    19   22   9.200000   19.300000   1636097000000   2021-01-10
+  aaa   12   22   2.200000   12.300000   1636097890000   1970-01-01
+  aaa   11   22   1.200000   11.300000   1636097290000   1970-01-01
+  dd    18   22   8.200000   18.300000   1636111690000   1970-01-01
+  aa    13   22   3.200000   13.300000   1636098490000   1970-01-01
+  cc    17   22   7.200000   17.300000   1636108090000   1970-01-01
+  ff    20   22   9.200000   19.300000   1636270090000   1970-01-01
+  bb    16   22   6.200000   16.300000   1636104490000   1970-01-01
+  bb    15   22   5.200000   15.300000   1636100890000   1970-01-01
+  bb    14   22   4.200000   14.300000   1636099090000   1970-01-01
+  ee    19   22   9.200000   19.300000   1636183690000   1970-01-01
  ----- ---- ---- ---------- ----------- --------------- ------------
 ```
 
