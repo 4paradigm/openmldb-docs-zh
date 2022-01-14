@@ -4,7 +4,7 @@
 - [关于 OpenMLDB](about/content.md)
   - [OpenMLDB 简介](about/intro.md)
   - [发展历程](about/milestones.md)
-  - [v0.4 Release Notes](about/release_notes.md)
+  - [v0.4.0 Release Notes](about/release_notes.md)
 - [快速上手](quickstart/content.md)
   - [OpenMLDB 快速上手](quickstart/openmldb_quickstart.md)
   - [Java SDK 快速上手](quickstart/java_sdk.md)
