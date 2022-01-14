@@ -157,7 +157,11 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 ## 3. 集群版OpenMLDB 快速上手
 
-### 3.1 服务端和客户端
+### 3.1 集群版准备知识：关于离线任务管理
+
+集群版相对于单机版使用体验上的最大区别，是集群版的离线任务部分命令是非阻塞的，包括 `LOAD DATA` 和 `SELECT INTO` 命令。提交任务以后可以使用相关的命令如 `SHOW JOBS`, `SHOW JOB` 来查看任务进度，详情参见[离线任务管理](../reference/sql/task_manage/reference.md)文档。
+
+### 3.2 服务端和客户端
 
 - 启动集群版OpenMLDB服务端
 
@@ -177,7 +181,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 ![image-20220111141358808](./images/cli_cluster.png)
 
-### 3.2 基本使用流程
+### 3.3 基本使用流程
 
 集群版OpenMLDB的工作流程一般包含：建立数据库和表、离线数据准备、离线特征计算、SQL 方案上线、在线数据准备、在线实时特征计算几个阶段。
 
@@ -185,11 +189,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 :bulb: 以下演示的命令如无特别说明，默认均集群版部署OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
 
-#### 3.2.1 集群版准备知识：关于离线任务管理
-
-集群版相对于单机版使用体验上的最大区别，是集群版的离线任务部分命令是非阻塞的，包括 `LOAD DATA` 和 `SELECT INTO` 命令。提交任务以后可以使用相关的命令如 `SHOW JOBS`, `SHOW JOB` 来查看任务进度，详情参见[离线任务管理](../reference/sql/task_manage/reference.md)文档。
-
-#### 3.2.2 创建数据库和表
+#### 3.3.1 创建数据库和表
 
 ```sql
 > CREATE DATABASE demo_db;
@@ -219,7 +219,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
  --- -------------------- ------ ---- ------ ---------------
 ```
 
-#### 3.2.3 离线数据准备
+#### 3.3.2 离线数据准备
 
 首先，请切换到离线执行模式。在该模式下，只会处理离线数据导入/插入以及查询操作。
 
@@ -256,7 +256,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
  ----- ---- ---- ---------- ----------- --------------- ------------
 ```
 
-#### 3.2.4 离线特征计算
+#### 3.3.3 离线特征计算
 
 执行 SQL进行 特征抽取，并且将生成的特征存储在一个文件中，供后续的模型训练使用。
 
@@ -268,7 +268,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 注意，`SELECT INTO` 命令为非阻塞，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
 
-#### 3.2.5 SQL 方案上线
+#### 3.3.4 SQL 方案上线
 
 将探索好的SQL方案部署到线上，注意部署上线的 SQL 方案需要与对应的离线特征计算的 SQL 方案保持一致。
 
@@ -288,7 +288,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 1 row in set
 ```
 
-#### 3.2.6 在线数据准备
+#### 3.3.5 在线数据准备
 
 首先，请切换到**在线**执行模式。在该模式下，只会处理在线数据导入/插入以及查询操作。接着在在线模式下，导入之前下载的样例数据（在 [1.2 样例数据](#1.2-样例数据) 中已经下载）作为在线数据，用于在线特征计算。
 
@@ -326,7 +326,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 - 与单机版的OpenMLDB不同，集群版的OpenMLDB需要分别维护离线和在线数据。
 - 用户需要成功完成SQL上线部署后，才能准备上线数据，否则可能会上线失败。
 
-#### 3.2.7 退出 CLI
+#### 3.3.6 退出 CLI
 
 ```sql
 > quit;
@@ -334,7 +334,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 至此我们已经完成了全部基于集群版OpenMLDB CLI 的开发部署工作，并且已经回到了操作系统命令行下。
 
-#### 3.2.8 实时特征计算
+#### 3.3.7 实时特征计算
 
 注意:warning:: 按照默认的部署配置，apiserver部署的http端口为9080。
 
