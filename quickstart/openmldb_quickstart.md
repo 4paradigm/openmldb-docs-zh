@@ -26,6 +26,7 @@ docker run -it 4pdosc/openmldb:0.4.0 bash
 
 ```bash
 curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/data/data.csv --output ./data/data.csv
+curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/data/data.parquet --output ./data/data.parquet
 ```
 
 ## 2. 单机版OpenMLDB 快速上手
@@ -43,7 +44,7 @@ curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/
 
 ```bash
 # Start the OpenMLDB CLI for the cluster deployed OpenMLDB
-> bin/openmldb --host 127.0.0.1 --port 6527
+> ../openmldb/bin/openmldb --host 127.0.0.1 --port 6527
 ```
 
 以下截图显示了以上 docker 内命令正确执行以及 OpenMLDB CLI 正确启动以后的画面
@@ -179,7 +180,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 ```bash
 # Start the OpenMLDB CLI for the cluster deployed OpenMLDB
-> bin/openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
+> ../openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
 ```
 
 以下截图显示正确启动集群版OpenMLDB CLI 以后的画面
@@ -233,7 +234,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ```sql
 > USE demo_db;
 > SET @@execute_mode='offline';
-> LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;
+> LOAD DATA INFILE 'file:///work/taxi-trip/data/data.parquet' INTO TABLE demo_table1 options(format='parquet', header=true, mode='append');;
 ```
 
 注意，`LOAD DATA` 命令为非阻塞，可以通过 `SHOW JOBS` 等离线任务管理命令来查看任务进度。
@@ -247,7 +248,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ```sql
 > USE demo_db;
 > SET @@execute_mode='offline';
-> SELECT c1, c2, sum(c3) OVER w1 AS w1_c3_sum FROM demo_table1 WINDOW w1 AS (PARTITION BY demo_table1.c1 ORDER BY demo_table1.c6 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) INTO OUTFILE '/tmp/feature.csv';
+> SELECT c1, c2, sum(c3) OVER w1 AS w1_c3_sum FROM demo_table1 WINDOW w1 AS (PARTITION BY demo_table1.c1 ORDER BY demo_table1.c6 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) INTO OUTFILE '/tmp/feature_data';
 ```
 
 注意，离线模式`SELECT INTO` 命令为非阻塞，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
@@ -279,7 +280,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ```sql
 > USE demo_db;
 > SET @@execute_mode='online';
-> LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;
+> LOAD DATA INFILE 'file:///work/taxi-trip/data/data.parquet' INTO TABLE demo_table1 options(format='parquet', header=true, mode='append');
 ```
 
 注意，`LOAD DATA` 在线模式也是非阻塞命令，可以通过 `SHOW JOBS` 等离线任务管理命令来查看运行进度。
