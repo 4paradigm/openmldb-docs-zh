@@ -174,37 +174,6 @@ sh bin/zkServer.sh start
 部署zookeeper集群[参考这里](https://zookeeper.apache.org/doc/r3.4.14/zookeeperStarted.html#sc_RunningReplicatedZooKeeper)
 
 
-### 部署nameserver
-#### 1 下载OpenMLDB部署包
-````
-wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
-tar -zxvf openmldb-0.4.0-linux.tar.gz
-mv openmldb-0.4.0-linux openmldb-ns-0.4.0
-cd openmldb-ns-0.4.0
-````
-#### 2 修改配置文件conf/nameserver.flags
-* 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
-* 修改zk_cluster为已经启动的zk集群地址. ip为zk所在机器的ip, port为zk配置文件中clientPort配置的端口号. 如果zk是集群模式用逗号分割, 格式为ip1:port1,ip2:port2,ip3:port3
-* 如果和其他OpenMLDB共用zk需要修改zk_root_path
-```
---endpoint=172.27.128.31:6527
---zk_cluster=172.27.128.33:7181,172.27.128.32:7181,172.27.128.31:7181
---zk_root_path=/openmldb_cluster
---enable_distsql=true
-```
-**注: endpoint不能用0.0.0.0和127.0.0.1**
-#### 3 启动服务
-```
-sh bin/start.sh start nameserver
-```
-#### 4 检查服务是否启动
-```bash
-$ ./bin/openmldb --zk_cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.33:7181 --zk_root_path=/openmldb_cluster --role=ns_client
-> showns
-  endpoint            role
------------------------------
-  172.27.128.31:6527  leader
-```
 ### 部署tablet
 #### 1 下载OpenMLDB部署包
 ```
@@ -233,18 +202,47 @@ cd openmldb-tablet-0.4.0
 ```
 sh bin/start.sh start tablet
 ```
-**注: 服务启动后会在bin目录下产生tablet.pid文件, 里边保存启动时的进程号。如果该文件内的pid正在运行则会启动失败**
+重复以上步骤部署多个tablet
+
+**注意:**
+* 服务启动后会在bin目录下产生tablet.pid文件, 里边保存启动时的进程号。如果该文件内的pid正在运行则会启动失败
+* 集群版至少需要部署2个tablet
+* 如果需要部署多个tablet，把所有tablet部署完再部署nameserver
+
+### 部署nameserver
+#### 1 下载OpenMLDB部署包
+````
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
+tar -zxvf openmldb-0.4.0-linux.tar.gz
+mv openmldb-0.4.0-linux openmldb-ns-0.4.0
+cd openmldb-ns-0.4.0
+````
+#### 2 修改配置文件conf/nameserver.flags
+* 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
+* 修改zk_cluster为已经启动的zk集群地址. ip为zk所在机器的ip, port为zk配置文件中clientPort配置的端口号. 如果zk是集群模式用逗号分割, 格式为ip1:port1,ip2:port2,ip3:port3
+* 如果和其他OpenMLDB共用zk需要修改zk_root_path
+```
+--endpoint=172.27.128.31:6527
+--zk_cluster=172.27.128.33:7181,172.27.128.32:7181,172.27.128.31:7181
+--zk_root_path=/openmldb_cluster
+--enable_distsql=true
+```
+**注: endpoint不能用0.0.0.0和127.0.0.1**
+#### 3 启动服务
+```
+sh bin/start.sh start nameserver
+```
+重复上述步骤部署多个nameserver
 
 #### 4 检查服务是否启动
 ```bash
 $ ./bin/openmldb --zk_cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.33:7181 --zk_root_path=/openmldb_cluster --role=ns_client
-> showtablet
-  endpoint            state           age
--------------------------------------------
-  172.27.128.33:9527  kTabletHealthy  0m
+> showns
+  endpoint            role
+-----------------------------
+  172.27.128.31:6527  leader
 ```
 
-重复以上步骤部署多个nameserver和tablet
 
 ### 部署apiserver
 
