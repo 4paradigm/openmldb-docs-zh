@@ -204,8 +204,10 @@ sh bin/start.sh start tablet
 ```
 重复以上步骤部署多个tablet
 
-**注1: 服务启动后会在bin目录下产生tablet.pid文件, 里边保存启动时的进程号。如果该文件内的pid正在运行则会启动失败**  
-**注2：如果需要部署多个tablet，把所有tablet部署完再部署nameserver**
+**注意:**
+* 服务启动后会在bin目录下产生tablet.pid文件, 里边保存启动时的进程号。如果该文件内的pid正在运行则会启动失败
+* 集群版至少需要部署2个tablet
+* 如果需要部署多个tablet，把所有tablet部署完再部署nameserver
 
 ### 部署nameserver
 #### 1 下载OpenMLDB部署包
