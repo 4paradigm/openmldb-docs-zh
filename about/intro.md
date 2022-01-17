@@ -1,6 +1,6 @@
 # OpenMLDB 简介
 
-<div align=center><img src="../images/openmldb_logo.png"/></div>
+![](images/openmldb_logo.png)
 
 ### OpenMLDB 是一个开源机器学习数据库，提供企业级 FeatureOps 全栈解决方案。
 
@@ -14,7 +14,7 @@ OpenMLDB 致力于闭环解决 AI 工程化落地的数据治理难题，并且�
 
 MLOps 为人工智能工程化落地提供全栈技术方案，作为其中的关键一环，FeatureOps 负责特征计算和供给，衔接 DataOps 和 ModelOps。一个完整的可高效工程化落地的 FeatureOps 解决方案需要覆盖特征工程的各个方面，包括功能需求（如特征存储、特征计算、特征上线、特征共享、特征服务等）和产品级需求（如低延迟、高并发、灾备、高可用、扩缩容、平滑升级、可监控等）。OpenMLDB 提供一套企业级全栈 FeatureOps 解决方案，以及低门槛的基于 SQL 的开发和管理体验，让特征工程开发回归于本质：专注于高质量的特征计算脚本开发，不再被工程化效率落地所羁绊。
 
-![](../images/workflow_cn.png)
+![](images/workflow_cn.png)
 
 上图显示了基于 OpenMLDB 的 FeatureOps 的基本使用流程，从特征开发到上线，只需要三个步骤：
 
@@ -60,7 +60,7 @@ MLOps 为人工智能工程化落地提供全栈技术方案，作为其中的�
 - [**技术博客**](https://www.zhihu.com/column/c_1417199590352916480)
 - **微信交流群：**
 
-<div align=left><img src="../images/wechat.png"/></div>
+![](images/wechat.png)
 
 
 ## 6. 阅读更多
