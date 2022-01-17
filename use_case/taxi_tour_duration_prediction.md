@@ -96,7 +96,7 @@ WINDOW w AS (PARTITION BY vendor_id ORDER BY pickup_datetime ROWS_RANGE BETWEEN 
 w2 as (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 1d PRECEDING AND CURRENT ROW)
 ```
 
-请注意:warning:，在实际的机器学习特征调研过程中，科学家对特征进行反复试验，寻求模型效果最好的特征集。所以会不断的重复多次[特征设计](#3.3-特征设计)->[离线特征抽取](#3.4-离线特征抽取)->[模型训练](#3.5-模型训练)过程，并不断调整特征以达到预期效果。
+请注意:warning:，在实际的机器学习特征调研过程中，科学家对特征进行反复试验，寻求模型效果最好的特征集。所以会不断的重复多次[特征设计](#2.3-特征设计)->[离线特征抽取](#2.4-离线特征抽取)->[模型训练](#2.5-模型训练)过程，并不断调整特征以达到预期效果。
 
 ### 2.4 离线特征抽取
 
@@ -130,7 +130,7 @@ python3 train.py /tmp/feature_data /tmp/model.txt
 ```
 ### 2.6 特征抽取SQL脚本上线
 
-假定[3.3节中所设计的特征](#3.3-特征设计)所训练的模型符合预期，那么下一步就是将该特征抽取SQL脚本部署到线上去，以提供在线的特征抽取。
+假定[2.3节中所设计的特征](#2.3-特征设计)所训练的模型符合预期，那么下一步就是将该特征抽取SQL脚本部署到线上去，以提供在线的特征抽取。
 
 ```sql
 # The below commands are executed in the CLI
