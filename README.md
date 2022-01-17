@@ -1,6 +1,5 @@
+![](about/images/openmldb_logo.png)
 
-
-<div align=center><img src="./images/openmldb_logo.png" width="400"/>  </div>
 
 <br />
 
