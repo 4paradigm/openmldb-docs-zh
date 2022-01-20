@@ -31,6 +31,7 @@ docker run -it 4pdosc/openmldb:0.4.0 bash
 # Start the OpenMLDB CLI for the cluster mode
 ../openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
 ```
+如果想自己部署集群，[参考这里](../deploy/install_deploy.md)。需要注意部署taskmanager配置的spark home是OpenMLDB优化版本的spark
 ## 2. 机器学习全流程
 
 ### 2.1 创建数据库和数据表
