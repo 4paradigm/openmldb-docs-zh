@@ -2,6 +2,8 @@
 
 本文我们将以[Kaggle上的出租车行车时间预测问题为例](https://www.kaggle.com/c/nyc-taxi-trip-duration/overview)，示范如何使用[OpenMLDB](https://github.com/4paradigm/OpenMLDB)和其他一些开源工具来打造一个完整的机器学习应用。
 
+注意，本文档使用的是预编译好的 docker 镜像。如果希望在自己编译和搭建的 OpenMLDB 环境下进行测试，需要配置使用我们[面向特征工程优化的 Spark 发行版](../tutorial/openmldbspark_distribution.md)。请参考相关[编译](../deploy/compile.md)（参考章节：“针对OpenMLDB优化的Spark发行版”）和[安装部署文档](../deploy/install_deploy.md)（参考章节：“部署TaskManager” - “2 修改配置文件conf/taskmanager.properties”）。
+
 ## 1. 环境准备
 
 > :warning: Required docker engine version >= 18.03
@@ -31,7 +33,6 @@ docker run -it 4pdosc/openmldb:0.4.0 bash
 # Start the OpenMLDB CLI for the cluster mode
 ../openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
 ```
-如果想自己部署集群，[参考这里](../deploy/install_deploy.md)。需要注意部署taskmanager配置的spark home是OpenMLDB优化版本的spark
 ## 2. 机器学习全流程
 
 ### 2.1 创建数据库和数据表
