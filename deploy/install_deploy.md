@@ -1,5 +1,7 @@
 # 安装部署详细说明
 
+:bulb: 安装前确认系统环境是否符合[要求](./requirement.md)
+
 ## 部署包准备
 本说明文档中使用了预编译好的 OpenMLDB 部署包（[Linux](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz), [macOS](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-darwin.tar.gz)），所支持的操作系统要求为：CentOS 7, Ubuntu 20.04, macOS >= 10.15。如果用户期望自己编译（如做源代码开发，操作系统不在支持列表内等原因），用户可以选择在 docker 容器内编译使用或者从源码编译，具体请参照我们的[编译文档](compile.md)。
 
