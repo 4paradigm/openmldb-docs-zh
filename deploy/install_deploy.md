@@ -1,9 +1,16 @@
 # 安装部署详细说明
 
-:bulb: 安装前确认系统环境是否符合[要求](./requirement.md)
+## 软硬件环境需求
+
+* 操作系统：CentOS 7, Ubuntu 20.04, macOS >= 10.15。其中Linux glibc版本 >= 2.17。其他操作系统版本没有做完整的测试，不能保证完全正确运行。
+* 内存：视数据量而定，推荐在 8 GB 及以上。
+* CPU：
+  * 目前仅支持 x86 架构，暂不支持例如 ARM 等架构。
+  * 核数推荐不少于 4 核，如果 Linux 环境下 CPU 不支持 AVX2 指令集，需要从源码重新编译部署包。
+
 
 ## 部署包准备
-本说明文档中使用了预编译好的 OpenMLDB 部署包（[Linux](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz), [macOS](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-darwin.tar.gz)），所支持的操作系统要求为：CentOS 7, Ubuntu 20.04, macOS >= 10.15。如果用户期望自己编译（如做源代码开发，操作系统不在支持列表内等原因），用户可以选择在 docker 容器内编译使用或者从源码编译，具体请参照我们的[编译文档](compile.md)。
+本说明文档中默认使用预编译好的 OpenMLDB 部署包（[Linux](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz), [macOS](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-darwin.tar.gz)），所支持的操作系统要求为：CentOS 7, Ubuntu 20.04, macOS >= 10.15。如果用户期望自己编译（如做 OpenMLDB 源代码开发，操作系统或者 CPU 架构不在预编译部署包的支持列表内等原因），用户可以选择在 docker 容器内编译使用或者从源码编译，具体请参照我们的[编译文档](compile.md)。
 
 ## 配置环境(Linux)
 
