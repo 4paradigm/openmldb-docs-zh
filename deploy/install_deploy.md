@@ -286,7 +286,7 @@ sh bin/start.sh start apiserver
 
 ### 部署TaskManager
 
-#### 1 下载OpenMLDB部署包和spark优化版包
+#### 1 下载 OpenMLDB 部署包和面向特征工程优化的 Spark 发行版
 ````
 wget https://github.com/4paradigm/spark/releases/download/v3.0.0-openmldb0.4.0/spark-3.0.0-bin-openmldbspark.tgz 
 tar -zxvf spark-3.0.0-bin-openmldbspark.tgz 
