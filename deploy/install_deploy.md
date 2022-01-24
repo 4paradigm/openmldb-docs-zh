@@ -288,8 +288,10 @@ sh bin/start.sh start apiserver
 
 ### 部署TaskManager
 
-#### 1 下载OpenMLDB部署包
+#### 1 下载 OpenMLDB 部署包和面向特征工程优化的 Spark 发行版
 ````
+wget https://github.com/4paradigm/spark/releases/download/v3.0.0-openmldb0.4.0/spark-3.0.0-bin-openmldbspark.tgz 
+tar -zxvf spark-3.0.0-bin-openmldbspark.tgz 
 wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.0/openmldb-0.4.0-linux.tar.gz
 tar -zxvf openmldb-0.4.0-linux.tar.gz
 mv openmldb-0.4.0-linux openmldb-taskmanager-0.4.0
@@ -304,7 +306,7 @@ cd openmldb-taskmanager-0.4.0
 * 修改batchjob.jar.path为BatchJob Jar文件路径，如果使用Yarn模式需要修改为对应HDFS路径。
 * 修改offline.data.prefix为离线表存储路径，如果使用Yarn模式需要修改为对应HDFS路径。
 * 修改spark.master为离线任务运行模式，目前支持local和yarn模式。
-* 修改spark.home为Spark环境路径，如果不配置或配置为空则使用SPARK_HOME环境变量的配置。
+* 修改spark.home为Spark环境路径，如果不配置或配置为空则使用SPARK_HOME环境变量的配置。需要设置为第一步解压出来spark优化版包的目录，路径为绝对路径
 
 ```
 server.host=0.0.0.0
