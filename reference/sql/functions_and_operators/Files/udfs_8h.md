@@ -1,118 +1,3 @@
----
-title: udfs/udfs.h
-
----
-# udfs/udfs.h
-
-## Functions
-
-| Name          | Description    |
-| -------------- | -------------- |
-| **[abs](#function-abs)**()| <br>Return the absolute value of expr. |
-| **[acos](#function-acos)**()| <br>Return the arc cosine of expr. |
-| **[add](#function-add)**()| <br>Compute sum of two arguments. |
-| **[asin](#function-asin)**()| <br>Return the arc sine of expr. |
-| **[at](#function-at)**()| <br>Returns the value of expression from the offset-th row of the ordered partition. |
-| **[atan](#function-atan)**()| <br>Return the arc tangent of expr If called with one parameter, this function returns the arc tangent of expr. If called with two parameters X and Y, this function returns the arc tangent of Y / X. |
-| **[atan2](#function-atan2)**()| <br>Return the arc tangent of Y / X.. |
-| **[avg](#function-avg)**()| <br>Compute average of values. |
-| **[avg_cate](#function-avg_cate)**()| <br>Compute average of values grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[avg_cate_where](#function-avg_cate_where)**()| <br>Compute average of values matching specified condition grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[avg_where](#function-avg_where)**()| <br>Compute average of values match specified condition. |
-| **[bool](#function-bool)**()| <br>Cast string expression to bool. |
-| **[ceil](#function-ceil)**()| <br>Return the smallest integer value not less than the expr. |
-| **[ceiling](#function-ceiling)**()| <br>Return the smallest integer value not less than the expr. |
-| **[concat](#function-concat)**()| <br>This function returns a string resulting from the joining of two or more string values in an end-to-end manner. (To add a separating value during joining, see concat_ws.) |
-| **[concat_ws](#function-concat_ws)**()| <br>Returns a string resulting from the joining of two or more string value in an end-to-end manner. It separates those concatenated string values with the delimiter specified in the first function argument. |
-| **[cos](#function-cos)**()| <br>Return the cosine of expr. |
-| **[cot](#function-cot)**()| <br>Return the cotangent of expr. |
-| **[count](#function-count)**()| <br>Compute number of values. |
-| **[count_cate](#function-count_cate)**()| <br>Compute count of values grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[count_cate_where](#function-count_cate_where)**()| <br>Compute count of values matching specified condition grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[count_where](#function-count_where)**()| <br>Compute number of values match specified condition. |
-| **[date](#function-date)**()| <br>Cast timestamp or string expression to date. |
-| **[date_format](#function-date_format)**()| <br>Formats the datetime value according to the format string. |
-| **[day](#function-day)**()| <br>Return the day of the month for a timestamp or date. |
-| **[dayofmonth](#function-dayofmonth)**()| <br>Return the day of the month for a timestamp or date. |
-| **[dayofweek](#function-dayofweek)**()| <br>Return the day of week for a timestamp or date. |
-| **[dayofyear](#function-dayofyear)**()| <br>Return the day of year for a timestamp or date. Returns 0 given an invalid date. |
-| **[distinct_count](#function-distinct_count)**()| <br>Compute number of distinct values. |
-| **[double](#function-double)**()| <br>Cast string expression to double. |
-| **[exp](#function-exp)**()| <br>Return the value of e (the base of natural logarithms) raised to the power of expr. |
-| **[first_value](#function-first_value)**()| <br>Returns the value of expr from the first row of the window frame. |
-| **[float](#function-float)**()| <br>Cast string expression to float. |
-| **[floor](#function-floor)**()| <br>Return the largest integer value not less than the expr. |
-| **[fz_join](#function-fz_join)**()| <br>Used by feature zero, for each string value from specified column of window, join by delimeter. Null values are skipped. |
-| **[fz_split](#function-fz_split)**()| <br>Used by feature zero, split string to list by delimeter. Null values are skipped. |
-| **[fz_split_by_key](#function-fz_split_by_key)**()| <br>Used by feature zero, split string by delimeter and then split each segment as kv pair, then add each key to output list. Null and illegal segments are skipped. |
-| **[fz_split_by_value](#function-fz_split_by_value)**()| <br>Used by feature zero, split string by delimeter and then split each segment as kv pair, then add each value to output list. Null and illegal segments are skipped. |
-| **[fz_top1_ratio](#function-fz_top1_ratio)**()| <br>Compute the top1 key's ratio. |
-| **[fz_topn_frequency](#function-fz_topn_frequency)**()| <br>Return the topN keys sorted by their frequency. |
-| **[fz_window_split](#function-fz_window_split)**()| <br>Used by feature zero, for each string value from specified column of window, split by delimeter and add segment to output list. Null values are skipped. |
-| **[fz_window_split_by_key](#function-fz_window_split_by_key)**()| <br>Used by feature zero, for each string value from specified column of window, split by delimeter and then split each segment as kv pair, then add each key to output list. Null and illegal segments are skipped. |
-| **[fz_window_split_by_value](#function-fz_window_split_by_value)**()| <br>Used by feature zero, for each string value from specified column of window, split by delimeter and then split each segment as kv pair, then add each value to output list. Null and illegal segments are skipped. |
-| **[hour](#function-hour)**()| <br>Return the hour for a timestamp. |
-| **[identity](#function-identity)**()| <br>Return value. |
-| **[if_null](#function-if_null)**()| <br>If input is not null, return input value; else return default value. |
-| **[ifnull](#function-ifnull)**()| <br>If input is not null, return input value; else return default value. |
-| **[ilike_match](#function-ilike_match)**()| <br>pattern match same as ILIKE predicate |
-| **[inc](#function-inc)**()| <br>Return expression + 1. |
-| **[int16](#function-int16)**()| <br>Cast string expression to int16. |
-| **[int32](#function-int32)**()| <br>Cast string expression to int32. |
-| **[int64](#function-int64)**()| <br>Cast string expression to int64. |
-| **[is_null](#function-is_null)**()| <br>Check if input value is null, return bool. |
-| **[isnull](#function-isnull)**()| <br>Check if input value is null, return bool. |
-| **[lag](#function-lag)**()| <br>Returns the value of expression from the offset-th row of the ordered partition. |
-| **[like_match](#function-like_match)**()| <br>pattern match same as LIKE predicate |
-| **[ln](#function-ln)**()| <br>Return the natural logarithm of expr. |
-| **[log](#function-log)**()| <br>log(base, expr) If called with one parameter, this function returns the natural logarithm of expr. If called with two parameters, this function returns the logarithm of expr to the base. |
-| **[log10](#function-log10)**()| <br>Return the base-10 logarithm of expr. |
-| **[log2](#function-log2)**()| <br>Return the base-2 logarithm of expr. |
-| **[make_tuple](#function-make_tuple)**()| |
-| **[max](#function-max)**()| <br>Compute maximum of values. |
-| **[max_cate](#function-max_cate)**()| <br>Compute maximum of values grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[max_cate_where](#function-max_cate_where)**()| <br>Compute maximum of values matching specified condition grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[max_where](#function-max_where)**()| <br>Compute maximum of values match specified condition. |
-| **[maximum](#function-maximum)**()| <br>Compute maximum of two arguments. |
-| **[min](#function-min)**()| <br>Compute minimum of values. |
-| **[min_cate](#function-min_cate)**()| <br>Compute minimum of values grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[min_cate_where](#function-min_cate_where)**()| <br>Compute minimum of values matching specified condition grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[min_where](#function-min_where)**()| <br>Compute minimum of values match specified condition. |
-| **[minimum](#function-minimum)**()| <br>Compute minimum of two arguments. |
-| **[minute](#function-minute)**()| <br>Return the minute for a timestamp. |
-| **[month](#function-month)**()| <br>Return the month part of a timestamp or date. |
-| **[nvl](#function-nvl)**()| <br>If input is not null, return input value; else return default value. |
-| **[nvl2](#function-nvl2)**()| <br>nvl2(expr1, expr2, expr3) - Returns expr2 if expr1 is not null, or expr3 otherwise. |
-| **[pow](#function-pow)**()| <br>Return the value of expr1 to the power of expr2. |
-| **[power](#function-power)**()| <br>Return the value of expr1 to the power of expr2. |
-| **[round](#function-round)**()| <br>Return the nearest integer value to expr (in floating-point format), rounding halfway cases away from zero, regardless of the current rounding mode. |
-| **[second](#function-second)**()| <br>Return the second for a timestamp. |
-| **[sin](#function-sin)**()| <br>Return the sine of expr. |
-| **[sqrt](#function-sqrt)**()| <br>Return square root of expr. |
-| **[strcmp](#function-strcmp)**()| <br>Returns 0 if the strings are the same, -1 if the first argument is smaller than the second according to the current sort order, and 1 otherwise. |
-| **[string](#function-string)**()| <br>Return string converted from numeric expression. |
-| **[substr](#function-substr)**()| <br>Return a substring from string `str` starting at position `pos`. |
-| **[substring](#function-substring)**()| <br>Return a substring from string `str` starting at position `pos`. |
-| **[sum](#function-sum)**()| <br>Compute sum of values. |
-| **[sum_cate](#function-sum_cate)**()| <br>Compute sum of values grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[sum_cate_where](#function-sum_cate_where)**()| <br>Compute sum of values matching specified condition grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. |
-| **[sum_where](#function-sum_where)**()| <br>Compute sum of values match specified condition. |
-| **[tan](#function-tan)**()| <br>Return the tangent of expr. |
-| **[timestamp](#function-timestamp)**()| <br>Cast int64, date or string expression to timestamp. |
-| **[top](#function-top)**()| <br>Compute top k of values and output string separated by comma. The outputs are sorted in desc order. |
-| **[top_n_key_avg_cate_where](#function-top_n_key_avg_cate_where)**()| <br>Compute average of values matching specified condition grouped by category key. Output string for top N keys in descend order. Each group is represented as 'K:V' and separated by comma. |
-| **[top_n_key_count_cate_where](#function-top_n_key_count_cate_where)**()| <br>Compute count of values matching specified condition grouped by category key. Output string for top N keys in descend order. Each group is represented as 'K:V' and separated by comma. |
-| **[top_n_key_max_cate_where](#function-top_n_key_max_cate_where)**()| <br>Compute maximum of values matching specified condition grouped by category key. Output string for top N keys in descend order. Each group is represented as 'K:V' and separated by comma. |
-| **[top_n_key_min_cate_where](#function-top_n_key_min_cate_where)**()| <br>Compute minimum of values matching specified condition grouped by category key. Output string for top N keys in descend order. Each group is represented as 'K:V' and separated by comma. |
-| **[top_n_key_sum_cate_where](#function-top_n_key_sum_cate_where)**()| <br>Compute sum of values matching specified condition grouped by category key. Output string for top N keys in descend order. Each group is represented as 'K:V' and separated by comma. |
-| **[truncate](#function-truncate)**()| <br>Return the nearest integer that is not greater in magnitude than the expr. |
-| **[ucase](#function-ucase)**()| <br>Convert all the characters to uppercase. Note that characters values > 127 are simply returned. |
-| **[upper](#function-upper)**()| <br>Convert all the characters to uppercase. Note that characters values > 127 are simply returned. |
-| **[week](#function-week)**()| <br>Return the week of year for a timestamp or date. |
-| **[weekofyear](#function-weekofyear)**()| <br>Return the week of year for a timestamp or date. |
-| **[year](#function-year)**()| <br>Return the year part of a timestamp or date. |
-
-
 ## Functions Documentation
 
 ### function abs
@@ -776,7 +661,7 @@ SELECT COS(0);
 
 
 
-* The value returned by [cos()](#function-cos) is always in the range: -1 to 1.
+* The value returned by [cos()](/reference/sql/functions_and_operators/Files/udfs_8h.md#function-cos) is always in the range: -1 to 1.
 
 **Supported Types**:
 
@@ -1086,7 +971,7 @@ Return the day of the month for a timestamp or date.
 0.1.0
 
 
-Note: This function equals the `[day()](#function-day)` function.
+Note: This function equals the `[day()](/reference/sql/functions_and_operators/Files/udfs_8h.md#function-day)` function.
 
 Example: 
 
@@ -1121,7 +1006,7 @@ Return the day of the month for a timestamp or date.
 0.1.0
 
 
-Note: This function equals the `[day()](#function-day)` function.
+Note: This function equals the `[day()](/reference/sql/functions_and_operators/Files/udfs_8h.md#function-day)` function.
 
 Example: 
 
@@ -1156,7 +1041,7 @@ Return the day of week for a timestamp or date.
 0.4.0
 
 
-Note: This function equals the `[week()](#function-week)` function.
+Note: This function equals the `[week()](/reference/sql/functions_and_operators/Files/udfs_8h.md#function-week)` function.
 
 Example: 
 
@@ -3055,7 +2940,7 @@ SELECT SIN(0);
 
 
 
-* The value returned by [sin()](#function-sin) is always in the range: -1 to 1.
+* The value returned by [sin()](/reference/sql/functions_and_operators/Files/udfs_8h.md#function-sin) is always in the range: -1 to 1.
 
 **Supported Types**:
 
@@ -3186,7 +3071,7 @@ Return a substring from string `str` starting at position `pos`.
 0.1.0
 
 
-Note: This function equals the `[substr()](#function-substr)` function.
+Note: This function equals the `[substr()](/reference/sql/functions_and_operators/Files/udfs_8h.md#function-substr)` function.
 
 Example:
 
@@ -3232,7 +3117,7 @@ Return a substring from string `str` starting at position `pos`.
 0.1.0
 
 
-Note: This function equals the `[substr()](#function-substr)` function.
+Note: This function equals the `[substr()](/reference/sql/functions_and_operators/Files/udfs_8h.md#function-substr)` function.
 
 Example:
 
