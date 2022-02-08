@@ -28,7 +28,7 @@ docker run -it 4pdosc/openmldb:0.4.0 bash
 - 配置 zookeeper
 - 启动集群版 OpenMLDB
 
-### 1.3  启动 OepnMLDB CLI 客户端
+### 1.3  启动 OpenMLDB CLI 客户端
 
 ```bash
 /work/openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
@@ -113,13 +113,13 @@ w2 AS (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 
 
 ### 2.5 模型训练
 
-1. 模型训练不在 OpenMLDB 内完成，因此首先通过以下 `QUIT` 命令退出 OpenMLDB CLI。
+1. 模型训练不在 OpenMLDB 内完成，因此首先通过以下 `quit` 命令退出 OpenMLDB CLI。
 
 ```
-> QUIT;
+> quit
 ```
 
-2. 在普通命令行下，执行train.py，使用开源训练工具 `lightgbm` 基于上一步生成的离线特征表进行模型训练，训练结果存放在`/tmp/model.txt`中。
+2. 在普通命令行下，执行train.py，使用开源训练工具 `lightgbm` 基于上一步生成的离线特征表进行模型训练，训练结果存放在 `/tmp/model.txt`中。
 
 ```bash
 python3 train.py /tmp/feature_data /tmp/model.txt
@@ -167,7 +167,7 @@ w2 AS (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 
 
 ### 2.8 启动预估服务
 
-1. 如果尚未退出 OpenMLDB CLI，请使用 `QUIT` 命令退出 OpenMLDB CLI。
+1. 如果尚未退出 OpenMLDB CLI，请使用 `quit` 命令退出 OpenMLDB CLI。
 2. 在普通命令行下启动预估服务：
 
 ```bash
