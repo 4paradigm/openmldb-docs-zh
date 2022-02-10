@@ -71,6 +71,8 @@ Wed Aug 22 16:33:50 CST 2018
 ## 部署单机版
 OpenMLDB单机版需要部署一个nameserver和一个tablet. nameserver用于表管理和元数据存储，tablet用于数据存储。APIServer是可选的，如果要用http的方式和OpenMLDB交互需要部署此模块
 
+**注意:** 最好把不同的组件部署在不同的目录里，便于单独升级
+
 ### 部署tablet
 #### 1 下载OpenMLDB部署包
 ```
@@ -159,6 +161,9 @@ sh bin/start.sh start standalone_apiserver
 
 ## 部署集群版
 OpenMLDB集群版需要部署zookeeper、nameserver、tablet等模块。其中zookeeper用于服务发现和保存元数据信息。nameserver用于管理tablet，实现高可用和failover。tablet用于存储数据和主从同步数据。APIServer是可选的，如果要用http的方式和OpenMLDB交互需要部署此模块
+
+**注意:** 最好把不同的组件部署在不同的目录里，便于单独升级。如果在同一台机器部署多个tablet也需要部署在不同的目录里
+
 ### 部署zookeeper
 建议部署3.4.14版本。如果已有可用zookeeper集群可略过此步骤
 
