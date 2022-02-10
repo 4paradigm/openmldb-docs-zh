@@ -153,7 +153,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 如下为该查询预期的返回结果（计算得到的特征被存放在 `data` 域）：
 
 ```json
-{"code":0,"msg":"ok","data":{"data":[["aaa",11,22]],"common_cols_data":[]}}
+{"code":0,"msg":"ok","data":{"data":[["aaa",11,22]]}}
 ```
 
 ## 3. 集群版OpenMLDB 快速上手
