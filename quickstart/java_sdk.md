@@ -1,5 +1,7 @@
 # Java SDK
 
+注意：Java SDK 目前仅支持集群版，单机版将会在下一个版本 v0.5.0 中计划支持。
+
 ## 1. Java SDK包安装
 
 ### Linux下 Java SDK包安装
