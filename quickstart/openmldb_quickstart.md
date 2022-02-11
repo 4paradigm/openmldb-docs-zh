@@ -15,7 +15,7 @@
 拉取镜像（镜像下载大小大约 1GB，解压后约 1.7 GB）和启动 docker 容器
 
 ```bash
-docker run -it 4pdosc/openmldb:0.4.0 bash
+docker run -it 4pdosc/openmldb:0.4.1 bash
 ```
 
 :bulb: **成功启动容器以后，本教程中的后续命令默认均在容器内执行。**
@@ -153,7 +153,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 如下为该查询预期的返回结果（计算得到的特征被存放在 `data` 域）：
 
 ```json
-{"code":0,"msg":"ok","data":{"data":[["aaa",11,22]],"common_cols_data":[]}}
+{"code":0,"msg":"ok","data":{"data":[["aaa",11,22]]}}
 ```
 
 ## 3. 集群版OpenMLDB 快速上手
@@ -342,7 +342,7 @@ curl http://127.0.0.1:9080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 如下为该查询预期的返回结果（计算得到的特征被存放在 `data` 域）：
 
 ```json
-{"code":0,"msg":"ok","data":{"data":[["aaa",11,22]],"common_cols_data":[]}}
+{"code":0,"msg":"ok","data":{"data":[["aaa",11,22]]}}
 ```
 
 
