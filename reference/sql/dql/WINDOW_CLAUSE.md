@@ -183,7 +183,7 @@ WindowUnionClause
 
 ```SQL
 SELECT col1, col5, sum(col2) OVER w1 as w1_col2_sum FROM t1
-WINDOW w1 AS (UNION t2 PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW)f;
+WINDOW w1 AS (UNION t2 PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW);
 ```
 
 ![Figure 2: window union one table](../dql/images/window_union_1_table.png)
