@@ -165,9 +165,9 @@ WINDOW w1 AS (PARTITION BY col1 ORDER BY col5 ROWS BETWEEN 1000 PRECEDING AND CU
 
 ```SQL
 -- ROWS example
--- desc: window ROWS_RANGE, 前1000s到当前条
+-- desc: window ROWS_RANGE, 前10s到当前条
 SELECT sum(col2) OVER w1 as w1_col2_sum FROM t1
-WINDOW w1 AS (PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 1000s PRECEDING AND CURRENT ROW);
+WINDOW w1 AS (PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW);
 ```
 
 ## OpenMLDB特有的WINDOW SPEC元素
@@ -183,7 +183,7 @@ WindowUnionClause
 
 ```SQL
 SELECT col1, col5, sum(col2) OVER w1 as w1_col2_sum FROM t1
-WINDOW w1 AS (UNION t2 PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW) limit 10;
+WINDOW w1 AS (UNION t2 PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW)f;
 ```
 
 ![Figure 2: window union one table](../dql/images/window_union_1_table.png)
@@ -192,7 +192,7 @@ WINDOW w1 AS (UNION t2 PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PR
 
 ```SQL
 SELECT col1, col5, sum(col2) OVER w1 as w1_col2_sum FROM t1
-WINDOW w1 AS (UNION t2, t3 PARTITION BY col1 ORDER BY col5 ROWS BETWEEN 3 PRECEDING AND CURRENT ROW) limit 10;
+WINDOW w1 AS (UNION t2, t3 PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW);
 ```
 
 ![Figure 3: window union two tables](../dql/images/window_union_2_table.png)
@@ -201,7 +201,7 @@ WINDOW w1 AS (UNION t2, t3 PARTITION BY col1 ORDER BY col5 ROWS BETWEEN 3 PRECED
 
 ```SQL
 SELECT col1, col5, sum(col2) OVER w1 as w1_col2_sum FROM t1
-WINDOW w1 AS (UNION t2 PARTITION BY col1 ORDER BY col5 ROWS BETWEEN 3 PRECEDING AND CURRENT ROW INSTANCE_NOT_IN_WINDOW) limit 10;
+WINDOW w1 AS (UNION t2 PARTITION BY col1 ORDER BY col5 ROWS BETWEEN 10s PRECEDING AND CURRENT ROW INSTANCE_NOT_IN_WINDOW);
 ```
 
 ![Figure 4: window union one table with instance_not_in_window](../dql/images/window_union_1_table_instance_not_in_window.png)
@@ -213,7 +213,7 @@ SELECT col1, col5, sum(col2) OVER w1 as w1_col2_sum FROM t1
 WINDOW w1 AS
 (UNION (select c1 as col1, c2 as col2, 0.0 as col3, 0.0 as col4, c5 as col5, "NA" as col6 from t2),
 (select c1 as col1, c2 as col2, 0.0 as col3, 0.0 as col4, c5 as col5, "NA" as col6 from t3)
-PARTITION BY col1 ORDER BY col5 ROWS BETWEEN 3 PRECEDING AND CURRENT ROW) limit 10;
+PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW);
 ```
 
 ### Window Exclude Current Time
@@ -236,9 +236,9 @@ WINDOW w1 AS (PARTITION BY col1 ORDER BY col5 ROWS BETWEEN 1000 PRECEDING AND CU
 
 ```SQL
 -- ROWS example
--- desc: window ROWS, 前1000s到当前条，除了current row以外窗口内不包含当前时刻的其他数据
+-- desc: window ROWS, 前10s到当前条，除了current row以外窗口内不包含当前时刻的其他数据
 SELECT sum(col2) OVER w1 as w1_col2_sum FROM t1
-WINDOW w1 AS (PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 1000s PRECEDING AND CURRENT ROW EXCLUDE CURRENT_TIME);
+WINDOW w1 AS (PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW EXCLUDE CURRENT_TIME);
 ```
 
 ![Figure 5: window exclude current time](../dql/images/window_exclude_current_time.png)
@@ -258,8 +258,8 @@ WindowFrameMaxSize
 
 ```sql
 -- ROWS example
--- desc: window ROWS, 前1000条到当前条
+-- desc: window ROWS_RANGE, 前10s到当前条，同时限制窗口条数不超过3条
 SELECT sum(col2) OVER w1 as w1_col2_sum FROM t1
-WINDOW w1 AS (PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 1000s PRECEDING AND CURRENT ROW MAXSIZE 10);
+WINDOW w1 AS (PARTITION BY col1 ORDER BY col5 ROWS_RANGE BETWEEN 10s PRECEDING AND CURRENT ROW MAXSIZE 3);
 ```
 

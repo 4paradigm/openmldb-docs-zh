@@ -12,11 +12,11 @@ OpenMLDB仅支持上线[SELECT查询语句](../dql/SELECT_STATEMENT.md)。
 
 本节将列出支持Online Serving的OP,并详细阐述这些OP的上线使用规范。
 
-| SELECT语句                            | 说明                                                         |
-| :------------------------------------ | :----------------------------------------------------------- |
-| 单张表简单表达式计算                  | 在Online Serving时，支持**简单的单表查询**。所谓，简单的单表查询是对一张表的进行列、运算表达式和单行处理函数（Scalar Function)以及它们的组合表达式作计算。需要遵循[Online Serving下单表查询的使用规范](#online-serving下单表查询的使用规范) |
-| [`JOIN` Clause](./JOIN_CLAUSE.md)     | OpenMLDB目前仅支持**LAST JOIN**。在Online Serving时，需要遵循[Online Serving下LAST JOIN的使用规范](#online-serving下last-join的使用规范) |
-| [`WINDOW` Clause](./WINDOW_CLAUSE.md) | 窗口子句用于定义一个或者若干个窗口。窗口可以是有名或者匿名的。用户可以在窗口上调用聚合函数来进行一些分析型计算的操作（```sql agg_func() over window_name```)。在Online Serving时，需要遵循[Online Serving下Window的使用规范](#online-serving下window的使用规范) |
+| SELECT语句                                 | 说明                                                         |
+| :----------------------------------------- | :----------------------------------------------------------- |
+| 单张表简单表达式计算                       | 在Online Serving时，支持**简单的单表查询**。所谓，简单的单表查询是对一张表的进行列、运算表达式和单行处理函数（Scalar Function)以及它们的组合表达式作计算。需要遵循[Online Serving下单表查询的使用规范](#online-serving下单表查询的使用规范) |
+| [`JOIN` Clause](../dql/JOIN_CLAUSE.md)     | OpenMLDB目前仅支持**LAST JOIN**。在Online Serving时，需要遵循[Online Serving下LAST JOIN的使用规范](#online-serving下last-join的使用规范) |
+| [`WINDOW` Clause](../dql/WINDOW_CLAUSE.md) | 窗口子句用于定义一个或者若干个窗口。窗口可以是有名或者匿名的。用户可以在窗口上调用聚合函数来进行一些分析型计算的操作（```sql agg_func() over window_name```)。在Online Serving时，需要遵循[Online Serving下Window的使用规范](#online-serving下window的使用规范) |
 
 ## Online Serving下OP的使用规范
 

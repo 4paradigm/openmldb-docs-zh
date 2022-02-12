@@ -8,6 +8,8 @@
 - [创建表(CREATE TABLE)](../ddl/CREATE_TABLE_STATEMENT.md)
 - [删除表(DROP TABLE)](../ddl/DROP_TABLE_STATEMENT.md)
 - [查看表列表(SHOW TABLES)](../ddl/SHOW_TABLES_STATEMENT.md)
+- [查看系统变量(SHOW VARIABLES)](../ddl/SHOW_VARIABLES_STATEMENT.md)
+- [SET语句(SET )](../ddl/SET_STATEMENT.md)
 
 ## License
 
