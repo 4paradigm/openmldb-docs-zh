@@ -1899,7 +1899,7 @@ Example:
 
 
 ```cpp
-SELECT at(value, 3) OVER w;
+SELECT lag(value, 3) OVER w;
 -- output 3
 ```
 
