@@ -26,7 +26,7 @@ sessionVariableName ::= '@@'Identifier | '@@session.'Identifier
 
 | SESSION系统变量                        | 变量描述                                                     | 变量值                | 默认值    |
 | -------------------------------------- | ------------------------------------------------------------ | --------------------- | --------- |
-| @@session.execute_mode                 | OpenMDLB在当前会话下的执行模式。目前支持"offline"和"online"两种模式。<br />在离线执行模式下，只会导入/插入以及查询离线数据。<br />在在线执行模式下，只会导入/插入以及查询在线数据。 | "offline" \| "online" | "offline" |
+| @@session.execute_mode｜@@execute_mode | OpenMDLB在当前会话下的执行模式。目前支持"offline"和"online"两种模式。<br />在离线执行模式下，只会导入/插入以及查询离线数据。<br />在在线执行模式下，只会导入/插入以及查询在线数据。 | "offline" \| "online" | "offline" |
 | @@session.enable_trace｜@@enable_trace | 控制台的错误信息trace开关。<br />当开关打开时(`SET @@enable_trace = "true"`)，SQL语句有语法错误或者在计划生成过程发生错误时，会打印错误信息栈。<br />当开关关闭时(`SET @@enable_trace = "false"`)，SQL语句有语法错误或者在计划生成过程发生错误时，仅打印基本错误信息。 | "true" \| "false"     | "false"   |
 
 ## Example
@@ -47,6 +47,15 @@ sessionVariableName ::= '@@'Identifier | '@@session.'Identifier
   Variable_name   Value
  --------------- --------
   enable_trace    false
+  execute_mode    offline
+ --------------- --------
+ 
+> SET @@session.enable_trace = "true"
+> SHOW VARIABLES;
+ --------------- --------
+  Variable_name   Value
+ --------------- --------
+  enable_trace    true
   execute_mode    offline
  --------------- --------
 ```

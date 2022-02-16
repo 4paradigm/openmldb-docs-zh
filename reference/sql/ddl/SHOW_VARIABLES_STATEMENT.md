@@ -52,5 +52,5 @@ ShowSessionVariablesStmt ::=
 
 ## 相关SQL语句
 
-[SET VARIABLE](../ddl/SET_VARIABLE_STATEMENT.md)
+[SET VARIABLE](../ddl/SET_STATEMENT.md)
 
