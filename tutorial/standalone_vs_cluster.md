@@ -29,7 +29,7 @@
 当在集群版命令行下执行：
 
 ```sql
-> `SET @@execute_mode = "offline"`
+> SET @@execute_mode = "offline"
 ```
 
 OpenMLDB切换到离线执行模式。在该模式下，只会导入/插入以及查询离线数据。
@@ -37,7 +37,7 @@ OpenMLDB切换到离线执行模式。在该模式下，只会导入/插入以�
 当在集群版命令行下执行：
 
 ```sql
-> `SET @@execute_mode = "online"`
+> SET @@execute_mode = "online"
 ```
 
 OpenMLDB切换到在线执行模式。在该模式下，只会导入/插入以及查询在线数据。

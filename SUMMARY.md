@@ -66,6 +66,8 @@
       - [创建表(CREATE TABLE)](reference/sql/ddl/CREATE_TABLE_STATEMENT.md)
       - [删除表(DROP TABLE)](reference/sql/ddl/DROP_TABLE_STATEMENT.md)
       - [查看表列表(SHOW TABLES)](reference/sql/ddl/SHOW_TABLES_STATEMENT.md)
+      - [查看系统变量(SHOW VARIABLES)](reference/sql/ddl/SHOW_VARIABLES_STATEMENT.md)
+      - [SET语句(SET )](reference/sql/ddl/SET_STATEMENT.md)
     - [DEPLOYMENT 管理](reference/sql/deployment_manage/reference.md)
       - [创建DEPLOYMENT](reference/sql/deployment_manage/DEPLOY_STATEMENT.md)
       - [删除DEPLOYMENT(DROP DEPLOYMENT)](reference/sql/deployment_manage/DROP_DEPLOYMENT_STATEMENT.md)
