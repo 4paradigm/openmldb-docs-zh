@@ -1615,7 +1615,7 @@ Example:
 
 
 ```cpp
-SELECT if_null("hello", "default"), if_null(NULL, "default");
+SELECT ifnull("hello", "default"), ifnull(NULL, "default");
 -- output ["hello", "default"]
 ```
 
