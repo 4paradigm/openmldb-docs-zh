@@ -25,8 +25,8 @@ docker run -it 4pdosc/openmldb:0.4.1 bash
 下载样例数据
 
 ```bash
-curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/data/data.csv --output ./data/data.csv
-curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/data/data.parquet --output ./data/data.parquet
+curl https://openmldb.ai/demo/data.csv --output ./data/data.csv
+curl https://openmldb.ai/demo/data.parquet --output ./data/data.parquet
 ```
 
 ## 2. 单机版OpenMLDB 快速上手
@@ -44,7 +44,7 @@ curl https://raw.githubusercontent.com/4paradigm/OpenMLDB/main/demo/quick_start/
 
 ```bash
 # Start the OpenMLDB CLI for the cluster deployed OpenMLDB
-> ../openmldb/bin/openmldb --host 127.0.0.1 --port 6527
+../openmldb/bin/openmldb --host 127.0.0.1 --port 6527
 ```
 
 以下截图显示了以上 docker 内命令正确执行以及 OpenMLDB CLI 正确启动以后的画面
