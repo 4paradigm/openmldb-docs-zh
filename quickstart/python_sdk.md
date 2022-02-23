@@ -106,16 +106,3 @@ try:
 except Exception as e:
     print(e)
 ```
-
-### 2.8 删除数据库
-
-使用`connection.execute(ddl)`接口删除数据库：
-
-```python
-try:
-    connection.execute("drop database demo_db;")
-except Exception as e:
-    print(e)
-```
-
-### 
