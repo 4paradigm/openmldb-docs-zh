@@ -4,7 +4,7 @@
 <br />
 
 <div align="center" style="font-size:30px">
-版本 v0.4.0
+版本 v0.4.1
 </div>
 
 
@@ -15,7 +15,7 @@
 - [关于 OpenMLDB](about/about.md)
   - [OpenMLDB 简介](about/intro.md)
   - [发展历程](about/milestones.md)
-  - [v0.4.0 Release Notes](about/release_notes.md)
+  - [v0.4.1 Release Notes](about/release_notes.md)
 - [快速上手](quickstart/quickstart.md)
   - [OpenMLDB 快速上手](quickstart/openmldb_quickstart.md)
   - [Java SDK 快速上手](quickstart/java_sdk.md)
@@ -77,6 +77,8 @@
       - [创建表(CREATE TABLE)](reference/sql/ddl/CREATE_TABLE_STATEMENT.md)
       - [删除表(DROP TABLE)](reference/sql/ddl/DROP_TABLE_STATEMENT.md)
       - [查看表列表(SHOW TABLES)](reference/sql/ddl/SHOW_TABLES_STATEMENT.md)
+      - [查看系统变量(SHOW VARIABLES)](reference/sql/ddl/SHOW_VARIABLES_STATEMENT.md)
+      - [SET语句(SET )](reference/sql/ddl/SET_STATEMENT.md)
     - [DEPLOYMENT 管理](reference/sql/deployment_manage/reference.md)
       - [创建DEPLOYMENT](reference/sql/deployment_manage/DEPLOY_STATEMENT.md)
       - [删除DEPLOYMENT(DROP DEPLOYMENT)](reference/sql/deployment_manage/DROP_DEPLOYMENT_STATEMENT.md)

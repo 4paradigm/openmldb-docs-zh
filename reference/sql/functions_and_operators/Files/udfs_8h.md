@@ -1615,7 +1615,7 @@ Example:
 
 
 ```cpp
-SELECT if_null("hello", "default"), if_null(NULL, "default");
+SELECT ifnull("hello", "default"), ifnull(NULL, "default");
 -- output ["hello", "default"]
 ```
 
@@ -1899,7 +1899,7 @@ Example:
 
 
 ```cpp
-SELECT at(value, 3) OVER w;
+SELECT lag(value, 3) OVER w;
 -- output 3
 ```
 

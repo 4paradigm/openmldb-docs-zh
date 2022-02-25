@@ -1,5 +1,7 @@
 # Java SDK
 
+注意：Java SDK 目前仅支持集群版，单机版将会在下一个版本 v0.5.0 中计划支持。
+
 ## 1. Java SDK包安装
 
 ### Linux下 Java SDK包安装
@@ -9,12 +11,12 @@
 <dependency>
     <groupId>com.4paradigm.openmldb</groupId>
     <artifactId>openmldb-jdbc</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 </dependency>
 <dependency>
     <groupId>com.4paradigm.openmldb</groupId>
     <artifactId>openmldb-native</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 </dependency>
 ```
 ### Mac下Java SDK包安装
@@ -24,15 +26,15 @@
 <dependency>
     <groupId>com.4paradigm.openmldb</groupId>
     <artifactId>openmldb-jdbc</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 </dependency>
 <dependency>
     <groupId>com.4paradigm.openmldb</groupId>
     <artifactId>openmldb-native</artifactId>
-    <version>0.4.0-macos</version>
+    <version>0.4.1-macos</version>
 </dependency>
 ```
-注意: 由于 openmldb-native 中包含了 OpenMLDB 编译的 C++ 静态库, 默认是 linux 静态库, macOS 上需将上述 openmldb-native 的 version 改成 `0.4.0-macos`, openmldb-jdbc 的版本保持不变。
+注意: 由于 openmldb-native 中包含了 OpenMLDB 编译的 C++ 静态库, 默认是 linux 静态库, macOS 上需将上述 openmldb-native 的 version 改成 `0.4.1-macos`, openmldb-jdbc 的版本保持不变。
 
 ## 2. Java SDK快速上手
 

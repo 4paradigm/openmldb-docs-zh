@@ -1,5 +1,7 @@
 # Python SDK
 
+注意：Python SDK 目前仅支持集群版，单机版的将会在下一个版本 v0.5.0 中计划支持。
+
 ## 1. 安装OpenMLDB python包
 
 使用pip安装openmldb
@@ -104,16 +106,3 @@ try:
 except Exception as e:
     print(e)
 ```
-
-### 2.8 删除数据库
-
-使用`connection.execute(ddl)`接口删除数据库：
-
-```python
-try:
-    connection.execute("drop database demo_db;")
-except Exception as e:
-    print(e)
-```
-
-### 
