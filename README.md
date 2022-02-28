@@ -24,6 +24,8 @@
   - [OpenMLDB集群版和单机版区别](tutorial/standalone_vs_cluster.md)
   - [OpenMLDB数据导入工具使用](./tutorial/data_import.md)
   - [面向特征工程优化的OpenMLDB Spark发行版](tutorial/openmldbspark_distribution.md)
+  - [深入浅出特征工程 -- 基于 OpenMLDB 的实践指南（上）](tutorial/tutorial_sql_1.md)
+  - [深入浅出特征工程 -- 基于 OpenMLDB 的实践指南（下）](tutorial/tutorial_sql_2.md)
 - [使用案例](use_case/use_case.md)
   - [案例1：出租车行车时间预测](use_case/taxi_tour_duration_prediction.md)
 - [安装部署](deploy/deploy.md)
