@@ -380,9 +380,9 @@ Compute average of values matching specified condition grouped by category key a
 
 **Parameters**: 
 
-  * **catagory** Specify catagory column to group by. 
   * **value** Specify value column to aggregate on. 
   * **condition** Specify condition column.
+  * **catagory** Specify catagory column to group by. 
 
 
 
@@ -401,7 +401,7 @@ Example:
 
 
 ```cpp
-SELECT avg_cate_where(catagory, value, condition) OVER w;
+SELECT avg_cate_where(value, condition, catagory) OVER w;
 -- output "x:2,y:3"
 ```
 
@@ -812,9 +812,9 @@ Compute count of values matching specified condition grouped by category key and
 
 **Parameters**: 
 
-  * **catagory** Specify catagory column to group by. 
   * **value** Specify value column to aggregate on. 
   * **condition** Specify condition column.
+  * **catagory** Specify catagory column to group by. 
 
 
 
@@ -833,7 +833,7 @@ Example:
 
 
 ```cpp
-SELECT count_cate_where(catagory, value, condition) OVER w;
+SELECT count_cate_where(value, condition, catagory) OVER w;
 -- output "x:2,y:1"
 ```
 
@@ -2251,11 +2251,10 @@ max_cate_where()
 Compute maximum of values matching specified condition grouped by category key and output string. Each group is represented as 'K:V' and separated by comma in outputs and are sorted by key in ascend order. 
 
 **Parameters**: 
-
-  * **catagory** Specify catagory column to group by. 
+ 
   * **value** Specify value column to aggregate on. 
   * **condition** Specify condition column.
-
+  * **catagory** Specify catagory column to group by.
 
 
 Example:
@@ -2273,7 +2272,7 @@ Example:
 
 
 ```cpp
-SELECT max_cate_where(catagory, value, condition) OVER w;
+SELECT max_cate_where(value, condition, catagory) OVER w;
 -- output "x:4,y:3"
 ```
 
@@ -2470,10 +2469,9 @@ Compute minimum of values matching specified condition grouped by category key a
 
 **Parameters**: 
 
-  * **catagory** Specify catagory column to group by. 
   * **value** Specify value column to aggregate on. 
   * **condition** Specify condition column.
-
+  * **catagory** Specify catagory column to group by. 
 
 
 Example:
@@ -2492,7 +2490,7 @@ Example:
 
 
 ```cpp
-SELECT min_cate_where(catagory, value, condition) OVER w;
+SELECT min_cate_where(value, condition, catagory) OVER w;
 -- output "x:0,y:1"
 ```
 
@@ -3244,10 +3242,9 @@ Compute sum of values matching specified condition grouped by category key and o
 
 **Parameters**: 
 
-  * **catagory** Specify catagory column to group by. 
   * **value** Specify value column to aggregate on. 
   * **condition** Specify condition column.
-
+  * **catagory** Specify catagory column to group by. 
 
 
 Example:
@@ -3265,7 +3262,7 @@ Example:
 
 
 ```cpp
-SELECT sum_cate_where(catagory, value, condition) OVER w;
+SELECT sum_cate_where(value, condition, catagory) OVER w;
 -- output "x:4,y:3"
 ```
 
@@ -3469,10 +3466,10 @@ top_n_key_avg_cate_where()
 Compute average of values matching specified condition grouped by category key. Output string for top N keys in descend order. Each group is represented as 'K:V' and separated by comma. 
 
 **Parameters**: 
-
-  * **catagory** Specify catagory column to group by. 
+ 
   * **value** Specify value column to aggregate on. 
   * **condition** Specify condition column. 
+  * **catagory** Specify catagory column to group by.
   * **n** Fetch top n keys.
 
 
@@ -3528,9 +3525,9 @@ Compute count of values matching specified condition grouped by category key. Ou
 
 **Parameters**: 
 
-  * **catagory** Specify catagory column to group by. 
   * **value** Specify value column to aggregate on. 
   * **condition** Specify condition column. 
+  * **catagory** Specify catagory column to group by. 
   * **n** Fetch top n keys.
 
 
@@ -3586,9 +3583,9 @@ Compute maximum of values matching specified condition grouped by category key. 
 
 **Parameters**: 
 
-  * **catagory** Specify catagory column to group by. 
   * **value** Specify value column to aggregate on. 
   * **condition** Specify condition column. 
+  * **catagory** Specify catagory column to group by. 
   * **n** Fetch top n keys.
 
 
@@ -3644,9 +3641,9 @@ Compute minimum of values matching specified condition grouped by category key. 
 
 **Parameters**: 
 
-  * **catagory** Specify catagory column to group by. 
   * **value** Specify value column to aggregate on. 
-  * **condition** Specify condition column. 
+  * **condition** Specify condition column.
+  * **catagory** Specify catagory column to group by. 
   * **n** Fetch top n keys.
 
 
@@ -3702,9 +3699,9 @@ Compute sum of values matching specified condition grouped by category key. Outp
 
 **Parameters**: 
 
-  * **catagory** Specify catagory column to group by. 
   * **value** Specify value column to aggregate on. 
   * **condition** Specify condition column. 
+  * **catagory** Specify catagory column to group by. 
   * **n** Fetch top n keys.
 
 
