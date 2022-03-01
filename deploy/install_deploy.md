@@ -315,7 +315,7 @@ cd openmldb-taskmanager-0.4.2
 * 修改server.port。port是部署机器的端口号。
 * 修改zk_cluster为已经启动的zk集群地址。ip为zk所在机器的ip, port为zk配置文件中clientPort配置的端口号. 如果zk是集群模式用逗号分割, 格式为ip1:port1,ip2:port2,ip3:port3。
 * 如果和其他OpenMLDB共用zk需要修改zookeeper.root_path。
-* 修改batchjob.jar.path为BatchJob Jar文件路径，如果使用Yarn模式需要修改为对应HDFS路径。
+* 修改batchjob.jar.path为BatchJob Jar文件路径，如果设置为空会到上一级lib目录下寻找。如果使用Yarn模式需要修改为对应HDFS路径。
 * 修改offline.data.prefix为离线表存储路径，如果使用Yarn模式需要修改为对应HDFS路径。
 * 修改spark.master为离线任务运行模式，目前支持local和yarn模式。
 * 修改spark.home为Spark环境路径，如果不配置或配置为空则使用SPARK_HOME环境变量的配置。需要设置为第一步解压出来spark优化版包的目录，路径为绝对路径
@@ -325,7 +325,7 @@ server.host=0.0.0.0
 server.port=9902
 zookeeper.cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.33:7181
 zookeeper.root_path=/openmldb_cluster
-batchjob.jar.path=../lib/openmldb-batchjob-0.4.2.jar
+batchjob.jar.path=
 offline.data.prefix=file:///tmp/openmldb_offline_storage/
 spark.master=local
 spark.home=
