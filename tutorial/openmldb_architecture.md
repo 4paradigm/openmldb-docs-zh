@@ -1,7 +1,7 @@
 # OpenMLDB在线架构介绍
 
 OpenMLDB的整体架构如下：
-
+![img](images/architecture.png)
 
 
 ## Zookeeper
