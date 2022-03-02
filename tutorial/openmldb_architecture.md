@@ -14,7 +14,9 @@ nameserver主要用来做tablet管理以及failover的。当一个tablet节点�
 ## Tablet
 tablet是用来执行sql和数据存储的模块。
 ### 执行引擎
-
+OpenMLDB执行引擎收到SQL请求后的执行过程如下图所示：
+![img](images/execute_engine.png)
+现在执行引擎里是通过[zetasql](https://github.com/4paradigm/zetasql)把SQL解析成AST语法树的。因为我们加入了一些类似`LAST JOIN`之类的特有SQL语法，所以对开源的zetasql做了一些修改。经过一系列转化和优化以及LLVM codegen之后就会生成执行计划，通过Catalog获取存储层数据做SQL运算。在分布式版本中，会生成分布式的执行计划，会把一些执行任务发到其他tablet节点上执行。目前OpenMLDB执行引擎采用Push的模式，将任务分发到数据所在的节点执行，而不是将数据拉回来。这样做的好处可以减少数据传输。
 
 ### 存储引擎
 #### 数据分布
