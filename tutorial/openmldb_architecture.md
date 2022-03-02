@@ -8,17 +8,19 @@ OpenMLDB的整体架构如下：
 OpenMLDB依赖[Zookeeper](https://zookeeper.apache.org/)做服务发现和元数据存储。
 
 ## Nameserver
+nameserver主要用来做tablet管理以及failover的。当一个tablet节点宕机后，nameserver触发一系列任务来执行故障转移，如果节点恢复后会把数据加载到该节点中。故障转移和数据恢复是以分片为单位的，后面会有分片的详细介绍。  
+为了保证nameserver的高可用，nameserver在部署时会部署多个，是master/standby的模式，同一时刻只会有一个master。多个nameserver借助zookeeper实现抢主。如果其中一个master节点挂掉，会从standby中选一个作为master。
 
 ## Tablet
-
-### Hybridse执行引擎
+tablet是用来执行sql和数据存储的模块。
+### 执行引擎
 
 
 ### 存储引擎
 #### 数据分布
-和MySQL类似，在OpenMLDB中也有database和table。一张table必须关联到一个database中，一个database可以创建多张表。OpenMLDB是一个分布式的数据库，一张表的数据会分布在不同的节点中。一张表分为多个分片(Partition)，默认为8个，也可以在创建表时指定。分片是存储引擎主从同步以及扩缩容的最小单位。如下图所示，一张表的多个分片分布在不同节点上，一个节点上既有主分片又有从分片。(分片内部的数据存储在后续博文中会专门介绍)
+和MySQL类似，在OpenMLDB中也有database和table。一张table必须关联到一个database中，一个database可以创建多张表。OpenMLDB是一个分布式的数据库，一张表的数据会分布在不同的节点中。一张表分为多个分片(Partition)，默认为8个，也可以在创建表时指定。表一旦创建好，分片数就不能动态修改了。分片是存储引擎主从同步以及扩缩容的最小单位。如下图所示，一张表的多个分片分布在不同节点上，一个节点上既有主分片又有从分片(分片内部的数据存储在后续博文中会专门介绍)。OpenMLDB内部通过一定策略保证分片均匀分布到各个tablet上。
 ![img](images/table_partition.png)
-读写数据时通过哈希函数计算要访问哪个分片。
+读写数据时通过哈希函数计算要访问哪个分片，然后把请求发到对应的tablet节点上。
 
 #### 数据持久化及主从同步
 OpenMLDB的在线数据全部保存在内存中，为了实现高可用会把数据持久化到硬盘中。
