@@ -1,3 +1,26 @@
+# OpenMLDB v0.4.2 Release Notes
+### Features
+- Support timestamps in `long int` when importing a csv file (#1237 @vagetablechicken)
+- Change the default execution mode in CLI from `online` to `offline` (#1332 @dl239)
+- Enhancements for the Python SDK:
+  - Support `fetchmany` and `fetchall` in Python SDK (#1215 @HuilinWu2)
+  - Support fetching logs of TaskManager jobs in Python SDK and APIs (#1214 @tobegit3hub)
+  - Support fetching the schema of result sets in Python SDK (#1194 @tobegit3hub)
+  - Support the SQL magic function in Jupyter Notebook when using the Python SDK. (#1164 @HuilinWu2)
+- Enhancements for the TaskManager:
+  - Taskmanager can find the local batchjob jar if the path is not configured. (#1250 @tobegit3hub)
+  - Support the Yarn-client mode in TaskManager (#1265 @tobegit3hub)
+  - Support correctness checking for TaskManager's configuration (#1262 @tobegit3hub)
+  - Support reordering for the task list (#1256 @tobegit3hub)
+- Add new UDF functions of `lower` and `lcase` (#1192 @Liu-2001)
+- Offline queries that do not execute on tables will run successfully even when the connection fails. (#1264 @tobegit3hub) 
+
+### Bug Fixes
+- Offline data import fails when the timestamp value is `null`. (#1274 @tobegit3hub)
+- Start time of TaskManager jobs in CLI is null. (#1272 @tobegit3hub)
+- LAST JOIN may fail in the cluster version under certain circumstances. (#1226 @dl239)
+- Invalid SQL may run successfully. (#1208 @aceforeverd)
+
 # OpenMLDB v0.4.1 Release Notes
 ### Features
 - Improve CLI error messages and support the 'enable_trace' system variable (#1129 @jingchen2222)

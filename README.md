@@ -4,7 +4,7 @@
 <br />
 
 <div align="center" style="font-size:30px">
-版本 v0.4.1
+版本 v0.4.2
 </div>
 
 
@@ -15,7 +15,7 @@
 - [关于 OpenMLDB](about/about.md)
   - [OpenMLDB 简介](about/intro.md)
   - [发展历程](about/milestones.md)
-  - [v0.4.1 Release Notes](about/release_notes.md)
+  - [v0.4.2 Release Notes](about/release_notes.md)
 - [快速上手](quickstart/quickstart.md)
   - [OpenMLDB 快速上手](quickstart/openmldb_quickstart.md)
   - [Java SDK 快速上手](quickstart/java_sdk.md)

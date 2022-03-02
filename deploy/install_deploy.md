@@ -10,7 +10,7 @@
 
 
 ## 部署包准备
-本说明文档中默认使用预编译好的 OpenMLDB 部署包（[Linux](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.1/openmldb-0.4.1-linux.tar.gz), [macOS](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.1/openmldb-0.4.1-darwin.tar.gz)），所支持的操作系统要求为：CentOS 7, Ubuntu 20.04, macOS >= 10.15。如果用户期望自己编译（如做 OpenMLDB 源代码开发，操作系统或者 CPU 架构不在预编译部署包的支持列表内等原因），用户可以选择在 docker 容器内编译使用或者从源码编译，具体请参照我们的[编译文档](compile.md)。
+本说明文档中默认使用预编译好的 OpenMLDB 部署包（[Linux](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.2/openmldb-0.4.2-linux.tar.gz), [macOS](https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.2/openmldb-0.4.2-darwin.tar.gz)），所支持的操作系统要求为：CentOS 7, Ubuntu 20.04, macOS >= 10.15。如果用户期望自己编译（如做 OpenMLDB 源代码开发，操作系统或者 CPU 架构不在预编译部署包的支持列表内等原因），用户可以选择在 docker 容器内编译使用或者从源码编译，具体请参照我们的[编译文档](compile.md)。
 
 ## 配置环境(Linux)
 
@@ -76,10 +76,10 @@ OpenMLDB单机版需要部署一个nameserver和一个tablet. nameserver用于�
 ### 部署tablet
 #### 1 下载OpenMLDB部署包
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.1/openmldb-0.4.1-linux.tar.gz
-tar -zxvf openmldb-0.4.1-linux.tar.gz
-mv openmldb-0.4.1-linux openmldb-tablet-0.4.1
-cd openmldb-tablet-0.4.1
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.2/openmldb-0.4.2-linux.tar.gz
+tar -zxvf openmldb-0.4.2-linux.tar.gz
+mv openmldb-0.4.2-linux openmldb-tablet-0.4.2
+cd openmldb-tablet-0.4.2
 ```
 #### 2 修改配置文件conf/standalone_tablet.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
@@ -98,10 +98,10 @@ sh bin/start.sh start standalone_tablet
 ### 部署nameserver
 #### 1 下载OpenMLDB部署包
 ````
-wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.1/openmldb-0.4.1-linux.tar.gz
-tar -zxvf openmldb-0.4.1-linux.tar.gz
-mv openmldb-0.4.1-linux openmldb-ns-0.4.1
-cd openmldb-ns-0.4.1
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.2/openmldb-0.4.2-linux.tar.gz
+tar -zxvf openmldb-0.4.2-linux.tar.gz
+mv openmldb-0.4.2-linux openmldb-ns-0.4.2
+cd openmldb-ns-0.4.2
 ````
 #### 2 修改配置文件conf/standalone_nameserver.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
@@ -133,10 +133,10 @@ APIServer负责接收http请求，转发给OpenMLDB并返回结果。它是无�
 #### 1 下载OpenMLDB部署包
 
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.1/openmldb-0.4.1-linux.tar.gz
-tar -zxvf openmldb-0.4.1-linux.tar.gz
-mv openmldb-0.4.1-linux openmldb-apiserver-0.4.1
-cd openmldb-apiserver-0.4.1
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.2/openmldb-0.4.2-linux.tar.gz
+tar -zxvf openmldb-0.4.2-linux.tar.gz
+mv openmldb-0.4.2-linux openmldb-apiserver-0.4.2
+cd openmldb-apiserver-0.4.2
 ```
 
 #### 2 修改配置文件conf/standalone_apiserver.flags
@@ -191,10 +191,10 @@ sh bin/zkServer.sh start
 ### 部署tablet
 #### 1 下载OpenMLDB部署包
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.1/openmldb-0.4.1-linux.tar.gz
-tar -zxvf openmldb-0.4.1-linux.tar.gz
-mv openmldb-0.4.1-linux openmldb-tablet-0.4.1
-cd openmldb-tablet-0.4.1
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.2/openmldb-0.4.2-linux.tar.gz
+tar -zxvf openmldb-0.4.2-linux.tar.gz
+mv openmldb-0.4.2-linux openmldb-tablet-0.4.2
+cd openmldb-tablet-0.4.2
 ```
 #### 2 修改配置文件conf/tablet.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
@@ -226,10 +226,10 @@ sh bin/start.sh start tablet
 ### 部署nameserver
 #### 1 下载OpenMLDB部署包
 ````
-wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.1/openmldb-0.4.1-linux.tar.gz
-tar -zxvf openmldb-0.4.1-linux.tar.gz
-mv openmldb-0.4.1-linux openmldb-ns-0.4.1
-cd openmldb-ns-0.4.1
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.2/openmldb-0.4.2-linux.tar.gz
+tar -zxvf openmldb-0.4.2-linux.tar.gz
+mv openmldb-0.4.2-linux openmldb-ns-0.4.2
+cd openmldb-ns-0.4.2
 ````
 #### 2 修改配置文件conf/nameserver.flags
 * 修改endpoint。endpoint是用冒号分隔的部署机器ip/域名和端口号
@@ -266,10 +266,10 @@ APIServer负责接收http请求，转发给OpenMLDB并返回结果。它是无�
 #### 1 下载OpenMLDB部署包
 
 ```
-wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.1/openmldb-0.4.1-linux.tar.gz
-tar -zxvf openmldb-0.4.1-linux.tar.gz
-mv openmldb-0.4.1-linux openmldb-apiserver-0.4.1
-cd openmldb-apiserver-0.4.1
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.2/openmldb-0.4.2-linux.tar.gz
+tar -zxvf openmldb-0.4.2-linux.tar.gz
+mv openmldb-0.4.2-linux openmldb-apiserver-0.4.2
+cd openmldb-apiserver-0.4.2
 ```
 
 #### 2 修改配置文件conf/apiserver.flags
@@ -302,12 +302,12 @@ sh bin/start.sh start apiserver
 
 #### 1 下载 OpenMLDB 部署包和面向特征工程优化的 Spark 发行版
 ````
-wget https://github.com/4paradigm/spark/releases/download/v3.0.0-openmldb0.4.1/spark-3.0.0-bin-openmldbspark.tgz 
+wget https://github.com/4paradigm/spark/releases/download/v3.0.0-openmldb0.4.2/spark-3.0.0-bin-openmldbspark.tgz 
 tar -zxvf spark-3.0.0-bin-openmldbspark.tgz 
-wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.1/openmldb-0.4.1-linux.tar.gz
-tar -zxvf openmldb-0.4.1-linux.tar.gz
-mv openmldb-0.4.1-linux openmldb-taskmanager-0.4.1
-cd openmldb-taskmanager-0.4.1
+wget https://github.com/4paradigm/OpenMLDB/releases/download/v0.4.2/openmldb-0.4.2-linux.tar.gz
+tar -zxvf openmldb-0.4.2-linux.tar.gz
+mv openmldb-0.4.2-linux openmldb-taskmanager-0.4.2
+cd openmldb-taskmanager-0.4.2
 ````
 #### 2 修改配置文件conf/taskmanager.properties
 
@@ -315,7 +315,7 @@ cd openmldb-taskmanager-0.4.1
 * 修改server.port。port是部署机器的端口号。
 * 修改zk_cluster为已经启动的zk集群地址。ip为zk所在机器的ip, port为zk配置文件中clientPort配置的端口号. 如果zk是集群模式用逗号分割, 格式为ip1:port1,ip2:port2,ip3:port3。
 * 如果和其他OpenMLDB共用zk需要修改zookeeper.root_path。
-* 修改batchjob.jar.path为BatchJob Jar文件路径，如果使用Yarn模式需要修改为对应HDFS路径。
+* 修改batchjob.jar.path为BatchJob Jar文件路径，如果设置为空会到上一级lib目录下寻找。如果使用Yarn模式需要修改为对应HDFS路径。
 * 修改offline.data.prefix为离线表存储路径，如果使用Yarn模式需要修改为对应HDFS路径。
 * 修改spark.master为离线任务运行模式，目前支持local和yarn模式。
 * 修改spark.home为Spark环境路径，如果不配置或配置为空则使用SPARK_HOME环境变量的配置。需要设置为第一步解压出来spark优化版包的目录，路径为绝对路径
@@ -325,7 +325,7 @@ server.host=0.0.0.0
 server.port=9902
 zookeeper.cluster=172.27.128.31:7181,172.27.128.32:7181,172.27.128.33:7181
 zookeeper.root_path=/openmldb_cluster
-batchjob.jar.path=../lib/openmldb-batchjob-0.4.1.jar
+batchjob.jar.path=
 offline.data.prefix=file:///tmp/openmldb_offline_storage/
 spark.master=local
 spark.home=
