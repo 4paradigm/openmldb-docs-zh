@@ -1,10 +1,12 @@
 =============================
-关于 OpenMLDB
+任务管理
 =============================
+
 
 .. toctree::
     :maxdepth: 1
 
-    intro
-    milestones
-    release_notes
+    SHOW_JOBS
+    SHOW_JOB
+    STOP_JOB
+    SUBMIT_JOB

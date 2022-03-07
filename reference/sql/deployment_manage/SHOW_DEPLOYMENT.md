@@ -1,4 +1,4 @@
-# SHOW DEPLOYMENT
+# 查看 DEPLOYMENT 详情
 
 ```SQL
 SHOW DEPLOYMENT deployment_name;
@@ -6,7 +6,7 @@ SHOW DEPLOYMENT deployment_name;
 
 `SHOW DEPLOYMENT`语句用于显示某一个OnlineServing的详情。
 
-### Example
+## Example
 
 创建一个数据库，并设置为当前数据库:
 

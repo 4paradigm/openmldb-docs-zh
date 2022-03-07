@@ -1,10 +1,10 @@
 =============================
-关于 OpenMLDB
+数据操作语句（DML）
 =============================
+
 
 .. toctree::
     :maxdepth: 1
 
-    intro
-    milestones
-    release_notes
+    INSERT_STATEMENT
+    LOAD_DATA_STATEMENT

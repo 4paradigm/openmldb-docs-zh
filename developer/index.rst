@@ -1,10 +1,9 @@
 =============================
-关于 OpenMLDB
+开发者文档
 =============================
 
 .. toctree::
     :maxdepth: 1
 
-    intro
-    milestones
-    release_notes
+    contributing
+    built_in_function_develop_guide

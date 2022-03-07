@@ -1,8 +1,11 @@
 {% if versions %}
-<h3>{{ _('Versions') }}</h3>
+</br>
+当前版本: {{ current_version.name }}</br>
+{{ _('版本列表：') }}
 <ul>
-  {%- for item in versions %}
+  {%- for item in versions.branches %}
   <li><a href="{{ item.url }}">{{ item.name }}</a></li>
   {%- endfor %}
 </ul>
+</br>
 {% endif %}

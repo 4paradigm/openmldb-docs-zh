@@ -4,7 +4,7 @@
 
 ## 1. 环境和数据准备
 
-> :warning: docker engine版本需求 >= 18.03
+|:warning:| docker engine版本需求 >= 18.03
 
 本教程均基于 OpenMLDB CLI 进行开发和部署，因此首先需要下载样例数据并且启动 OpenMLDB CLI。我们推荐使用准备好的 docker 镜像来快速体验使用
 

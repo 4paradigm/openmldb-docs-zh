@@ -1,4 +1,4 @@
-## Functions Documentation
+## Built-in Functions
 
 ### function abs
 

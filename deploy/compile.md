@@ -1,9 +1,6 @@
-编译 OpenMLDB
-=============
+# 编译
 
-# 快速开始 - 在 docker 容器内编译和使用
-
-[quick-start]: quick-start
+## 快速开始 - 在 docker 容器内编译和使用
 
 此节介绍在官方编译镜像 [hybridsql](https://hub.docker.com/r/4pdosc/hybridsql) 中编译 OpenMLDB。镜像内置了编译所需要的工具和依赖，因此不需要额外的步骤单独配置它们。关于基于非 docker 的编译使用方式，请参照下面的 [编译详细说明](#编译详细说明) 章节。
 
@@ -35,11 +32,9 @@
     ```
     至此， 你已经完成了在 docker 容器内的编译工作，你现在可以在容器内开始使用 OpenMLDB 了。
 
-# 编译详细说明
+## 编译详细说明
 
-[build]: build
-
-## 硬件要求
+### 硬件要求
 
 - **内存**: 推荐 8GB+.
 - **硬盘**: 全量编译需要至少 25GB 的空闲磁盘空间
@@ -51,7 +46,7 @@
 make NPROC=4
 ```
 
-## 依赖工具
+### 依赖工具
 
 - gcc >= 8 或者 AppleClang >= 12.0.0
 - cmake 3.20 或更新版本
@@ -60,7 +55,7 @@ make NPROC=4
 - apache maven 3.3.9 或者更新版本
 - 如果需要从源码编译 thirdparty, 查看 [third-party's requirement](../../third-party/README.md) 里的额外要求
 
-## 编译和安装 OpenMLDB
+### 编译和安装 OpenMLDB
 
 成功编译 OpenMLDB 要求依赖的第三方库预先安装在系统中。因此添加了一个 `Makefile`, 将第三方依赖自动安装和随后执行 CMake 编译浓缩到一行 `make` 命令中。`make` 提供了三种编译方式，对第三方依赖进行不同的管理方式：
 
@@ -74,7 +69,7 @@ make NPROC=4
 
 以上 OpenMLDB 安装成功的默认目录放在 `${PROJECT_ROOT}/openmldb`，可以通过修改参数 `CMAKE_INSTALL_PREFIX` 更改安装目录（详见下面章节 [`make` 额外参数](#make-opts)）。
 
-## `make` 额外参数
+### `make` 额外参数
 
 [make-opts]: make-opts
 
@@ -125,9 +120,11 @@ make CMAKE_BUILD_TYPE=Debug
   默认: ON
 
 
-## 针对OpenMLDB优化的Spark发行版（可选）
+### 针对特征工程优化的 OpenMLDB Spark 发行版
 
-[OpenMLDB Spark 发行版](https://github.com/4paradigm/spark)是 [Apache Spark](https://github.com/apache/spark) 的定制发行版。它针对机器学习场景提供特定优化，包括达到10倍到100倍性能提升的原生LastJoin实现。你可以使用和标准Spark一样的Java/Scala/Python/SQL接口，来使用OpenMLDB Spark发行版。
+[OpenMLDB Spark 发行版](https://github.com/4paradigm/spark)是 [Apache Spark](https://github.com/apache/spark) 的定制发行版。它针对机器学习场景提供特定优化，包括达到10倍到100倍性能提升的原生 LastJoin 实现。你可以使用和标准 Spark 一样的 Java/Scala/Python/SQL 接口，来使用 OpenMLDB Spark 发行版。
+
+注意：为了运行 OpenMLDB 的定制化 SQL 语法，你必须使用该 OpenMLDB Spark 发行版本。
 
 1. 下载预编译的OpenMLDB Spark发行版。
 

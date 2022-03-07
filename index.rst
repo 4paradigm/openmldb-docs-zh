@@ -1,14 +1,16 @@
-.. test_sphinx documentation master file, created by
-   sphinx-quickstart on Sun Jan 16 11:21:13 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+=============================
+OpenMLDB 文档 (|version|)
+=============================
 
-OpenMLDB Documentation
-=======================================
 
 .. toctree::
-   :titlesonly:
+    :maxdepth: 1
 
-   about/index.rst
-
-
+    about/index 
+    quickstart/index
+    tutorial/index
+    use_case/index
+    deploy/index
+    maintain/index
+    developer/index
+    reference/index

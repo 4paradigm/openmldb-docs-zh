@@ -1,4 +1,4 @@
-## SHOW JOBS
+# SHOW JOBS
 
 ```SQL
 SHOW JOBS;
@@ -6,7 +6,7 @@ SHOW JOBS;
 
 `SHOW JOBS`语句显示已经提交的任务列表。
 
-### Example
+## Example
 
 查看当前所有的任务:
 

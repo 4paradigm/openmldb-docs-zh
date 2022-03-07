@@ -1,10 +1,11 @@
 =============================
-关于 OpenMLDB
+参考
 =============================
+
 
 .. toctree::
     :maxdepth: 1
 
-    intro
-    milestones
-    release_notes
+    cli
+    rest_api
+    sql/index 

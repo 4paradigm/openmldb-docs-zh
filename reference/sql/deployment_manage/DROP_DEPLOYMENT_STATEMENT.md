@@ -1,4 +1,4 @@
-# Drop a deployment 
+# 删除 DEPLOYMENT 
 
 ```SQL
 DROP DEPLOYMENT deployment_name

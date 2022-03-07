@@ -1,10 +1,8 @@
 =============================
-关于 OpenMLDB
+使用案例
 =============================
 
 .. toctree::
     :maxdepth: 1
 
-    intro
-    milestones
-    release_notes
+    taxi_tour_duration_prediction

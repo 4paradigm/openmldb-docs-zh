@@ -1,4 +1,4 @@
-# OpenMLDB v0.4.x Release Notes
+# v0.4.x Release Notes
 
 ## v0.4.2 Release Notes
 ### Features

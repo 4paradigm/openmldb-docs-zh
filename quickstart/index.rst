@@ -1,10 +1,11 @@
 =============================
-关于 OpenMLDB
+快速上手
 =============================
+
 
 .. toctree::
     :maxdepth: 1
 
-    intro
-    milestones
-    release_notes
+    openmldb_quickstart 
+    java_sdk
+    python_sdk

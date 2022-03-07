@@ -1,10 +1,10 @@
 =============================
-关于 OpenMLDB
+安装部署
 =============================
 
 .. toctree::
     :maxdepth: 1
 
-    intro
-    milestones
-    release_notes
+    compile
+    install_deploy
+    conf

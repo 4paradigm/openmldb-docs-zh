@@ -1,4 +1,4 @@
-## STOP JOB
+# STOP JOB
 
 ```SQL
 STOP JOB;
@@ -6,7 +6,7 @@ STOP JOB;
 
 `STOP JOB`语句停止已经提交的单个任务。
 
-### Example
+## Example
 
 提交在线数据导入任务:
 

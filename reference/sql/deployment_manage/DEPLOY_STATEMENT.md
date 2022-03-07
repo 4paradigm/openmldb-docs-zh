@@ -1,4 +1,4 @@
-# DEPLOY SQL
+# 创建 DEPLOYMENT
 
 ## Syntax
 

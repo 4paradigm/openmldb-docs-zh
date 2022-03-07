@@ -1,10 +1,11 @@
 =============================
-关于 OpenMLDB
+数据类型
 =============================
+
 
 .. toctree::
     :maxdepth: 1
 
-    intro
-    milestones
-    release_notes
+    numeric_types
+    string_types
+    date_and_time_types

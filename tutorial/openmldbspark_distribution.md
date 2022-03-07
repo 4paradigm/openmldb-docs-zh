@@ -12,13 +12,11 @@ GitHub Repo: https://github.com/4paradigm/Spark/
 
 注意，预编译的OpenMLDB Spark发行版为allinone版本，可以支持Linux和MacOS操作系统，如有特殊需求也可以下载源码重新编译OpenMLDB Spark发行版。
 
-# OpenMLDB Spark配置
-
-## 简介
+## OpenMLDB Spark配置
 
 OpenMLDB Spark兼容标准的[Spark配置](https://spark.apache.org/docs/latest/configuration.html)，除此之外，还支持新增的配置项，可以更好地利用原生执行引擎的性能优化。
 
-## 新增配置
+### 新增配置
 
 | 配置项                                      | 说明                       | 默认值                    | 备注                                                         |
 | ------------------------------------------- | -------------------------- | ------------------------- | ------------------------------------------------------------ |
@@ -29,9 +27,7 @@ OpenMLDB Spark兼容标准的[Spark配置](https://spark.apache.org/docs/latest/
 | spark.openmldb.enable.unsaferow.optimization | 是否开启UnsafeRow内存优化  | false                     | 开启后降低编解码开销，目前部分复杂类型不支持                 |
 | spark.openmldb.physical.plan.graphviz.path   | 导出物理计划图片路径       | ""                        | 默认不导出图片文件                                           |
 
-
-
-## 使用Example Jars
+### 使用Example Jars
 
 下载解压后，设置`SPARK_HOME`环境变量，可以直接执行Example Jars中的例子。
 
@@ -46,7 +42,7 @@ $SPARK_HOME/bin/spark-submit \
 
 注意，SparkSQLExample为标准Spark源码自带的例子，部分SQL例子使用了OpenMLDB Spark优化进行加速，部分DataFrame例子不支持OpenMLDB Spark优化。
 
-## 使用PySpark
+### 使用PySpark
 
 下载OpenMLDB Spark发行版后，也可以使用标准的PySpark编写应用，示例代码如下。
 
