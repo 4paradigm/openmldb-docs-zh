@@ -155,7 +155,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ```json
 {"code":0,"msg":"ok","data":{"data":[["aaa",11,22]]}}
 ```
-\* 结果说明见文末。
+\* 结果说明见文末章节 ”3.3.8 实时特征计算的结果说明“。
 
 ## 3. 集群版OpenMLDB 快速上手
 
@@ -346,7 +346,7 @@ curl http://127.0.0.1:9080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 {"code":0,"msg":"ok","data":{"data":[["aaa",11,22]]}}
 ```
 
-#### 实时特征计算的结果说明
+#### 3.3.8 实时特征计算的结果说明
 
 实时请求（执行deployment），是请求模式（request模式）的SQL执行。与批处理模式（batch模式）不同，请求模式只会对请求行（request row）进行SQL计算。在前面的示例中，就是POST的input作为请求行，假设这行数据存在于表demo_table1中，并对它执行SQL：
 ```
