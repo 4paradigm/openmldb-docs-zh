@@ -1,8 +1,8 @@
-# DML(Data Manipulation Language, 数据操纵语言)
+# 插入语句
 
 OpenMLDB支持单行和多行插入语句
 
-### syntax
+## syntax
 
 ```
 INSERT INFO tbl_name (column_list) VALUES (value_list) [, value_list ...]
@@ -14,7 +14,7 @@ value_list:
     value [, value] ...
 ```
 
-### Examples
+## Examples
 
 ```SQL
 -- insert a row into table with all columns

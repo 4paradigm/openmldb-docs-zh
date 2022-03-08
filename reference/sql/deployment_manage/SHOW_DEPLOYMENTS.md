@@ -1,4 +1,4 @@
-## SHOW DEPLOYMENTS
+# 查看 DEPLOYMENTS 列表
 
 ```SQL
 SHOW DEPLOYMENTS;
@@ -6,7 +6,7 @@ SHOW DEPLOYMENTS;
 
 `SHOW DEPLOYMENTS`语句用户显示当前数据库下已经部署的Online serving列表。
 
-### Example
+## Example
 
 创建一个数据库，并设置为当前数据库:
 

@@ -1,4 +1,4 @@
-## SHOW JOB
+# SHOW JOB
 
 ```SQL
 SHOW JOB;
@@ -6,7 +6,7 @@ SHOW JOB;
 
 `SHOW JOB`语句显示已经提交的单个任务详情。
 
-### Example
+## Example
 
 提交在线数据导入任务:
 

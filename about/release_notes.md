@@ -1,4 +1,6 @@
-# OpenMLDB v0.4.2 Release Notes
+# v0.4.x Release Notes
+
+## v0.4.2 Release Notes
 ### Features
 - Support timestamps in `long int` when importing a csv file (#1237 @vagetablechicken)
 - Change the default execution mode in CLI from `online` to `offline` (#1332 @dl239)
@@ -21,7 +23,7 @@
 - LAST JOIN may fail in the cluster version under certain circumstances. (#1226 @dl239)
 - Invalid SQL may run successfully. (#1208 @aceforeverd)
 
-# OpenMLDB v0.4.1 Release Notes
+## v0.4.1 Release Notes
 ### Features
 - Improve CLI error messages and support the 'enable_trace' system variable (#1129 @jingchen2222)
 
@@ -33,7 +35,7 @@
 - Offline data import for the CSV format may cause incorrect results. (#1100 @yabg-shuai666)
 - 'Offline path' cannot be displayed after importing offline data. (#1172 @vagetablechicken)
 
-# OpenMLDB v0.4.0 Release Notes
+## v0.4.0 Release Notes
 
 ### Highlights
 
