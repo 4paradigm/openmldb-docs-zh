@@ -155,7 +155,9 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ```json
 {"code":0,"msg":"ok","data":{"data":[["aaa",11,22]]}}
 ```
-\* 结果说明见文末章节 ”3.3.8 实时特征计算的结果说明“。
+\* api server执行请求，可以支持批请求，"input"字段支持数组。每行input单独进行request计算。详细参数格式见[RESTful API](../reference/rest_api.md)。
+
+\* request结果说明见文末章节 ”3.3.8 实时特征计算的结果说明“。
 
 ## 3. 集群版OpenMLDB 快速上手
 
