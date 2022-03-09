@@ -15,7 +15,8 @@ request body:
 }
 ```
 
-目前仅支持一条插入，不可以插入多条数据。数据需严格按照schema排列。
++ 目前仅支持一条插入，不可以插入多条数据。
++ 数据需严格按照schema排列。
 
 #### example
 
@@ -44,12 +45,13 @@ request body:
 
 ```
 {
-    "input": [["value0", "value1", "value2"]],
+    "input": [["row0_value0", "row0_value1", "row0_value2"], ["row1_value0", "row1_value1", "row1_value2"]],
     "need_schema": false
 }
 ```
 
-+ need_schema可以设置为true, 返回就会有输出结果的schema。默认为false
++ 可以支持多行，输入与response data.data字段数组一一对应。
++ need_schema可以设置为true, 返回就会有输出结果的schema。默认为false。
 
 #### example
 
@@ -66,8 +68,7 @@ response:
     "code":0,
     "msg":"ok",
     "data":{
-        "data":[["aaa",11,22]],
-        "common_cols_data":[]
+        "data":[["aaa",11,22]]
     }
 }
 ```
