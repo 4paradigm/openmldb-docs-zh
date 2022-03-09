@@ -11,3 +11,4 @@
     openmldbspark_distribution
     tutorial_sql_1
     tutorial_sql_2
+    modes
