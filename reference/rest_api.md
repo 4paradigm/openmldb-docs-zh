@@ -1,6 +1,6 @@
 # REST APIs
 
-### Put
+## 数据插入
 
 reqeust url: http://ip:port/dbs/{db_name}/tables/{table_name}
 
@@ -16,9 +16,9 @@ request body:
 ```
 
 + 目前仅支持一条插入，不可以插入多条数据。
-+ 数据需严格按照schema排列。
++ 数据需严格按照 schema 排列。
 
-#### example
+### 举例
 
 ```
 curl http://127.0.0.1:8080/dbs/db/tables/trans -X PUT -d '{
@@ -35,7 +35,7 @@ response:
 }
 ```
 
-### 执行deployment
+## 实时特征计算
 
 reqeust url: http://ip:port/dbs/{db_name}/deployments/{deployment_name}
 
@@ -50,10 +50,10 @@ request body:
 }
 ```
 
-+ 可以支持多行，输入与response data.data字段数组一一对应。
-+ need_schema可以设置为true, 返回就会有输出结果的schema。默认为false。
++ 可以支持多行，其结果与返回的 response 中的 data.data 字段的数组一一对应。
++ need_schema 可以设置为 true, 返回就会有输出结果的 schema。默认为 false。
 
-#### example
+### 举例
 
 ```
 curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'{
