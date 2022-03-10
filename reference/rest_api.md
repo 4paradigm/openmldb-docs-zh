@@ -45,7 +45,7 @@ request body:
 
 ```
 {
-    "input": [["row0_value0", "row0_value1", "row0_value2"], ["row1_value0", "row1_value1", "row1_value2"]],
+    "input": [["row0_value0", "row0_value1", "row0_value2"], ["row1_value0", "row1_value1", "row1_value2"], ...],
     "need_schema": false
 }
 ```
