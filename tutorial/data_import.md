@@ -1,4 +1,4 @@
-# OpenMLDB数据导入工具使用
+# 在线数据导入工具使用
 数据导入工具位于[java/openmldb-import](https://github.com/4paradigm/OpenMLDB/tree/main/java/openmldb-import)。支持两种导入方式，insert和bulk load。
 
 - insert方式：适用于所有场景的数据导入，目前还在优化中。
@@ -72,13 +72,13 @@ insert/bulk load data(csv) to openmldb
 
 但请注意:warning:，导入前，**表数据必须为空**，导入期间**不可以**有任何对该表的读写。本文主要介绍OpenMLDB数据导入工具在bulk load方式下的使用方法。
 
-#### 配置调整
+### 配置调整
 
 由于目前import只是单机模式，大数据导入可能较大地消耗资源，一些操作会变得很耗时。
 
 如果导入中出现oom，请调大-Xmx。如果出现rpc send失败，调大rpc_write_timeout。如果rpc回复timeout，也适当调大rpc_read_timeout。
 
-#### 错误处理
+### 错误处理
 
 只要importer端没有打印输出`bulk load succeed`，importer中途退出或者打印输出failed，都可以视为导入失败。
 
