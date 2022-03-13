@@ -23,7 +23,7 @@ copyright = '2022, OpenMLDB'
 author = 'OpenMLDB'
 
 # The full version, including alpha/beta/rc tags
-version = 'dev'
+version = 'v0.4'
 
 
 # -- General configuration ---------------------------------------------------
