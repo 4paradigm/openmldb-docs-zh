@@ -295,13 +295,13 @@ TEST_F(UdfIRBuilderTest, timestamp_to_date_test_null_0) {
 #### 2.3.2 编译和执行单测
 
 ```bash
-cd ./hybridse
-mkdir -p build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DTESTING_ENABLE=ON
-make udf_ir_builder_test -j4
-SQL_CASE_BASE_DIR=${OPENMLDB_DIR} ./src/codegen/udf_ir_builder_test
+# 编译 udf_ir_builder_test, 默认输出路径为 build/hybridse/src/codegen/
+make OPENMLDB_BUILD_TARGET=udf_ir_builder_test TESTING_ENABLE=ON
+
+# 运行测试程序, 注意需要指定环境变量 SQL_CASE_BASE_DIR 到 OpenMLDB 项目到克隆路径
+SQL_CASE_BASE_DIR=${OPENMLDB_DIR} ./build/hybridse/src/codegen/udf_ir_builder_test
 ```
+了解更多编译信息参见 [compile.md](../deploy/compile.md)
 
 ## 3. SQL函数开发模版
 
