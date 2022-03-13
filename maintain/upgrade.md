@@ -4,7 +4,7 @@
 * 如果创建的表是单副本，那么在升级过程中是不可以读写的  
 * 如果创建的表是多副本，落在升级节点的读请求会有短暂的失败，对写请求会有少量的数据丢失。如果不能容忍短暂的读失败，那么在停止每一个tablet节点前执行下offlineendpoint。如果不能容忍少量写丢失，需要在升级过程中停掉写操作。
 
-### 1 升级nameserver
+## 1. 升级nameserver
 
 * 停止nameserver 
     ```bash
@@ -19,7 +19,7 @@
     ```
 * 对剩余nameserver重复以上步骤
 
-### 2 升级tablet
+## 2. 升级tablet
 
 * 停止tablet
     ```bash
@@ -52,7 +52,7 @@ recover endpoint ok
 
 所有节点升级完成后恢复写操作, 执行showtable命令查看主从offset是否增加
 
-### 3 升级java client
+## 3. 升级java client
 
 * 更新pom文件中java client版本号
 * 更新依赖包

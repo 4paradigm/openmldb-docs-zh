@@ -36,20 +36,26 @@ extensions = [
 'sphinx_multiversion',
 ]
 
+myst_enable_extensions = [
+    "amsmath",
+    "colon_fence",
+    "deflist",
+    "dollarmath",
+    "fieldlist",
+    "html_admonition",
+    "html_image",
+    "linkify",
+    "replacements",
+    "smartquotes",
+    "strikethrough",
+    "substitution",
+    "tasklist",
+]
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
-html_sidebars = {
-    '**': [
-	"sidebar/brand.html",
-	"sidebar/search.html",
-	"sidebar/scroll-start.html",
-	"sidebar/navigation.html",
-	"sidebar/scroll-end.html",
-    "versioning.html",
-    ],
-}
 
 #smv_latest_version = 'v0.4'
 
@@ -72,11 +78,36 @@ exclude_patterns = []
 # a list of builtin themes.
 #
 #html_theme = 'alabaster'
-html_theme = 'furo'
+#html_theme = 'furo'
+html_theme = 'sphinx_book_theme'
 
 html_theme_options = {
-    "sidebar_hide_name": True,
+#    "sidebar_hide_name": True,
+    "logo_only": True,
 }
+
+
+#html_sidebars = {
+#    '**': [
+#	"sidebar/brand.html",
+#	"sidebar/search.html",
+#	"sidebar/scroll-start.html",
+#	"sidebar/navigation.html",
+#	"sidebar/scroll-end.html",
+#    "versioning.html",
+#    ],
+#}
+
+
+html_sidebars = {
+    '**': [
+    "sidebar-logo.html",
+    "search-field.html",
+    "sbt-sidebar-nav.html",
+    "versioning.html",
+    ],
+}
+
 
 html_last_updated_fmt = "%c"
 master_doc = "index"
