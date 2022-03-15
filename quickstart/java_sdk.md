@@ -425,6 +425,8 @@ public class Demo {
         ResultSet resultSet = null;
         try {
             pstmt = sqlExecutor.getRequestPreparedStmt(db, selectSql);
+            // 如果是执行deployment, 可以通过名字获取preparedstatement
+            //pstmt = sqlExecutor.getCallablePreparedStmt(db, deploymentName);
             ResultSetMetaData metaData = pstmt.getMetaData();
             // 执行request模式需要在RequestPreparedStatement设置一行请求数据
             setData(pstmt, metaData);
@@ -455,6 +457,51 @@ public class Demo {
         }
     }
 
+    private void batchRequestSelect() {
+         String selectSql = "SELECT c1, c3, sum(c4) OVER w1 as w1_c4_sum FROM trans WINDOW w1 AS " +
+                "(PARTITION BY trans.c1 ORDER BY trans.c7 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW);";
+        PreparedStatement pstmt = null;
+        ResultSet resultSet = null;
+        try {
+            List<Integer> list = new ArrayList<Integer>();
+            pstmt = sqlExecutor.getBatchRequestPreparedStmt(db, selectSql, list);
+            // 如果是执行deployment, 可以通过名字获取preparedstatement 
+            // pstmt = sqlExecutor.getCallablePreparedStmtBatch(db, deploymentName);
+            ResultSetMetaData metaData = pstmt.getMetaData();
+            // 执行request模式需要在设置PreparedStatement请求数据
+            // 设置一个batch发送多少条数据
+            int batchSize = 5;
+            for (int idx = 0; idx < batchSize; idx++) {
+                setData(pstmt, metaData);
+                // 每次设置完一行数据后需要调用一次addBatch
+                pstmt.addBatch();
+            }
+            // 调用executeQuery会执行这个select sql, 然后将结果放在了resultSet中
+            resultSet = pstmt.executeQuery();
+            // 依次取出每一条数据对应的特征结果
+            while (resultSet.next()) {
+                Assert.assertEquals(resultSet.getMetaData().getColumnCount(), 3);
+                Assert.assertEquals(resultSet.getString(1), "bb");
+                Assert.assertEquals(resultSet.getInt(2), 24);
+                Assert.assertEquals(resultSet.getLong(3), 34);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Assert.fail();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    // result用完之后需要close
+                    resultSet.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
 
 
     private void setData(PreparedStatement pstmt, ResultSetMetaData metaData) throws SQLException {
