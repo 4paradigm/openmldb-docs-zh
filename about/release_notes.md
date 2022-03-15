@@ -1,6 +1,6 @@
 # v0.4.x Release Notes
 
-## v0.4.3 Release Note
+## v0.4.3 Release Notes
 ### Features
 
 - Add the output of the number of rows imported after successfully importing data (#1401 @Manny-op)
