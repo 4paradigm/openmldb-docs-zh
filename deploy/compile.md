@@ -52,7 +52,6 @@ make NPROC=4
 - cmake 3.20 或更新版本
 - jdk 8
 - python3, python setuptools, python wheel
-- apache maven 3.3.9 或者更新版本
 - 如果需要从源码编译 thirdparty, 查看 [third-party's requirement](../../third-party/README.md) 里的额外要求
 
 ### 编译和安装 OpenMLDB
