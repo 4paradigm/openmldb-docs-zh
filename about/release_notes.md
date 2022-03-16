@@ -1,5 +1,18 @@
 # v0.4.x Release Notes
 
+## v0.4.3 Release Notes
+### Features
+
+- Add the output of the number of rows imported after successfully importing data (#1401 @Manny-op)
+- Code Refactoring (#1366 @Cupid0320; #1378 @wuteek; #1418 @prashantpaidi; #1420 @shiyoubun; #1422 @vagetablechicken)
+
+### Bug Fixes
+- Loading online data with "not null" columns in Spark fails. (#1341 @vagetablechicken)
+- `max_where` and `min_where` results are incorrect if there is no rows matched. (#1403 @aceforeverd)
+- The `insert` and `select` execution of the standalone version fails. (#1426 @dl239)
+- Other minor bug fixes (#1379 @wuteek; #1384 jasleon)
+
+
 ## v0.4.2 Release Notes
 ### Features
 - Support timestamps in `long int` when importing a csv file (#1237 @vagetablechicken)

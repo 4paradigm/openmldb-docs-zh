@@ -1,6 +1,6 @@
-# OpenMLDB 简介
-
 ![](images/openmldb_logo.png)
+
+# OpenMLDB 简介
 
 ### OpenMLDB 是一个开源机器学习数据库，提供企业级 FeatureOps 全栈解决方案。
 
