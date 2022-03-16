@@ -3,7 +3,7 @@
 ## 1. 概览
 
 OpenMLDB 的线上架构的主要模块包括 Apache ZooKeeper, Nameserver, Tablet, 执行引擎，存储引擎等。
-<img src="images/architecture.png" alt="img" style="zoom: 60%;" />
+![image-20220316155836262](images/architecture.png)
 
 
 ## Zookeeper
