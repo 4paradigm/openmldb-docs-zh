@@ -4,11 +4,15 @@
 
 ## 1. 环境和数据准备
 
-> :warning: docker engine版本需求 >= 18.03
+:::{important}
+Docker engine版本需求 >= 18.03
+:::
 
 本教程均基于 OpenMLDB CLI 进行开发和部署，因此首先需要下载样例数据并且启动 OpenMLDB CLI。我们推荐使用准备好的 docker 镜像来快速体验使用
 
-:bulb: 如果你希望自己编译安装，可以参考我们的[安装部署文档](../deploy/content.md)。
+:::{note}
+如果你希望自己编译安装，可以参考我们的[安装部署文档](../deploy/content.md)。
+:::
 
 ### 1.1 镜像准备
 
@@ -18,7 +22,9 @@
 docker run -it 4pdosc/openmldb:0.4.3 bash
 ```
 
-:bulb: **成功启动容器以后，本教程中的后续命令默认均在容器内执行。**
+:::{important}
+**成功启动容器以后，本教程中的后续命令默认均在容器内执行。**
+:::
 
 ### 1.2 样例数据
 
@@ -55,7 +61,9 @@ curl https://openmldb.ai/demo/data.parquet --output ./data/data.parquet
 
 单机版OpenMLDB的工作流程一般包含：建立数据库和表、数据准备、离线特征计算、SQL 方案上线、在线实时特征计算几个阶段。
 
-:bulb: 以下演示的命令如无特别说明，默认均在单机版OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
+:::{note}
+以下演示的命令如无特别说明，默认均在 OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
+:::
 
 #### 2.2.1 创建数据库和表
 
@@ -69,7 +77,7 @@ curl https://openmldb.ai/demo/data.parquet --output ./data/data.parquet
 
 导入之前下载的样例数据（在 [1.2 样例数据](#1.2-样例数据) 中下载保存的数据）作为训练数据，用于离线和在线特征计算。
 
-⚠️注意，单机版可以使用同一份数据用于离线和在线特征计算，用户当然也可以手动为离线和在线导入不同的数据。为简化起见，本教程的单机版使用了同一份数据做离线和在线计算。
+注意，单机版可以使用同一份数据用于离线和在线特征计算，用户当然也可以手动为离线和在线导入不同的数据。为简化起见，本教程的单机版使用了同一份数据做离线和在线计算。
 
 ```sql
 > LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;
@@ -123,7 +131,9 @@ curl https://openmldb.ai/demo/data.parquet --output ./data/data.parquet
 1 row in set
 ```
 
-:bulb: 注意，本教程的单机版使用了同一份数据做离线和在线特征计算。在部署时，离线数据自动切换为在线数据用于在线计算。如果用户希望使用不同数据集，可以在此基础上做数据更新，或者在部署之前重新导入新的数据集。
+:::{note}
+本教程的单机版使用了同一份数据做离线和在线特征计算。在部署时，离线数据自动切换为在线数据用于在线计算。如果用户希望使用不同数据集，可以在此基础上做数据更新，或者在部署之前重新导入新的数据集。
+:::
 
 #### 2.2.5 退出 CLI
 
@@ -155,9 +165,10 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ```json
 {"code":0,"msg":"ok","data":{"data":[["aaa",11,22]]}}
 ```
-\* api server执行请求，可以支持批请求，"input"字段支持数组。每行input单独进行request计算。详细参数格式见[RESTful API](../reference/rest_api.md)。
+说明：
 
-\* request结果说明见文末章节 ”3.3.8 实时特征计算的结果说明“。
+- api server执行请求，可以支持批请求，通过 `input` 字段支持数组。每行input单独进行 request 计算。详细参数格式见[RESTful API](../reference/rest_api.md)。
+- request 结果说明见文末章节 ”3.3.8 实时特征计算的结果说明“。
 
 ## 3. 集群版OpenMLDB 快速上手
 
@@ -196,7 +207,9 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 集群版OpenMLDB需要分别管理离线数据和在线数据。因此在完成SQL方案上线后，必须做在线数据的准备步骤。
 
-:bulb: 以下演示的命令如无特别说明，默认均集群版部署OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
+:::{note}
+以下演示的命令如无特别说明，默认均集群版 OpenMLDB CLI 下执行（CLI 命令以提示符 `>` 开头以作区分）。
+:::
 
 #### 3.3.1 创建数据库和表
 
@@ -310,10 +323,10 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
  ----- ---- ---- ---------- ----------- --------------- ------------
 ```
 
-:bulb: 注意：
+注意：
 
-- 与单机版的OpenMLDB不同，集群版的OpenMLDB需要分别维护离线和在线数据。
-- 用户需要成功完成SQL上线部署后，才能准备上线数据，否则可能会上线失败。
+- 与单机版的 OpenMLDB 不同，集群版的 OpenMLDB 需要分别维护离线和在线数据。
+- 用户需要成功完成 SQL 上线部署后，才能准备上线数据，否则可能会上线失败。
 
 #### 3.3.6 退出 CLI
 
@@ -325,7 +338,7 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 
 #### 3.3.7 实时特征计算
 
-注意:warning:: 按照默认的部署配置，apiserver部署的http端口为9080。
+注意， 按照默认的部署配置，apiserver 部署的 http 端口为 9080。
 
 实时线上服务可以通过如下 Web API 提供服务：
 
@@ -351,7 +364,7 @@ curl http://127.0.0.1:9080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 #### 3.3.8 实时特征计算的结果说明
 
 实时请求（执行deployment），是请求模式（request模式）的SQL执行。与批处理模式（batch模式）不同，请求模式只会对请求行（request row）进行SQL计算。在前面的示例中，就是POST的input作为请求行，假设这行数据存在于表demo_table1中，并对它执行SQL：
-```
+```sql
 SELECT c1, c2, sum(c3) OVER w1 AS w1_c3_sum FROM demo_table1 WINDOW w1 AS (PARTITION BY demo_table1.c1 ORDER BY demo_table1.c6 ROWS BETWEEN 2 PRECEDING AND CURRENT ROW);
 ```
 具体计算逻辑如下（实际计算中会进行优化，减少计算量）：
