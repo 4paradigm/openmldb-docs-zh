@@ -36,6 +36,12 @@ LoadDataInfileOptionItem
 离线软拷贝导入后，OpenMLDB不应修改**软连接中的数据**，因此，如果当前离线数据是软连接，就不再支持append导入。并且，当前软连接的情况下，使用overwrite模式的硬拷贝，也不会删除软连接的数据。
 :::
 
+:::{Important}
+`INFILE`路径问题
+`INFILE`路径的读取是由batchjob来完成的，所以如果是相对路径，就需要batchjob可以访问到的相对路径。
+在生产环境中，batchjob的执行通常是yarn集群调度，并不能确定由谁来执行。在测试环境中，如果也是多机部署，也很难确定batchjob在哪里运行。
+所以，请尽量使用绝对路径。本地文件用`file://`开头，生产环境中，推荐使用hdfs等文件系统。
+:::
 ## SQL语句模版
 
 ```sql
