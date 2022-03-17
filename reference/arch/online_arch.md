@@ -2,26 +2,27 @@
 
 ## 1. 概览
 
-OpenMLDB 的在线架构的主要模块包括 Apache ZooKeeper, Nameserver 以及 Tablets（进一步包含了SQL Engine 和 Storage Engine）。如下图显示了这些模块之间的相互关系。其中 Tablets 是整个 OpenMLDB 存储和计算的核心模块，也是消耗资源做多的模块；ZooKeeper 和 Nameserver 主要用于辅助功能，如元数据的管理和高可用等。本文以下将会详细介绍各个模块的作用。
+OpenMLDB 的在线架构的主要模块包括 Apache ZooKeeper, nameserver 以及 tablets（进一步包含了SQL engine 和 storage engine）。如下图显示了这些模块之间的相互关系。其中 tablets 是整个 OpenMLDB 存储和计算的核心模块，也是消耗资源做多的模块；ZooKeeper 和 nameserver 主要用于辅助功能，如元数据的管理和高可用等。本文以下将会详细介绍各个模块的作用。
 ![image-20220316160612968](images/architecture.png)
 
 
 ## 2. Apache ZooKeeper
-OpenMLDB 依赖 ZooKeeper 做服务发现和元数据存储和管理功能。ZooKeeper 和 OpenMLDB SDK，tables, namesever 之间都会存在交互，用于分发和更新元数据。
+OpenMLDB 依赖 ZooKeeper 做服务发现和元数据存储和管理功能。ZooKeeper 和 OpenMLDB SDK，tablets, namesever 之间都会存在交互，用于分发和更新元数据。
 
 ## 3. Nameserver
-Nameserver 主要用来做 tablet 管理以及故障转移（failover）。当一个 Tablet 节点宕机后，nameserver 就会触发一系列任务来执行故障转移，当节点恢复后会重新把数据加载到该节点中。故障转移和数据恢复是以分片（partition）为单位的，Storage Engine 部分有分片的详细介绍。
-
-同时，为了保证 nameserver 本身的高可用，nameserver 在部署时会部署多个实例，采用了 primary/secondary 节点的部署模式，同一时刻只会有一个 primary 节点。多个 nameserver 通过 ZooKeeper 实现 primary 节点的抢占。因此，如果当前的 primary 节点意外离线，则 ZooKeeper 会从 secondary 节点中选一个重新作为 primary 节点。
+Nameserver 主要用来做 tablet 管理以及故障转移（failover）。当一个 tablet 节点宕机后，nameserver 就会触发一系列任务来执行故障转移，当节点恢复后会重新把数据加载到该节点中。同时，为了保证 nameserver 本身的高可用，nameserver 在部署时会部署多个实例，采用了 primary/secondary 节点的部署模式，同一时刻只会有一个 primary 节点。多个 nameserver 通过 ZooKeeper 实现 primary 节点的抢占。因此，如果当前的 primary 节点意外离线，则 secondary 节点会借助 ZooKeeper 选出一个节点重新作为 primary 节点。
 
 ## 4. Tablets
-Tablet 是 OpenMLDB 用来执行 SQL 和数据存储的模块，也是整个 OpenMLDB 功能实现的核心以及资源占用的瓶颈。Tablet 从功能上来看，进一步包含了 SQL Engine 和 Storage Engine 两个模块。Tablet 也是 OpenMLDB 部署资源的可调配的最小粒度，一个 tablet 需要完整的部署到一个物理节点；但是一个物理节点上可以有多个 tablets。
+Tablet 是 OpenMLDB 用来执行 SQL 和数据存储的模块，也是整个 OpenMLDB 功能实现的核心以及资源占用的瓶颈。Tablet 从功能上来看，进一步包含了 SQL engine 和 storage engine 两个模块。Tablet 也是 OpenMLDB 部署资源的可调配的最小粒度，一个 tablet 不能被拆分到多个物理节点；但是一个物理节点上可以有多个 tablets。
 ### 4.1 SQL Engine
-SQL Engine 收到 SQL 的请求后的执行过程如下图所示：
+SQL engine 负责执行 SQL 查询计算。SQL engine 收到 SQL 查询的请求后的执行过程如下图所示：
 ![img](images/sql_engine.png)
-SQL 引擎通过 [ZetaSQL](https://github.com/4paradigm/zetasql) 把SQL解析成AST语法树。因为我们加入了 `LAST JOIN`，`WINDOW UNION` 等针对特征工程扩展的特殊 SQL 语法，所以对开源的 ZetaSQL 做了优化。经过如上图一系列的编译转化、优化，以及基于 LLVM 的 codegen 之后，最终生成执行计划。SQL 引擎基于执行计划，通过 Catalog 获取存储层数据做最终的 SQL 执行运算。在分布式版本中，会生成分布式的执行计划，会把执行任务发到其他 Tablet 节点上执行。目前 OpenMLDB 的 SQL 引擎采用 Push 的模式，将任务分发到数据所在的节点执行，而不是将数据拉回来。这样做的好处可以减少数据传输。
+SQL 引擎通过 [ZetaSQL](https://github.com/4paradigm/zetasql) 把 SQL 解析成AST语法树。因为我们加入了 `LAST JOIN`，`WINDOW UNION` 等针对特征工程扩展的特殊 SQL 语法，所以对开源的 ZetaSQL 做了优化。经过如上图一系列的编译转化、优化，以及基于 LLVM 的 codegen 之后，最终生成执行计划。SQL 引擎基于执行计划，通过 catalog 获取存储层数据做最终的 SQL 执行运算。在分布式版本中，会生成分布式的执行计划，会把执行任务发到其他 tablet 节点上执行。目前 OpenMLDB 的 SQL 引擎采用 push 的模式，将任务分发到数据所在的节点执行，而不是将数据拉回来。这样做的好处可以减少数据传输。
 
-### 4.2 Storage Engine
+### 4.2 Stoage Engine
+
+Storage engine 负责 OpenMLDB 数据的存储，以及支持相应的高可用相关的功能。
+
 #### 数据分布
 OpenMLDB 集群版是一个分布式的数据库，一张表的数据会进行分片，并且建立多个副本，最终分布在不同的节点中。这里展开说明两个重要的概念：副本和分片。
 
