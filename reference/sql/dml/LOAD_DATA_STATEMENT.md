@@ -25,13 +25,15 @@ LoadDataInfileOptionItem
 | null_value | String  | null   | NULL值，默认填充`"null"`。加载时，遇到null_value的字符串将被转换为NULL，插入表中。 |
 | format     | String  | csv    | 加载文件的格式，默认为`csv`。请补充一下其他的可选格式。      |
 | quote      | String  | ""     | 输入数据的包围字符串。字符串长度<=1。默认为""，表示解析数据，不特别处理包围字符串。配置包围字符后，被包围字符包围的内容将作为一个整体解析。例如，当配置包围字符串为"#"时， `1, 1.0, #This is a string field, even there is a comma#`将为解析为三个filed.第一个是整数1，第二个是浮点1.0,第三个是一个字符串。 |
-| mode       | String  | "error_if_exists" | "append"/"overwrite" |
+| mode       | String  | "error_if_exists" | 导入模式:<br />`error_if_exists`: 仅离线模式可用，若离线表已有数据则报错。<br />`overwrite`: 仅离线模式可用，数据将覆盖离线表数据。<br />`append`：离线在线均可用，若文件已存在，数据将追加到原文件后面。 |
 | deep_copy  | Boolean | true   | `deep_copy=false`仅支持离线load, 可以指定`INFILE` Path为该表的离线存储地址，从而不需要硬拷贝。|
 
 :::{note}
 在集群版中，`LOAD DATA INFILE`语句，根据当前执行模式（execute_mode）决定将数据导入到在线或离线存储。单机版中没有存储区别，同时也不支持`deep_copy`选项。
 
-OpenMLDB不应修改软连接所指向的数据，因此，如果当前离线数据是软连接，就不再支持append导入。并且，当前软连接的情况下，使用overwrite模式的硬拷贝，也不会删除软连接的数据。
+在线导入只能使用append模式。
+
+离线软拷贝导入后，OpenMLDB不应修改**软连接中的数据**，因此，如果当前离线数据是软连接，就不再支持append导入。并且，当前软连接的情况下，使用overwrite模式的硬拷贝，也不会删除软连接的数据。
 :::
 
 ## SQL语句模版
