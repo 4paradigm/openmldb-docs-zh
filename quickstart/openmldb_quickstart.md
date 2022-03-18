@@ -26,6 +26,22 @@ docker run -it 4pdosc/openmldb:0.4.3 bash
 **成功启动容器以后，本教程中的后续命令默认均在容器内执行。**
 :::
 
+````{important}
+本教程将在单个容器中启动OpenMLDB单机版或集群版，如果希望从外部访问该容器内的OpenMLDB服务端口，启动容器时需要`-p`暴露端口。
+```
+docker run -p 6527:6527 -p 2181:2181 -p 8080:8080 -it 4pdosc/openmldb:0.4.3 bash
+```
+或者更方便地，使用host networking，不进行端口隔离，例如
+```
+docker run --network host -it 4pdosc/openmldb:0.4.3 bash
+```
+```{note} More
+:class: note
+OpenMLDB所有server配置的endpoint地址都是127.0.0.1。如果想要外部主机访问本机容器内的服务，需要将回环地址改为外网IP或0.0.0.0。
+```
+
+````
+
 ### 1.2 样例数据
 
 下载样例数据
