@@ -123,3 +123,9 @@ TableAsName
 | [`LIMIT` Clause](../dql/LIMIT_CLAUSE.md)       | Online Serving不支持   | Limit 子句用于限制结果条数。OpenMLDB 目前仅支持Limit 接受一个参数，表示返回数据的最大行数； |
 | `ORDER BY` Clause                              | 不支持                 | 标准SQL还支持OrderBy子句。OpenMLDB目前尚未支持Order子句。例如，查询语句`SELECT * from t1 ORDER BY col1;`在OpenMLDB中不被支持。 |
 
+```{warning}
+在线模式或单机版的select，可能无法获取完整数据。
+因为一次查询可能在多台tablet server上进行大量的扫描，为了tablet server的稳定性，单台tablet server限制了最大扫描数据量，即`scan_max_bytes_size`。
+
+如果出现select结果截断，tablet server会出现`reach the max byte ...`的日志，但查询不会报错。
+```
