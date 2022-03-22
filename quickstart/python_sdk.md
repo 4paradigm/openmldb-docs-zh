@@ -51,6 +51,16 @@ print(result.fetchmany(10))
 print(result.fetchall())
 ```
 
+### 2.6 执行批式SQL查询
+
+
+```python
+# Batch Request模式，函数入参为`batch_row_request(SQL, Common_Columns, Request_Columns)`
+result = cursor.batch_row_request("SELECT * FROM t1", ["col1","col2"], ({"col1": 2000, "col2": '2020-12-22', "col3": 'fujian', "col4":'xiamen', "col5": 2}))
+print(result.fetchone())
+```
+
+
 ### 2.6 删除表
 
 ```python
