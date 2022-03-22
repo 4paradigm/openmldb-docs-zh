@@ -51,8 +51,7 @@ print(result.fetchmany(10))
 print(result.fetchall())
 ```
 
-### 2.6 执行批式SQL查询
-
+### 2.6 批SQ请求式查询
 
 ```python
 # Batch Request模式，函数入参为`batch_row_request(SQL, Common_Columns, Request_Columns)`
@@ -60,20 +59,19 @@ result = cursor.batch_row_request("SELECT * FROM t1", ["col1","col2"], ({"col1":
 print(result.fetchone())
 ```
 
-
-### 2.6 删除表
+### 2.7 删除表
 
 ```python
 cursor.execute("DROP TABLE t1")
 ```
 
-### 2.7 删除数据库
+### 2.8 删除数据库
 
 ```python
 cursor.execute("DROP DATABASE db1")
 ```
 
-### 2.8 关闭连接
+### 2.9 关闭连接
 
 ```python
 cursor.close()
