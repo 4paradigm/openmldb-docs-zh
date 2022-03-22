@@ -51,7 +51,7 @@ print(result.fetchmany(10))
 print(result.fetchall())
 ```
 
-### 2.6 批SQ请求式查询
+### 2.6 SQL批请求式查询
 
 ```python
 # Batch Request模式，函数入参为`batch_row_request(SQL, Common_Columns, Request_Columns)`
