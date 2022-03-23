@@ -11,12 +11,14 @@
 - 注意，请确保 Docker Engine 版本号 >= 18.03
 - 拉取 OpenMLDB docker 镜像，并且运行相应容器：
 
-```
+```bash
 docker run -it 4pdosc/openmldb:0.4.3 bash
 ```
 该镜像预装了OpenMLDB，并预置了本案例所需要的所有脚本、三方库、开源工具以及训练数据。
 
-:bulb: **注意，本教程以下的所有演示命令默认均在该已经启动的 docker 容器内运行，并且假设在默认目录下 （`/work/taxi-trip`）。**
+```{note}
+注意，本教程以下的所有演示命令默认均在该已经启动的 docker 容器内运行，并且假设在默认目录下 （`/work/taxi-trip`）。
+```
 
 ### 1.2 初始化环境
 
@@ -33,7 +35,9 @@ docker run -it 4pdosc/openmldb:0.4.3 bash
 ```bash
 /work/openmldb/bin/openmldb --zk_cluster=127.0.0.1:2181 --zk_root_path=/openmldb --role=sql_client
 ```
-:bulb: **注意，本教程大部分命令在 OpenMLDB CLI 下执行，为了跟普通 shell 环境做区分，在 OpenMLDB CLI 下执行的命令均使用特殊的提示符 `>` 。**
+```{note}
+注意，本教程大部分命令在 OpenMLDB CLI 下执行，为了跟普通 shell 环境做区分，在 OpenMLDB CLI 下执行的命令均使用特殊的提示符 `>` 。
+```
 
 ### 1.4 预备知识：集群版的非阻塞任务
 
@@ -62,7 +66,9 @@ docker run -it 4pdosc/openmldb:0.4.3 bash
 > SET @@execute_mode='offline';
 > LOAD DATA INFILE '/work/taxi-trip/data/taxi_tour_table_train_simple.snappy.parquet' INTO TABLE t1 options(format='parquet', header=true, mode='append');
 ```
-:bulb: 注意，集群版 `LOAD DATA` 为非阻塞任务，可以使用命令 `SHOW JOBS` 查看任务运行状态，请等待任务运行成功（ `state` 转至 `FINISHED` 状态），再进行下一步操作 。
+```{note}
+注意，集群版 `LOAD DATA` 为非阻塞任务，可以使用命令 `SHOW JOBS` 查看任务运行状态，请等待任务运行成功（ `state` 转至 `FINISHED` 状态），再进行下一步操作 。
+```
 
 ### 2.3 特征设计
 
@@ -109,7 +115,10 @@ FROM t1
 WINDOW w AS (PARTITION BY vendor_id ORDER BY pickup_datetime ROWS_RANGE BETWEEN 1d PRECEDING AND CURRENT ROW),
 w2 AS (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 1d PRECEDING AND CURRENT ROW) INTO OUTFILE '/tmp/feature_data';
 ```
-:bulb: 注意，集群版 `SELECT INTO` 为非阻塞任务，可以使用命令 `SHOW JOBS` 查看任务运行状态，请等待任务运行成功（ `state` 转至 `FINISHED` 状态），再进行下一步操作 。
+
+```{note}
+注意，集群版 `SELECT INTO` 为非阻塞任务，可以使用命令 `SHOW JOBS` 查看任务运行状态，请等待任务运行成功（ `state` 转至 `FINISHED` 状态），再进行下一步操作 。
+```
 
 ### 2.5 模型训练
 
@@ -163,7 +172,9 @@ w2 AS (PARTITION BY passenger_count ORDER BY pickup_datetime ROWS_RANGE BETWEEN 
 > SET @@execute_mode='online';
 > LOAD DATA INFILE 'file:///work/taxi-trip/data/taxi_tour_table_train_simple.csv' INTO TABLE t1 options(format='csv', header=true, mode='append');
 ```
-:bulb: 注意，集群版 `LOAD DATA` 为非阻塞任务，可以使用命令 `SHOW JOBS` 查看任务运行状态，请等待任务运行成功（ `state` 转至 `FINISHED` 状态），再进行下一步操作 。
+```{note}
+注意，集群版 `LOAD DATA` 为非阻塞任务，可以使用命令 `SHOW JOBS` 查看任务运行状态，请等待任务运行成功（ `state` 转至 `FINISHED` 状态），再进行下一步操作 。
+```
 
 ### 2.8 启动预估服务
 
