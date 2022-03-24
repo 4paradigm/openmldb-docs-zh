@@ -51,19 +51,27 @@ print(result.fetchmany(10))
 print(result.fetchall())
 ```
 
-### 2.6 删除表
+### 2.6 SQL批请求式查询
+
+```python
+# Batch Request模式，接口入参依次为“SQL”, “Common_Columns”, “Request_Columns”
+result = cursor.batch_row_request("SELECT * FROM t1", ["col1","col2"], ({"col1": 2000, "col2": '2020-12-22', "col3": 'fujian', "col4":'xiamen', "col5": 2}))
+print(result.fetchone())
+```
+
+### 2.7 删除表
 
 ```python
 cursor.execute("DROP TABLE t1")
 ```
 
-### 2.7 删除数据库
+### 2.8 删除数据库
 
 ```python
 cursor.execute("DROP DATABASE db1")
 ```
 
-### 2.8 关闭连接
+### 2.9 关闭连接
 
 ```python
 cursor.close()
@@ -90,7 +98,7 @@ connection = engine.connect()
 
 ```python
 try:
-    connection.execute("CREATE DATABASE db1");
+    connection.execute("CREATE DATABASE db1")
 except Exception as e:
     print(e)
 ```
@@ -133,7 +141,7 @@ except Exception as e:
 
 ```python
 try:
-    rs = connection.execute("SELECT * FROM t1");
+    rs = connection.execute("SELECT * FROM t1")
     for row in rs:
         print(row)
     rs = connection.execute("SELECT * FROM t1 WHERE col3 = ?;", ('hefei'))
@@ -147,7 +155,7 @@ except Exception as e:
 
 ```python
 try:
-   rs = connection.execute("SELECT * FROM t1", ({"col1":9999, "col2":'2020-12-27', "col3":'zhejiang', "col4":'hangzhou', "col5":100}));
+    rs = connection.execute("SELECT * FROM t1", ({"col1":9999, "col2":'2020-12-27', "col3":'zhejiang', "col4":'hangzhou', "col5":100}))
 except Exception as e:
     print(e)
 ```
