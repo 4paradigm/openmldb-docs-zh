@@ -28,6 +28,8 @@ sessionVariableName ::= '@@'Identifier | '@@session.'Identifier
 | -------------------------------------- | ------------------------------------------------------------ | --------------------- | --------- |
 | @@session.execute_mode｜@@execute_mode | OpenMDLB在当前会话下的执行模式。目前支持"offline"和"online"两种模式。<br />在离线执行模式下，只会导入/插入以及查询离线数据。<br />在在线执行模式下，只会导入/插入以及查询在线数据。 | "offline" \| "online" | "offline" |
 | @@session.enable_trace｜@@enable_trace | 控制台的错误信息trace开关。<br />当开关打开时(`SET @@enable_trace = "true"`)，SQL语句有语法错误或者在计划生成过程发生错误时，会打印错误信息栈。<br />当开关关闭时(`SET @@enable_trace = "false"`)，SQL语句有语法错误或者在计划生成过程发生错误时，仅打印基本错误信息。 | "true" \| "false"     | "false"   |
+| @@session.sync_job｜@@sync_job | ...开关。<br />当开关打开时(`SET @@sync_job = "true"`)，离线的命令将变为同步，等待执行的最终结果。<br />当开关关闭时(`SET @@sync_job = "false"`)，离线的命令即时返回，需要通过`SHOW JOB`查看命令执行情况。 | "true" \| "false"     | "false"   |
+| @@session.sync_timeout｜@@sync_timeout | ...<br />离线命令同步开启的情况下，可配置同步命令的等待时间。超时将立即返回，超时返回后仍可通过`SHOW JOB`查看命令执行情况。 | Int | "20000" |
 
 ## Example
 
@@ -41,7 +43,7 @@ sessionVariableName ::= '@@'Identifier | '@@session.'Identifier
   enable_trace    false
   execute_mode    online
  --------------- --------
-> SET @@session.execute_mode = "offline"
+> SET @@session.execute_mode = "offline";
 > SHOW VARIABLES;
  --------------- --------
   Variable_name   Value
@@ -50,7 +52,7 @@ sessionVariableName ::= '@@'Identifier | '@@session.'Identifier
   execute_mode    offline
  --------------- --------
  
-> SET @@session.enable_trace = "true"
+> SET @@session.enable_trace = "true";
 > SHOW VARIABLES;
  --------------- --------
   Variable_name   Value
@@ -77,7 +79,7 @@ CREATE TABLE t1 (col0 STRING, col1 int, std_time TIMESTAMP, INDEX(KEY=col1, TS=s
 - 关闭enable_trace时，执行错误的SQL：
 
 ```sql
-> set @@enable_trace = "false"
+> set @@enable_trace = "false";
 > select sum(col1) over w1 from t1 window w1 as (partition by col1 order by col0 rows_range between 10d preceding and current row);
 -- ERROR: Invalid Order column type : kVarchar
 ```
@@ -85,7 +87,7 @@ CREATE TABLE t1 (col0 STRING, col1 int, std_time TIMESTAMP, INDEX(KEY=col1, TS=s
 - 打开enable_trace时，执行错误的SQL：
 
 ```sql
-> set @@enable_trace = "true"
+> set @@enable_trace = "true";
 > select sum(col1) over w1 from t1 window w1 as (partition by col1 order by col0 rows_range between 10d preceding and current row);
 -- ERROR: Invalid Order column type : kVarchar
     (At /Users/chenjing/work/chenjing/OpenMLDB/hybridse/src/vm/sql_compiler.cc:263)
@@ -98,6 +100,18 @@ CREATE TABLE t1 (col0 STRING, col1 int, std_time TIMESTAMP, INDEX(KEY=col1, TS=s
     (At /Users/chenjing/work/chenjing/OpenMLDB/hybridse/src/vm/transform.cc:1997)
 ```
 
+### 配置离线命令同步执行
+
+- 设置离线命令同步执行：
+
+```sql
+> SET @@sync_job = "true";
+```
+
+- 设置同步命令的等待时间(单位为毫秒)：
+```sql
+> SET @@job_timeout = "600000";
+```
 
 
 ## 相关SQL语句

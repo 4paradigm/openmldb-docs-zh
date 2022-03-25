@@ -87,11 +87,11 @@ sqlExecutor.executeDDL("", createTableSql);
 
 第一步，使用`SqlClusterExecutor::getInsertPreparedStmt(db, insertSql)`接口获取InsertPrepareStatement。
 
-第二步，使用`Statement::execute()`接口执行insert语句。
+第二步，使用`PreparedStatement::execute()`接口执行insert语句。
 
 ```java
 String insertSql = "insert into trans values(\"aa\",23,33,1.4,2.4,1590738993000,\"2020-05-04\");";
-PreparedStatement pstmt = null;
+java.sql.PreparedStatement pstmt = null;
 try {
   pstmt = sqlExecutor.getInsertPreparedStmt(db, insertSql);
   Assert.assertTrue(pstmt.execute());
@@ -116,11 +116,11 @@ try {
 
 第二步，调用`PreparedStatement::setType(index, value)`接口，填充数据到InsertPrepareStatement中。
 
-第三步，使用`Statement::execute()`接口执行insert语句。
+第三步，使用`PreparedStatement::execute()`接口执行insert语句。
 
 ```java
 String insertSqlWithPlaceHolder = "insert into trans values(\"aa\", ?, 33, ?, 2.4, 1590738993000, \"2020-05-04\");";
-PreparedStatement pstmt = null;
+java.sql.PreparedStatement pstmt = null;
 try {
   pstmt = sqlExecutor.getInsertPreparedStmt(db, insertSqlWithPlaceHolder);
   pstmt.setInt(1, 24);
@@ -139,6 +139,47 @@ try {
     }
   }
 }
+```
+```{note}
+execute后，缓存的数据将被清除，无法重试execute。
+```
+
+#### 2.4.3 使用placeholder的方式执行批量插入语句
+
+第一步，使用`SqlClusterExecutor::getInsertPreparedStmt(db, insertSqlWithPlaceHolder)`接口获取InsertPrepareStatement。
+
+第二步，调用`PreparedStatement::setType(index, value)`接口，填充数据到InsertPrepareStatement中。
+
+第三步，使用`PreparedStatement::addBatch()`接口完成一行的填充。
+
+第四步，继续使用`setType`和`addBatch`，填充多行。
+
+第五步，使用`PreparedStatement::addBatch()`接口完成批量插入。
+
+```java
+String insertSqlWithPlaceHolder = "insert into trans values(\"aa\", ?, 33, ?, 2.4, 1590738993000, \"2020-05-04\");";
+java.sql.PreparedStatement pstmt = null;
+try {
+  pstmt = sqlExecutor.getInsertPreparedStmt(db, insertSqlWithPlaceHolder);
+  pstmt.setInt(1, 24);
+  pstmt.setInt(2, 1.5f);
+  pstmt.execute();
+} catch (SQLException e) {
+  e.printStackTrace();
+  Assert.fail();
+} finally {
+  if (pstmt != null) {
+    try {
+      // PrepareStatement用完之后必须close
+      pstmt.close();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+  }
+}
+```
+```{note}
+executeBatch后，缓存的所有数据将被清除，无法重试executeBatch。
 ```
 
 ### 2.5 执行SQL批式查询
@@ -531,4 +572,32 @@ public class Demo {
         }
     }
 }
+```
+
+## 4. JDBC连接方式
+除了直接使用SDK外，我们还提供了JDBC的方式，目前只能连接集群版OpenMLDB。连接方式如下：
+
+```
+Class.forName("com._4paradigm.openmldb.jdbc.SQLDriver");
+// No database in jdbcUrl
+Connection connection = DriverManager.getConnection("jdbc:openmldb:///?zk=localhost:6181&zkPath=/openmldb");
+
+// Set database in jdbcUrl
+Connection connection1 = DriverManager.getConnection("jdbc:openmldb:///test_db?zk=localhost:6181&zkPath=/openmldb");
+```
+
+未设置db的Connection功能有限，更推荐创建Connection时就指定db。
+
+默认为在线模式（之后会调整为“默认离线”）。
+
+通过`Statement`的方式可以执行所有的sql命令，离线在线均可。切换为离线模式，仍使用`SET @@execute_mode='offline';`的方式。例如：
+```
+Statement stmt = connection.createStatement();
+stmt.execute("SELECT * from t1");
+```
+
+`PreparedStatement`可支持`SELECT`,`INSERT`两种sql，`INSERT`仅支持插入到在线。
+```
+PreparedStatement selectStatement = connection.prepareStatement("SELECT * FROM t1 WHERE id=?");
+PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO t1 VALUES (?,?)");
 ```
