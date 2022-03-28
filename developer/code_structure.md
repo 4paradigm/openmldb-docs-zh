@@ -1,23 +1,6 @@
 
 # 代码结构
 
-### java模块
-```
-java/
-├── hybridse-native          // sql引擎swig自动生成的代码
-├── hybridse-proto           // sql引擎相关proto
-├── hybridse-sdk             // sql引擎封装的sdk
-├── openmldb-batch           // 离线的planner，把sql的逻辑翻译成spark的计划
-├── openmldb-batchjob        // 执行离线任务相关
-├── openmldb-common          // java sdk中的一些公用代码，基础库
-├── openmldb-import          // 导数工具
-├── openmldb-jdbc            // java sdk
-├── openmldb-jmh             // 用作性能和稳定性测试相关
-├── openmldb-native          // swig自动生成的代码
-├── openmldb-spark-connector // spark的connector实现，用来读写OpenMLDB
-└── openmldb-taskmanager     // 离线任务管理模块
-```
-
 ### hybridse sql引擎
 ```
 hybridse/
@@ -65,4 +48,33 @@ src/
 ├── test           // 测试相关
 ├── tools          // 封装一些小工具
 └── zk             // zookeeper client的一些封装
+```
+
+### java模块
+```
+java/
+├── hybridse-native          // sql引擎swig自动生成的代码
+├── hybridse-proto           // sql引擎相关proto
+├── hybridse-sdk             // sql引擎封装的sdk
+├── openmldb-batch           // 离线的planner，把sql的逻辑翻译成spark的计划
+├── openmldb-batchjob        // 执行离线任务相关
+├── openmldb-common          // java sdk中的一些公用代码，基础库
+├── openmldb-import          // 导数工具
+├── openmldb-jdbc            // java sdk
+├── openmldb-jmh             // 用作性能和稳定性测试相关
+├── openmldb-native          // swig自动生成的代码
+├── openmldb-spark-connector // spark的connector实现，用来读写OpenMLDB
+└── openmldb-taskmanager     // 离线任务管理模块
+```
+
+### python sdk
+```
+python
+├── openmldb
+│   ├── dbapi                // dbapi接口封装
+│   ├── native               // swig自动生成的代码
+│   ├── sdk                  // 调用底层c++接口代码
+│   ├── sqlalchemy_openmldb  // sqlalchemy接口封装
+│   ├── sql_magic            // notebook magic
+│   └── test                 // 测试相关
 ```
