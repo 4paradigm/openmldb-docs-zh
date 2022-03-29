@@ -1,7 +1,5 @@
 # Python SDK 快速上手
 
-注意：Python SDK 目前仅支持集群版，单机版的将会在下一个版本 v0.5.0 中计划支持。
-
 ## 1. 安装OpenMLDB Python包
 
 使用`pip`安装。
