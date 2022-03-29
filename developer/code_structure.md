@@ -1,12 +1,11 @@
 
 # 代码结构
 
-### hybridse sql引擎
+## hybridse sql引擎
 ```
 hybridse/
-├── examples          // 用做hybridse本地测试
+├── examples          // demo db和hybrisde集成测试
 ├── include           // 代码的include目录，里边结构和src基本一致
-├── java              // java sdk相关
 ├── src
 │   ├── base          // 基础库目录
 │   ├── benchmark     // benchmark相关
@@ -15,7 +14,7 @@ hybridse/
 │   ├── codec         // 编解码相关
 │   ├── codegen       // llvm代码生成相关
 │   ├── llvm_ext      // llvm符号解析相关
-│   ├── node          // 逻辑计划, 物理计划中的节点定义和生成
+│   ├── node          // 逻辑计划、物理计划中的节点定义, 表达式、类型节点定义
 │   ├── passes        // sql优化器
 │   ├── plan          // 生成逻辑计划
 │   ├── planv2        // zetasql语法树转化成节点
@@ -23,11 +22,11 @@ hybridse/
 │   ├── sdk           // sdk相关
 │   ├── testing       // 测试相关
 │   ├── udf           // udf和udaf的注册生成等
-│   └── vm            // sql物理计划和执行计划的生成
+│   └── vm            // sql物理计划和执行计划的生成以及sql编译和执行人口
 └── tools     // benchmark相关
 ```
 
-### 存储引擎和对外服务接口
+## 在线存储引擎和对外服务接口
 ```
 src/
 ├── apiserver      // apiserver相关
@@ -50,7 +49,7 @@ src/
 └── zk             // zookeeper client的一些封装
 ```
 
-### java模块
+## java模块
 ```
 java/
 ├── hybridse-native          // sql引擎swig自动生成的代码
@@ -59,7 +58,7 @@ java/
 ├── openmldb-batch           // 离线的planner，把sql的逻辑翻译成spark的计划
 ├── openmldb-batchjob        // 执行离线任务相关
 ├── openmldb-common          // java sdk中的一些公用代码，基础库
-├── openmldb-import          // 导数工具
+├── openmldb-import          // 数据导入工具
 ├── openmldb-jdbc            // java sdk
 ├── openmldb-jmh             // 用作性能和稳定性测试相关
 ├── openmldb-native          // swig自动生成的代码
@@ -67,7 +66,7 @@ java/
 └── openmldb-taskmanager     // 离线任务管理模块
 ```
 
-### python sdk
+## python sdk
 ```
 python
 ├── openmldb
@@ -78,3 +77,6 @@ python
 │   ├── sql_magic            // notebook magic
 │   └── test                 // 测试相关
 ```
+
+## 离线执行引擎
+https://github.com/4paradigm/spark
