@@ -1,7 +1,7 @@
 
 # 代码结构
 
-## hybridse sql引擎
+## Hybridse SQL 引擎
 ```
 hybridse/
 ├── examples          // demo db和hybrisde集成测试
@@ -49,7 +49,7 @@ src/
 └── zk             // zookeeper client的一些封装
 ```
 
-## java模块
+## Java 模块
 ```
 java/
 ├── hybridse-native          // sql引擎swig自动生成的代码
@@ -66,7 +66,7 @@ java/
 └── openmldb-taskmanager     // 离线任务管理模块
 ```
 
-## python sdk
+## Python SDK
 ```
 python
 ├── openmldb
