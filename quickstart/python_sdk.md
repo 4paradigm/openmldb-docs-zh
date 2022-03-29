@@ -1,7 +1,5 @@
 # Python SDK 快速上手
 
-注意：Python SDK 目前仅支持集群版，单机版的将会在下一个版本 v0.5.0 中计划支持。
-
 ## 1. 安装OpenMLDB Python包
 
 使用`pip`安装。
@@ -19,7 +17,11 @@ pip install openmldb
 ```python
 import openmldb.dbapi
 
+# 连接集群版OpenMLDB
 db = openmldb.dbapi.connect("db1", "$zkcluster", "$zkpath")
+
+# 连接单机版OpenMLDB
+# db = openmldb.dbapi.connect("db1", "$host", $port)
 
 cursor = db.cursor()
 ```
@@ -87,7 +89,11 @@ cursor.close()
 ```python
 import sqlalchemy as db
 
+# 连接集群版OpenMLDB
 engine = db.create_engine('openmldb:///db1?zk=127.0.0.1:2181&zkPath=/openmldb')
+
+# 连接单机版OpenMLDB
+# engine = db.create_engine('openmldb:///db1?host=127.0.0.1&port=6527')
 
 connection = engine.connect()
 ```
