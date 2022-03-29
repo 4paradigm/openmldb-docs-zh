@@ -120,7 +120,7 @@
 # 配置是否要把表drop后数据放在recycle目录，默认是true
 #--recycle_bin_enabled=true
 # 配置recycle目录里数据的保存时间，如果超过这个时间就会删除对应的目录和数据。默认为0表示永远不删除, 单位是分钟
-#recycle_ttl=0
+#--recycle_ttl=0
 
 # snapshot conf
 # 配置做snapshot的时间，配置为一天中的几点。如23就表示每天23点做snapshot
