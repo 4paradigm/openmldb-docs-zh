@@ -59,26 +59,41 @@ sqlExecutor = new SqlClusterExecutor(option);
 
 ### 2.2 创建数据库
 
-使用`SqlClusterExecutor::createDB()`接口创建数据库：
+使用`Statement::execute`接口创建数据库：
 
 ```java
-sqlExecutor.createDB("db_test");
+java.sql.Statement state = sqlExecutor.getStatement();
+try {
+    state.execute("create database db_test");
+} catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    state.close();
+}
 ```
 
 ### 2.3 创建表
 
-使用`SqlClusterExecutor::executeDDL(db, createTableSql)`接口创建一张表：
+使用`Statement::execute`接口创建一张表：
 
 ```java
-String createTableSql = "create table trans(c1 string,\n" +
-                "                   c3 int,\n" +
-                "                   c4 bigint,\n" +
-                "                   c5 float,\n" +
-                "                   c6 double,\n" +
-                "                   c7 timestamp,\n" +
-                "                   c8 date,\n" +
-                "                   index(key=c1, ts=c7));";
-sqlExecutor.executeDDL("", createTableSql);
+java.sql.Statement state = sqlExecutor.getStatement();
+try {
+    state.execute("use db_test");
+    String createTableSql = "create table trans(c1 string,\n" +
+                    "                   c3 int,\n" +
+                    "                   c4 bigint,\n" +
+                    "                   c5 float,\n" +
+                    "                   c6 double,\n" +
+                    "                   c7 timestamp,\n" +
+                    "                   c8 date,\n" +
+                    "                   index(key=c1, ts=c7));";
+    state.execute(createTableSql);
+} catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    state.close();
+}
 ```
 
 ### 2.4 插入数据到表中
@@ -93,20 +108,20 @@ sqlExecutor.executeDDL("", createTableSql);
 String insertSql = "insert into trans values(\"aa\",23,33,1.4,2.4,1590738993000,\"2020-05-04\");";
 PreparedStatement pstmt = null;
 try {
-  pstmt = sqlExecutor.getInsertPreparedStmt(db, insertSql);
-  Assert.assertTrue(pstmt.execute());
+    pstmt = sqlExecutor.getInsertPreparedStmt(db, insertSql);
+    Assert.assertTrue(pstmt.execute());
 } catch (SQLException e) {
-  e.printStackTrace();
-  Assert.fail();
+    e.printStackTrace();
+    Assert.fail();
 } finally {
-  if (pstmt != null) {
-    try {
-      // PrepareStatement用完之后必须close
-      pstmt.close();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
+    if (pstmt != null) {
+        try {
+            // PrepareStatement用完之后必须close
+            pstmt.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
-  }
 }
 ```
 
@@ -143,11 +158,19 @@ try {
 
 ### 2.5 执行SQL批式查询
 
-使用`SqlClusterExecutor::executeSQL(selectSql)`接口执行SQL批式查询语句:
+使用`Statement::execute`接口执行SQL批式查询语句:
 
 ```java
-String selectSql = "select * from trans;";
-java.sql.ResultSet result = sqlExecutor.executeSQL(db, selectSql);
+java.sql.Statement state = sqlExecutor.getStatement();
+try {
+    state.execute("use db_test");
+    // execute返回值是true的话说明有数据返回，可以通过getResultSet获取
+    boolean ret = state.execute("select * from trans;");
+    Assert.assertTrue(ret);
+    java.sql.ResultSet rs = state.getResultSet();
+} catch (Exception e) {
+    e.printStackTrace();
+}
 ```
 
 访问查询结果:
@@ -155,20 +178,19 @@ java.sql.ResultSet result = sqlExecutor.executeSQL(db, selectSql);
 ```java
 // 访问结果集ResultSet，并输出前三列数据
 try {
-  while (result.next()) {
-    System.out.println(resultSet.getString(1) + "," + resultSet.getInt(2) "," + resultSet.getLong(3));
-  }
-} catch (SQLException e) {
-  e.printStackTrace();
-} finally {
-  try {
-    if (result != null) {
-      result.close();
+    while (result.next()) {
+        System.out.println(resultSet.getString(1) + "," + resultSet.getInt(2) "," + resultSet.getLong(3));
     }
-  } catch (SQLException throwables) {
-    throwables.printStackTrace();
-  }
-
+} catch (SQLException e) {
+    e.printStackTrace();
+} finally {
+    try {
+        if (result != null) {
+            result.close();
+        }
+    } catch (SQLException throwables) {
+        throwables.printStackTrace();
+    }
 }
 ```
 
@@ -195,64 +217,76 @@ c1 string,\n" +
                 "                   c8 date,\n" +
 */
 try {
-  // 第一步，获取RequestPrepareStatement
-  pstmt = sqlExecutor.getRequestPreparedStmt(db, selectSql);
-  
-  // 第二步，执行request模式需要在RequestPreparedStatement设置一行请求数据
-  pstmt.setString(1, "bb");
-  pstmt.setInt(2, 24);
-  pstmt.setLong(3, 34l);
-  pstmt.setFloat(4, 1.5f);
-  pstmt.setDouble(5, 2.5);
-  pstmt.setTimestamp(6, new Timestamp(1590738994000l));
-  pstmt.setDate(7, Date.valueOf("2020-05-05"));
-  
-  // 调用executeQuery会执行这个select sql, 然后将结果放在了resultSet中
-  resultSet = pstmt.executeQuery();
-  
-  // 访问resultSet
-  Assert.assertEquals(resultSet.getMetaData().getColumnCount(), 3);
-  Assert.assertTrue(resultSet.next());
-  Assert.assertEquals(resultSet.getString(1), "bb");
-  Assert.assertEquals(resultSet.getInt(2), 24);
-  Assert.assertEquals(resultSet.getLong(3), 34);
-  
-  // 普通请求式查询的返回结果集只包含一行结果，因此，第二次调用resultSet.next()结果为false
-  Assert.assertFalse(resultSet.next());
+    // 第一步，获取RequestPrepareStatement
+    pstmt = sqlExecutor.getRequestPreparedStmt(db, selectSql);
+    
+    // 第二步，执行request模式需要在RequestPreparedStatement设置一行请求数据
+    pstmt.setString(1, "bb");
+    pstmt.setInt(2, 24);
+    pstmt.setLong(3, 34l);
+    pstmt.setFloat(4, 1.5f);
+    pstmt.setDouble(5, 2.5);
+    pstmt.setTimestamp(6, new Timestamp(1590738994000l));
+    pstmt.setDate(7, Date.valueOf("2020-05-05"));
+    
+    // 调用executeQuery会执行这个select sql, 然后将结果放在了resultSet中
+    resultSet = pstmt.executeQuery();
+    
+    // 访问resultSet
+    Assert.assertEquals(resultSet.getMetaData().getColumnCount(), 3);
+    Assert.assertTrue(resultSet.next());
+    Assert.assertEquals(resultSet.getString(1), "bb");
+    Assert.assertEquals(resultSet.getInt(2), 24);
+    Assert.assertEquals(resultSet.getLong(3), 34);
+    
+    // 普通请求式查询的返回结果集只包含一行结果，因此，第二次调用resultSet.next()结果为false
+    Assert.assertFalse(resultSet.next());
   
 } catch (SQLException e) {
-  e.printStackTrace();
-  Assert.fail();
+    e.printStackTrace();
+    Assert.fail();
 } finally {
-  try {
-    if (resultSet != null) {
-      // result用完之后需要close
-      resultSet.close();
+    try {
+        if (resultSet != null) {
+        // result用完之后需要close
+        resultSet.close();
+        }
+        if (pstmt != null) {
+        pstmt.close();
+        }
+    } catch (SQLException throwables) {
+        throwables.printStackTrace();
     }
-    if (pstmt != null) {
-      pstmt.close();
-    }
-  } catch (SQLException throwables) {
-    throwables.printStackTrace();
-  }
 }
 ```
 
 ### 2.7 删除表
 
-使用`SqlClusterExecutor::executeDDL(db, dropTableSql)`接口删除一张表：
+使用`Statement::execute`接口删除一张表：
 
 ```java
-String dropTableSql = "drop table trans;";
-sqlExecutor.executeDDL(db, dropTableSql);
+java.sql.Statement state = sqlExecutor.getStatement();
+try {
+    state.execute("use db_test");
+    state.execute("drop table trans;");
+} catch (Exception e) {
+    e.printStackTrace();
+}
 ```
 
 ### 2.8 删除数据库
 
-使用`SqlClusterExecutor::dropDB(db)`接口删除指定数据库：
+使用`Statement::execute`接口删除指定数据库：
 
 ```java
-sqlExecutor.dropDB(db);
+java.sql.Statement state = sqlExecutor.getStatement();
+try {
+    state.execute("drop database db_test;");
+} catch (Exception e) {
+    e.printStackTrace();
+} finaly {
+    state.close();
+}
 ```
 
 
@@ -313,11 +347,21 @@ public class Demo {
     }
 
     private void createDataBase() {
-        Assert.assertTrue(sqlExecutor.createDB(db));
+        java.sql.Statement state = sqlExecutor.getStatement();
+        try {
+            state.execute("create database " + db + ";");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void dropDataBase() {
-        Assert.assertTrue(sqlExecutor.dropDB(db));
+        java.sql.Statement state = sqlExecutor.getStatement();
+        try {
+            state.execute("drop database " + db + ";");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void createTable() {
@@ -329,12 +373,21 @@ public class Demo {
                 "                   c7 timestamp,\n" +
                 "                   c8 date,\n" +
                 "                   index(key=c1, ts=c7));";
-        Assert.assertTrue(sqlExecutor.executeDDL(db, createTableSql));
+        try {
+            state.execute("use " + db + ";");
+            state.execute(createTableSql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void dropTable() {
-        String dropTableSql = "drop table trans;";
-        Assert.assertTrue(sqlExecutor.executeDDL(db, dropTableSql));
+        java.sql.Statement state = sqlExecutor.getStatement();
+        try {
+            state.execute("drop table trans;");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void getInputSchema(String selectSql) {
@@ -396,9 +449,13 @@ public class Demo {
 
     private void select() {
         String selectSql = "select * from trans;";
-        java.sql.ResultSet result = sqlExecutor.executeSQL(db,selectSql);
+        java.sql.ResultSet result = null;
         int num = 0;
+        java.sql.Statement state = sqlExecutor.getStatement();
         try {
+            boolean ret = state.execute(selectSql);
+            Assert.assertTrue(ret);
+            result = state.getResultSet();
             while (result.next()) {
                 num++;
             }
@@ -409,6 +466,7 @@ public class Demo {
                 if (result != null) {
                     result.close();
                 }
+                state.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
