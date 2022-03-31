@@ -375,6 +375,29 @@ desc t1;
  --- -------------------- ------ ---------- -------------- ----------- 
 ```
 
+##### Example: 创建一张多索引的表
+```sql
+USE db1;
+
+CREATE TABLE t1 (col0 STRING, col1 int, std_time TIMESTAMP, INDEX(KEY=col0, TS=std_time), INDEX(KEY=col1, TS=std_time));
+--SUCCEED: Create successfully
+
+desc t1;
+ --- ---------- ----------- ------ ---------
+  #   Field      Type        Null   Default
+ --- ---------- ----------- ------ ---------
+  1   col0       Varchar     YES
+  2   col1       Int         YES
+  3   std_time   Timestamp   YES
+ --- ---------- ----------- ------ ---------
+ --- -------------------- ------ ---------- ------ ---------------
+  #   name                 keys   ts         ttl    ttl_type
+ --- -------------------- ------ ---------- ------ ---------------
+  1   INDEX_0_1648692457   col0   std_time   0min   kAbsoluteTime
+  2   INDEX_1_1648692457   col1   std_time   0min   kAbsoluteTime
+ --- -------------------- ------ ---------- ------ ---------------
+```
+
 #### 表属性TableOptions（可选）
 
 ```sql
