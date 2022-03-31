@@ -1,7 +1,5 @@
 # Java SDK 快速上手
 
-注意：Java SDK 目前仅支持集群版，单机版将会在下一个版本 v0.5.0 中计划支持。
-
 ## 1. Java SDK包安装
 
 ### Linux下 Java SDK包安装
@@ -40,15 +38,23 @@
 
 ### 2.1 创建SqlClusterExecutor
 
-首先，进行OpenMLDB连接参数配置
+首先，进行OpenMLDB连接参数配置，java sdk集群版和单机版的区别在于连接参数配置不同，默认是集群版
 
 ```java
+// 集群版配置方式如下：
 SdkOption option = new SdkOption();
 option.setZkCluster("127.0.0.1:2181");
 option.setZkPath("/openmldb");
 option.setSessionTimeout(10000);
 option.setRequestTimeout(60000);
 
+// 单机版配置方式如下：
+SdkOption option = new SdkOption();
+option.setHost("127.0.0.1");
+option.setPort(6527);
+option.setClusterMode(false);
+option.setSessionTimeout(10000);
+option.setRequestTimeout(60000);
 ```
 
 接着，使用SdkOption创建Executor。SqlClusterExecutor执行sql操作是多线程安全的，在实际环境中只创建一个`SqlClusterExecutor`即可:
