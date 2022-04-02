@@ -19,7 +19,7 @@ Docker engine版本需求 >= 18.03
 拉取镜像（镜像下载大小大约 1GB，解压后约 1.7 GB）和启动 docker 容器
 
 ```bash
-docker run -it 4pdosc/openmldb:0.4.3 bash
+docker run -it 4pdosc/openmldb:0.4.4 bash
 ```
 
 :::{important}
@@ -29,11 +29,11 @@ docker run -it 4pdosc/openmldb:0.4.3 bash
 ````{note}
 本教程将在单个容器中启动 OpenMLDB 单机版或集群版，如果希望从外部访问该容器内的 OpenMLDB 服务端口，启动容器时需要 `-p` 暴露端口。
 ```
-docker run -p 6527:6527 -p 2181:2181 -p 8080:8080 -it 4pdosc/openmldb:0.4.3 bash
+docker run -p 6527:6527 -p 2181:2181 -p 8080:8080 -it 4pdosc/openmldb:0.4.4 bash
 ```
 或者更方便地，使用 host networking，不进行端口隔离，例如
 ```
-docker run --network host -it 4pdosc/openmldb:0.4.3 bash
+docker run --network host -it 4pdosc/openmldb:0.4.4 bash
 ```
 注意，OpenMLDB 所有 server 配置的 endpoint 地址都是 `127.0.0.1` 。如果想要外部主机访问本机容器内的服务，需要将回环地址改为外网 IP 或 `0.0.0.0` 。
 
@@ -90,7 +90,7 @@ curl https://openmldb.ai/demo/data.parquet --output ./data/data.parquet
 
 导入之前下载的样例数据（在 [1.2 样例数据](#1.2-样例数据) 中下载保存的数据）作为训练数据，用于离线和在线特征计算。
 
-注意，单机版可以使用同一份数据用于离线和在线特征计算，用户当然也可以手动为离线和在线导入不同的数据。为简化起见，本教程的单机版使用了同一份数据做离线和在线计算。
+注意，单机版中一张表的数据没有离线在线隔离，所以该表将同时用于离线和在线特征计算。用户当然也可以手动为离线和在线导入不同的数据，即导入两张表。为简化起见，本教程的单机版使用了同一份数据做离线和在线计算。
 
 ```sql
 > LOAD DATA INFILE 'data/data.csv' INTO TABLE demo_table1;
@@ -145,7 +145,7 @@ curl https://openmldb.ai/demo/data.parquet --output ./data/data.parquet
 ```
 
 :::{note}
-本教程的单机版使用了同一份数据做离线和在线特征计算。在部署时，离线数据自动切换为在线数据用于在线计算。如果用户希望使用不同数据集，可以在此基础上做数据更新，或者在部署之前重新导入新的数据集。
+本教程的单机版使用了同一份数据做离线和在线特征计算。如果用户希望使用另一份数据集，在部署之前重新导入新的数据集，并在部署中使用新数据集的表。
 :::
 
 #### 2.2.5 退出 CLI
@@ -186,12 +186,17 @@ curl http://127.0.0.1:8080/dbs/demo_db/deployments/demo_data_service -X POST -d'
 ## 3. 集群版OpenMLDB 快速上手
 
 ### 3.1 集群版准备知识
+````{caution}
+集群版相对于单机版使用体验上的最大区别主要为以下两点：
 
-集群版相对于单机版使用体验上的最大区别主要为以下两点
+- 集群版需要**分别维护**离线和在线两部分的数据，即同一张表的数据有离线部分和在线部分，两部分是不共享的，需要分别导入。
 
 - 集群版的部分命令是非阻塞任务，包括在线模式的 `LOAD DATA`，以及离线模式的 `LOAD DATA` ，`SELECT`，`SELECT INTO` 命令。提交任务以后可以使用相关的命令如 `SHOW JOBS`, `SHOW JOB` 来查看任务进度，详情参见[离线任务管理](../reference/sql/task_manage/reference.md)文档。
-- 集群版需要分别维护离线和在线数据，不能如单机版使用同一套数据。
 
+```{seealso}
+集群版非阻塞任务可以设置为同步等待，详情见[配置离线命令同步执行](../reference/sql/ddl/SET_STATEMENT.md#配置离线命令同步执行)。
+```
+````
 以上区别在下面的教程中都将会基于例子进行演示。
 
 ### 3.2 服务端和客户端

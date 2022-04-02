@@ -1,8 +1,8 @@
-# OpenMLDB SQL 内置函数开发指南
+# 内置函数开发指南
 
 ## 1. 背景
 
-​	OpenMLDB内置了上百个SQL函数，以供数据科学家作数据分析和特征抽取。目前，我们提供聚合类函数(Aggregate Function)如 `SUM`, `AVG`, `MAX`, `MIN`, `COUNT`来支持全表聚合和窗口聚合。同时，我们还提供了单行函数(Scalar Function)如`ABS`, `SIN`, `COS`, `DATE`, `YEAR`等支持单行数据处理。
+OpenMLDB内置了上百个SQL函数，以供数据科学家作数据分析和特征抽取。目前，我们提供聚合类函数(Aggregate Function)如 `SUM`, `AVG`, `MAX`, `MIN`, `COUNT`来支持全表聚合和窗口聚合。同时，我们还提供了单行函数(Scalar Function)如`ABS`, `SIN`, `COS`, `DATE`, `YEAR`等支持单行数据处理。
 
 - 聚合函数（Aggregate Function）对数据集（如一列数据）执行计算，并返回单个值。
 
@@ -114,7 +114,7 @@
 
 - C++内置函数中，不允许使用`new`操作符或者`malloc`函数开辟空间。
 - 若需要动态开辟空间，需要使用OpenMLDB提供的内存管理接口`hybridse::udf::v1::AllocManagedStringBuf(size)`。系统会从内存池`ByteMemoryPool`中分配指定大小的连续空间给该函数，并在安全的时候释放空间。
-- 若空间size大于2048字节，则分配失败，返回nullptr。
+- 若空间size大于2M字节，则分配失败，返回nullptr。
 - 若空间size < 0，则分配失败，返回nullptr。
 
 **例子:**

@@ -28,7 +28,7 @@
 --zk_session_timeout=10000
 # 配置zookeeper健康检查间隔，单位是毫秒，一般不需要修改
 #--zk_keep_alive_check_interval=15000
-# 配置tablet心跳检测超时时间，默认是1分钟。如果tablet超过这个时间还连接上，nameserver就认为此tablet不可用，会执行下线该节点的操作
+# 配置tablet心跳检测超时时间，默认是1分钟。如果tablet超过这个时间还没连接上，nameserver就认为此tablet不可用，会执行下线该节点的操作
 --tablet_heartbeat_timeout=60000
 # 配置tablet健康检查间隔，单位是毫秒
 #--tablet_offline_check_interval=1000
@@ -117,6 +117,10 @@
 --db_root_path=./db
 # 配置数据回收站目录，drop表的数据就会放在这里
 --recycle_bin_root_path=./recycle
+# 配置是否要把表drop后数据放在recycle目录，默认是true
+#--recycle_bin_enabled=true
+# 配置recycle目录里数据的保存时间，如果超过这个时间就会删除对应的目录和数据。默认为0表示永远不删除, 单位是分钟
+#--recycle_ttl=0
 
 # snapshot conf
 # 配置做snapshot的时间，配置为一天中的几点。如23就表示每天23点做snapshot

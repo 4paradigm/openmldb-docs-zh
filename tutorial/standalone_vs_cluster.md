@@ -71,4 +71,4 @@ OpenMLDB切换到在线执行模式。在该模式下，只会导入/插入以�
 
 ### 2.5 SDK 支持
 
-目前，OpenMLDB 的 Python 和 Java SDK 仅支持集群版，在下一个版本 v0.5.0 中将会计划同时支持集群版和单机版。
+OpenMLDB 的 Python 和 Java SDK 均支持集群版和单机版。
